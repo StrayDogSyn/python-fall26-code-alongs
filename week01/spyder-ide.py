@@ -181,7 +181,7 @@ print("First:", inventory[0], "| Last:", inventory[-1])
 # Errors are not failures. They are a teacher that always tells the truth.
 # These two are caught safely so the whole file keeps running:
 try:
-    print(undefined_variable)
+    print(undefined_variable)  # type: ignore
 except NameError as error:
     print(f"NameError caught: {error}")
 
@@ -228,7 +228,7 @@ print(f"Total damage: {damage_report}")
 # This cell uses matplotlib, a charting library. If it is not installed, the
 # cell explains itself instead of crashing, which is good habit on its own.
 try:
-    import matplotlib.pyplot as plt
+    import matplotlib.pyplot as plt  # type: ignore
 
     levels = []
     xp_needed = []
@@ -294,5 +294,6 @@ print(heal(80, 50))  # goal: 100
 #   3. Pick one cell, change something, and predict what will happen
 #      BEFORE you run it. Predicting is how intuition gets built.
 print(
-    "Dad joke unlocked: why is Spyder great at debugging? It is already good at catching bugs."
+    "Dad joke unlocked: why is Spyder great at debugging? "
+    "It is already good at catching bugs."
 )
