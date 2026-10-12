@@ -18,6 +18,8 @@ New to coding? You are in the right place. No experience is needed, and every qu
 | ⏰ | **Join the live class** | Mondays, 8:00 PM Eastern |
 | 🖥️ | **Review the slides** (interactive decks for self-study) | [Week 1: Learn the Controls](week01/week01-slides.html) · [Week 2: Save Points](week02/week02-slides.html) |
 | 🏫 | **About the program** | [Code the Dream](https://codethedream.org/) |
+| 📚 | **Weeks 1 and 2** | [Intro to Python](week-1/README.md) · [Data structures and files](week-2/README.md) |
+| 🧠 | **Gemini Notebook study kit** | [Source uploads and teaching plan](GEMINI_NOTEBOOK.md) |
 
 **Your first move:** jump to [Getting Started](#getting-started) and get your computer ready. It takes about 15 minutes.
 
@@ -28,6 +30,7 @@ New to coding? You are in the right place. No experience is needed, and every qu
 - [Who Can Use This](#who-can-use-this)
 - [The Roadmap](#the-roadmap)
 - [Getting Started](#getting-started)
+- [Weeks 1 and 2](#weeks-1-and-2)
 - [How a Code-Along Works](#how-a-code-along-works)
 - [Repository Layout](#repository-layout)
 - [The Dad Joke Vault](#the-dad-joke-vault)
@@ -81,7 +84,7 @@ The class is pinned to Eastern clock time, so daylight saving changes elsewhere 
 
 ## The Roadmap
 
-The lesson packets (LPs) follow the Code the Dream Python Essentials sequence. Each one gets its own folder here as we reach it.
+The lesson packets (LPs) follow the Code the Dream Python Essentials sequence. The first two packets live in `week-1` and `week-2`; later weekly folders will be added as the class reaches them.
 
 The diagram shows the journey in three stages: core Python first, then working with data, then real-world data sources.
 
@@ -208,6 +211,17 @@ Still stuck? Bring it to Monday night, or see [Getting Unstuck](#getting-unstuck
 
 > 🧓 **Dad joke drop #3:** There are 10 kinds of people in this world: those who understand binary and those who do not. *(Come back after we cover how computers count. Yes, it is a joke about counting.)*
 
+## Weeks 1 and 2
+
+The first two teaching packets are ready now:
+
+| Week | Read and run | Gemini Notebook source | Independent practice |
+| --- | --- | --- | --- |
+| 1: Intro to Python | [Week 1 guide](week-1/README.md) | [W1 source](week-1/notebook-source.md) | [W1 starter](week-1/practice.py) |
+| 2: Data structures and files | [Week 2 guide](week-2/README.md) | [W2 source](week-2/notebook-source.md) | [W2 starter](week-2/practice.py) |
+
+Each packet uses **I Do → We Do → You Do**: watch and predict a worked example, change one thing together, then solve a fresh task independently. The [Gemini Notebook teaching kit](GEMINI_NOTEBOOK.md) gives source import steps and ready-to-use prompts for mind maps, audio and video overviews, flashcards, quizzes, reports, and a tutor chat. The Python files work without a Notebook account.
+
 ## How a Code-Along Works
 
 Good news: there is no secret trick. There is a loop, and the loop works.
@@ -237,25 +251,23 @@ flowchart LR
 
 ## Repository Layout
 
-Folders appear as each session wraps, so the repo grows with the class. This is the shape it grows into:
+Weeks 1 and 2 are available now; later folders will appear as the class reaches them. The repository grows toward this layout:
 
 ```text
 python-fall26-code-alongs/
-├── lp01-intro-to-python/          Variables, control flow, functions
-├── lp02-data-structures/          Lists, dicts, tuples, sets, files
-├── lp03-more-python-skills/       Classes, comprehensions, decorators
-├── lp04-intro-data-engineering/   Pandas fundamentals
-├── ...                            One folder per lesson packet
 ├── week01/, week02/               Weekly slide decks and starter scripts
+├── week-1/, week-2/               Supplemental Python topic packets
 ├── resources/                     Command line and Git guides, plus slide sources
+├── ...                            Later weekly folders as class progresses
 ├── .gitignore
+├── GEMINI_NOTEBOOK.md             Teaching and study workflow
 ├── LICENSE
 └── README.md                      You are here
 ```
 
 **Opening a slide deck:** GitHub shows the file's code instead of the slides, so open it from your own copy of the repo. Double-click the `.html` file in your file browser, or use the Week 1 commands from inside the project folder: `explorer week01\week01-slides.html` on Windows, or `open week01/week01-slides.html` on macOS. The OS button in the top corner switches every command between Windows and macOS/Linux, and <kbd>N</kbd> shows the speaker notes.
 
-Inside each lesson folder you will find the finished **code-along files** from the live session, short **practice exercises** to try on your own, and **notes** summarizing the key ideas when they help.
+The Week 1 and 2 folders contain an instructor code-along, independent practice, a reference solution, and a Markdown source for Gemini Notebook. Later lesson packet folders are planned and may use different names as the course develops.
 
 ## The Dad Joke Vault
 
