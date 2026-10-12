@@ -2,8 +2,9 @@
   "use strict";
 
   const plan = window.COURSE_PLAN;
+  const artifacts = Array.isArray(window.NOTEBOOK_ARTIFACTS) ? window.NOTEBOOK_ARTIFACTS : [];
   const map = document.getElementById("phase-list");
-  const detail = document.getElementById("lesson-detail");
+  const lessonView = document.getElementById("lesson-view");
   const search = document.getElementById("lesson-search");
   const filters = Array.from(document.querySelectorAll("[data-filter]"));
   const progressText = document.getElementById("progress-text");
@@ -11,9 +12,11 @@
   const progressKey = "python-fall26-complete-v1";
   const liveUnits = plan.units.filter((unit) => unit.status === "live");
   const knownIds = new Set(plan.units.map((unit) => unit.id));
-  let selectedId = knownIds.has(location.hash.slice(1)) ? location.hash.slice(1) : "week01";
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let selectedId = "week01";
   let activeFilter = "all";
   let completed = readProgress();
+  let currentView = "map";
 
   document.getElementById("stop-count").textContent = String(plan.units.length);
   document.getElementById("week-count").textContent = String(liveUnits.length).padStart(2, "0");
@@ -63,8 +66,7 @@
     const button = el("button", `unit-card status-${unit.status}${selectedId === unit.id ? " selected" : ""}`);
     button.type = "button";
     button.dataset.unit = unit.id;
-    button.setAttribute("aria-pressed", String(selectedId === unit.id));
-    button.setAttribute("aria-label", `${unit.code}: ${unit.title}. ${statusLabel(unit.status)}. Show details`);
+    button.setAttribute("aria-label", `${unit.code}: ${unit.title}. ${statusLabel(unit.status)}. Open the lesson route`);
     const top = el("span", "unit-top");
     top.append(el("span", "unit-code", unit.code), el("span", `status-pill ${unit.status}`, statusLabel(unit.status)));
     button.append(top, el("strong", "unit-title", unit.title), el("span", "unit-summary", unit.summary));
@@ -73,10 +75,7 @@
     button.append(bottom);
     if (completed.has(unit.id)) button.append(el("span", "completed-badge", "✓ Completed"));
     button.addEventListener("click", () => {
-      selectedId = unit.id;
-      history.replaceState(null, "", `#${unit.id}`);
-      render();
-      if (window.matchMedia("(max-width: 960px)").matches) detail.scrollIntoView({ behavior: "smooth", block: "start" });
+      location.hash = `/${unit.id}`;
     });
     return button;
   }
@@ -107,18 +106,39 @@
     }
   }
 
-  function renderDetail() {
-    const unit = plan.units.find((item) => item.id === selectedId) || plan.units[0];
-    detail.replaceChildren();
-    const cap = el("div", "detail-cap");
-    cap.append(el("span", "detail-cap-code", unit.code), el("span", `status-pill ${unit.status}`, statusLabel(unit.status)));
-    detail.append(cap, el("h3", "", unit.title), el("p", "detail-summary", unit.summary));
-    const outcome = el("div", "outcome");
-    outcome.append(el("span", "mini-label", "THE GOAL"), el("p", "", unit.objective));
-    detail.append(outcome);
-    const topics = el("div", "detail-topics");
-    unit.topics.forEach((topic) => topics.append(el("span", "topic-chip", topic)));
-    detail.append(topics);
+  function addLinkRow(parent, links, className) {
+    if (!links || !links.length) return;
+    const row = el("div", className);
+    links.forEach((resource) => {
+      const link = el("a", `step-link${resource.kind === "primary" ? " primary" : ""}`, resource.label);
+      link.href = resource.href;
+      row.append(link);
+    });
+    parent.append(row);
+  }
+
+  function renderLessonSteps(unit, body) {
+    if (unit.lesson && unit.lesson.steps && unit.lesson.steps.length) {
+      const steps = el("ol", "lesson-steps");
+      steps.setAttribute("aria-label", `${unit.title} study route`);
+      unit.lesson.steps.forEach((step, index) => {
+        const item = el("li", "lesson-step");
+        item.id = `step-${step.key}`;
+        item.tabIndex = -1;
+        const marker = el("span", "step-marker", String(index + 1).padStart(2, "0"));
+        marker.setAttribute("aria-hidden", "true");
+        const stepBody = el("div", "step-body");
+        const head = el("div", "step-head");
+        head.append(el("strong", "step-label", step.label));
+        if (step.mode) head.append(el("span", `mode-badge mode-${step.mode.split(" ")[0].toLowerCase()}`, step.mode));
+        stepBody.append(head, el("p", "step-text", step.text));
+        addLinkRow(stepBody, step.links, "step-links");
+        item.append(marker, stepBody);
+        steps.append(item);
+      });
+      body.append(el("span", "mini-label", "YOUR ROUTE"), steps);
+      return;
+    }
     const rhythm = el("div", "rhythm");
     rhythm.append(el("span", "mini-label", "HOW YOU'LL LEARN"));
     [["I DO", unit.teach], ["WE DO", unit.together], ["YOU DO", unit.solo]].forEach(([label, text]) => {
@@ -126,58 +146,142 @@
       row.append(el("span", "rhythm-label", label), el("p", "", text));
       rhythm.append(row);
     });
-    detail.append(rhythm);
-    const links = el("div", "detail-links");
+    body.append(rhythm);
+    if (!unit.links.length) {
+      body.append(el("p", "coming-note", "This stop is on the roadmap. Its lesson materials will appear here as the cohort reaches it."));
+    }
+  }
+
+  function renderLesson(unit) {
+    lessonView.replaceChildren();
+    const shell = el("div", "lesson-shell");
+    const back = el("a", "back-link", "← Back to course map");
+    back.href = "#journey";
+    shell.append(back);
+    const cap = el("div", "detail-cap");
+    cap.append(el("span", "detail-cap-code", unit.code), el("span", `status-pill ${unit.status}`, statusLabel(unit.status)));
+    const heading = el("h2", "", unit.title);
+    heading.tabIndex = -1;
+    const meta = el("p", "lesson-meta");
+    if (unit.lesson && unit.lesson.estimate) {
+      meta.append(el("span", "lesson-estimate", unit.lesson.estimate), document.createTextNode(" approximate, including practice"));
+    } else {
+      meta.textContent = "Materials appear as the cohort reaches this stop.";
+    }
+    shell.append(cap, heading, meta, el("p", "detail-summary", unit.summary));
+    const outcome = el("div", "outcome");
+    outcome.append(el("span", "mini-label", "THE GOAL"), el("p", "", unit.objective));
+    const topics = el("div", "detail-topics");
+    unit.topics.forEach((topic) => topics.append(el("span", "topic-chip", topic)));
+    shell.append(outcome, topics);
+    renderLessonSteps(unit, shell);
+    const shared = artifacts.filter((item) => item.unit === unit.id);
+    if (shared.length) {
+      const study = el("div", "artifact-block");
+      study.append(el("span", "mini-label", "STUDY ROUTES"));
+      const grid = el("div", "artifact-grid");
+      shared.forEach((item) => {
+        const card = el("a", "artifact-card");
+        card.href = item.url;
+        card.append(el("strong", "", item.title), el("span", "", `${item.format} · ${item.alt || "Reviewed " + item.reviewDate}`));
+        grid.append(card);
+      });
+      study.append(grid);
+      shell.append(study);
+    }
     if (unit.links.length) {
-      links.append(el("span", "mini-label", "OPEN THE MATERIALS"));
+      const links = el("div", "detail-links");
+      links.append(el("span", "mini-label", "ALL MATERIALS"));
       unit.links.forEach((resource) => {
         const link = el("a", `detail-link${resource.kind === "primary" ? " primary" : ""}`, resource.label);
         link.href = resource.href;
         link.append(el("span", "", "↗"));
         links.append(link);
       });
-    } else {
-      links.append(el("p", "coming-note", "This stop is on the roadmap. Its lesson materials will appear here as the cohort reaches it."));
+      shell.append(links);
     }
-    detail.append(links);
     if (unit.status === "live") {
       const check = el("button", `complete-button${completed.has(unit.id) ? " is-complete" : ""}`, completed.has(unit.id) ? "✓ Marked complete · click to undo" : "○ Mark this week complete");
       check.type = "button";
       check.setAttribute("aria-pressed", String(completed.has(unit.id)));
       check.addEventListener("click", () => {
         if (completed.has(unit.id)) completed.delete(unit.id); else completed.add(unit.id);
-        saveProgress(); updateProgress(); render();
+        saveProgress(); updateProgress(); renderMap(visibleUnits()); renderLesson(unit);
       });
-      detail.append(check);
+      shell.append(check);
     }
+    lessonView.append(shell);
   }
 
-  function render() {
-    const units = visibleUnits();
-    if (!units.length) {
-      renderMap(units);
-      detail.replaceChildren(el("p", "coming-note", "No lesson is selected. Clear the search or choose another filter to explore the path."));
-      return;
-    }
-    if (units.length && !units.some((unit) => unit.id === selectedId)) selectedId = units[0].id;
-    renderMap(units);
-    renderDetail();
+  function parseHash() {
+    let raw;
+    try { raw = decodeURIComponent(location.hash.slice(1)); } catch (_) { raw = ""; }
+    const match = raw.match(/^\/?([a-z0-9-]+)(?:\/([a-z-]+))?$/i);
+    if (match && knownIds.has(match[1])) return { unit: match[1], step: match[2] || null };
+    return { unit: null, step: null };
   }
 
-  filters.forEach((button) => button.addEventListener("click", () => {
-    activeFilter = button.dataset.filter;
+  function setFilter(name) {
+    activeFilter = name;
     filters.forEach((item) => {
-      const active = item === button;
+      const active = item.dataset.filter === name;
       item.classList.toggle("active", active);
       item.setAttribute("aria-pressed", String(active));
     });
-    render();
+  }
+
+  function showLesson(unitId, stepKey) {
+    const unit = plan.units.find((item) => item.id === unitId) || plan.units[0];
+    selectedId = unit.id;
+    const wasLesson = currentView === "lesson";
+    currentView = "lesson";
+    document.body.dataset.view = "lesson";
+    lessonView.hidden = false;
+    renderMap(visibleUnits());
+    renderLesson(unit);
+    const stepEl = stepKey ? lessonView.querySelector(`#step-${stepKey}`) : null;
+    const target = stepEl || lessonView.querySelector("h2");
+    if (stepEl) {
+      stepEl.scrollIntoView({ behavior: reducedMotion.matches ? "auto" : "smooth", block: "start" });
+    } else if (!wasLesson) {
+      lessonView.scrollIntoView({ behavior: reducedMotion.matches ? "auto" : "smooth", block: "start" });
+    }
+    target.focus({ preventScroll: true });
+  }
+
+  function showMap(focusCard) {
+    const wasLesson = currentView === "lesson";
+    currentView = "map";
+    document.body.dataset.view = "map";
+    lessonView.hidden = true;
+    renderMap(visibleUnits());
+    if (wasLesson && focusCard) {
+      const card = map.querySelector(`[data-unit="${selectedId}"]`);
+      if (card) card.focus();
+    }
+  }
+
+  function route() {
+    const { unit, step } = parseHash();
+    if (unit) {
+      const raw = location.hash.slice(1);
+      if (!raw.startsWith("/")) history.replaceState(null, "", `#/${raw}`);
+      showLesson(unit, step);
+    } else {
+      showMap(location.hash === "#journey");
+    }
+  }
+
+  filters.forEach((button) => button.addEventListener("click", () => {
+    setFilter(button.dataset.filter);
+    renderMap(visibleUnits());
   }));
-  search.addEventListener("input", render);
-  window.addEventListener("hashchange", () => {
-    const id = location.hash.slice(1);
-    if (knownIds.has(id)) { selectedId = id; activeFilter = "all"; search.value = ""; filters[0].click(); }
+  search.addEventListener("input", () => renderMap(visibleUnits()));
+  lessonView.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") location.hash = "#journey";
   });
+  window.addEventListener("hashchange", route);
+  document.body.dataset.view = "map";
   updateProgress();
-  render();
+  route();
 })();

@@ -223,7 +223,7 @@ The [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) is
 | LP 01: Python fundamentals | [Topic lab](lp01-intro-to-python/README.md) | [LP 01 source](lp01-intro-to-python/notebook-source.md) | [Starter](lp01-intro-to-python/practice.py) |
 | LP 02: collections and files | [Topic lab](lp02-data-structures/README.md) | [LP 02 source](lp02-data-structures/notebook-source.md) | [Starter](lp02-data-structures/practice.py) |
 
-Each session uses **I Do → We Do → You Do**: watch and predict a worked example, change one thing together, then solve a fresh task independently. The [Gemini Notebook teaching kit](GEMINI_NOTEBOOK.md) gives source import steps and prompts for multiple study formats. The slides and Python files work without a Notebook account.
+Each ready stop on the hub opens a step-by-step study route — start here, watch, practice together, try independently, check understanding, get unstuck, go deeper — with shareable links like `#/week01`. Each session uses **I Do → We Do → You Do**: watch and predict a worked example, change one thing together, then solve a fresh task independently. The [Gemini Notebook teaching kit](GEMINI_NOTEBOOK.md) gives source import steps and prompts for multiple study formats. The slides and Python files work without a Notebook account.
 
 ## How a Code-Along Works
 

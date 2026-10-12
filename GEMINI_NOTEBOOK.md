@@ -1,6 +1,6 @@
 # Gemini Notebook studio: Weeks 01 and 02
 
-The [cohort notebook](https://notebook.google.com/notebook/2d456bd7-b94f-47d8-aa78-8bb958fa0de8) accompanies the [learning hub](docs/index.html). These are the **actual** first two weekly sessions: Week 01 covers setup and the terminal; Week 02 covers Git, GitHub, and maintaining a fork. LP 01 and LP 02 Python topic labs live separately in [`lp01-intro-to-python`](lp01-intro-to-python/README.md) and [`lp02-data-structures`](lp02-data-structures/README.md).
+The [cohort notebook](https://notebook.google.com/notebook/2d456bd7-b94f-47d8-aa78-8bb958fa0de8) accompanies the [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/). These are the **actual** first two weekly sessions: Week 01 covers setup and the terminal; Week 02 covers Git, GitHub, and maintaining a fork. LP 01 and LP 02 Python topic labs live separately in [`lp01-intro-to-python`](lp01-intro-to-python/README.md) and [`lp02-data-structures`](lp02-data-structures/README.md).
 
 The repository is the version-controlled source of truth. Generated Notebook artifacts need an instructor accuracy check before they are shared. A Gemini account is optional for the repository lessons and slide decks.
 

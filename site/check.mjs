@@ -9,6 +9,8 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sandbox = { window: {} };
 vm.runInNewContext(fs.readFileSync(path.join(root, "site/plan.js"), "utf8"), sandbox);
 const plan = sandbox.window.COURSE_PLAN;
+vm.runInNewContext(fs.readFileSync(path.join(root, "site/artifacts.js"), "utf8"), sandbox);
+const artifacts = sandbox.window.NOTEBOOK_ARTIFACTS || [];
 assert.ok(plan && Array.isArray(plan.phases) && Array.isArray(plan.units));
 const phaseIds = new Set(plan.phases.map((phase) => phase.id));
 const unitIds = new Set();
@@ -23,13 +25,42 @@ for (const unit of plan.units) {
   }
   assert.ok(Array.isArray(unit.topics) && unit.topics.length, `Missing topics: ${unit.id}`);
   assert.ok(Array.isArray(unit.links), `Missing links: ${unit.id}`);
-  for (const link of unit.links) {
-    assert.ok(link.label && link.href, `Incomplete link: ${unit.id}`);
-    if (!/^https?:\/\//.test(link.href)) {
-      assert.ok(!link.href.startsWith("/"), `Use relative paths for project Pages: ${link.href}`);
-      assert.ok(fs.existsSync(path.join(root, link.href)), `Missing local link: ${link.href}`);
+  const checkLinks = (links, where) => {
+    for (const link of links) {
+      assert.ok(link.label && link.href, `Incomplete link: ${where}`);
+      if (!/^https?:\/\//.test(link.href)) {
+        assert.ok(!link.href.startsWith("/"), `Use relative paths for project Pages: ${link.href}`);
+        assert.ok(fs.existsSync(path.join(root, link.href)), `Missing local link: ${link.href}`);
+      }
+    }
+  };
+  checkLinks(unit.links, unit.id);
+  if (unit.lesson) {
+    assert.ok(typeof unit.lesson.estimate === "string" && unit.lesson.estimate.trim(), `Missing lesson estimate: ${unit.id}`);
+    assert.ok(Array.isArray(unit.lesson.steps) && unit.lesson.steps.length, `Missing lesson steps: ${unit.id}`);
+    const stepKeys = new Set();
+    for (const step of unit.lesson.steps) {
+      assert.ok(/^[a-z]+$/.test(step.key), `Bad step key: ${unit.id}`);
+      assert.ok(!stepKeys.has(step.key), `Duplicate step key: ${unit.id}/${step.key}`);
+      stepKeys.add(step.key);
+      assert.ok(typeof step.label === "string" && step.label.trim(), `Missing step label: ${unit.id}/${step.key}`);
+      assert.ok(typeof step.text === "string" && step.text.trim(), `Missing step text: ${unit.id}/${step.key}`);
+      if (step.mode) assert.ok(["I DO", "WE DO", "YOU DO"].includes(step.mode), `Bad step mode: ${unit.id}/${step.key}`);
+      assert.ok(Array.isArray(step.links), `Missing step links: ${unit.id}/${step.key}`);
+      checkLinks(step.links, `${unit.id}/${step.key}`);
     }
   }
+}
+
+assert.ok(Array.isArray(artifacts), "NOTEBOOK_ARTIFACTS must be an array");
+for (const item of artifacts) {
+  assert.ok(unitIds.has(item.unit), `Artifact for unknown unit: ${item.unit}`);
+  for (const field of ["title", "format", "scope", "reviewDate", "visibility", "url", "alt"]) {
+    assert.ok(typeof item[field] === "string" && item[field].trim(), `Artifact missing ${field}: ${item.title || item.unit}`);
+  }
+  assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(item.reviewDate), `Bad reviewDate: ${item.title}`);
+  assert.ok(["public", "cohort"].includes(item.visibility), `Bad visibility: ${item.title}`);
+  assert.ok(/^https:\/\//.test(item.url), `Artifact URL must be https: ${item.title}`);
 }
 
 assert.ok(plan.units.length >= 2, "The hub needs at least the two launch weeks");
