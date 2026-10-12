@@ -154,6 +154,11 @@
 
   function render() {
     const units = visibleUnits();
+    if (!units.length) {
+      renderMap(units);
+      detail.replaceChildren(el("p", "coming-note", "No lesson is selected. Clear the search or choose another filter to explore the path."));
+      return;
+    }
     if (units.length && !units.some((unit) => unit.id === selectedId)) selectedId = units[0].id;
     renderMap(units);
     renderDetail();
