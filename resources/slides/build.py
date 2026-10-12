@@ -35,7 +35,7 @@ def title_from(content: str, name: str) -> str:
 def check(content: str, name: str) -> list[str]:
     """Catch the mistakes that broke the first Gemini draft."""
     problems = []
-    if "—" in content:
+    if "\u2014" in content:
         problems.append("contains an em dash (house style says no)")
     if re.search(r"(?<!\\)\\(?=Scripts|Users)", content):
         problems.append("single backslash before Scripts/Users will vanish inside a JS string; write \\\\")
