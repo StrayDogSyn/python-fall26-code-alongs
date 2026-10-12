@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intro to Python, Week 1: Learn the Controls</title>
+<!-- Built by resources/slides/build.py from engine.html + a weekNN.js content file. Edit those, then rebuild. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #121212;
+  --text: #f0f0f0;
+  --muted: #a3a3a3;
+  --yellow: #fcd34d;   /* working folder, edits */
+  --blue: #60a5fa;     /* steps, staging */
+  --green: #34d399;    /* success, committed */
+  --purple: #c084fc;   /* GitHub, upstream */
+  --red: #f87171;      /* warnings */
+  --card: #1e1e1e;
+  --code-bg: #2a2a2a;
+  --border: #404040;
+  --on-accent: #111111;
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'Fira Code', ui-monospace, Consolas, 'Courier New', monospace;
+  color-scheme: dark;
+}
+html[data-theme="light"] {
+  --bg: #f9fafb;
+  --text: #111827;
+  --muted: #4b5563;
+  --yellow: #a16207;
+  --blue: #1d4ed8;
+  --green: #047857;
+  --purple: #7e22ce;
+  --red: #b91c1c;
+  --card: #ffffff;
+  --code-bg: #eef0f3;
+  --border: #d1d5db;
+  --on-accent: #ffffff;
+  color-scheme: light;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: clamp(16px, 1.1vw + 0.55rem, 24px);
+  line-height: 1.5;
+  overflow: hidden;
+  transition: background-color .25s, color .25s;
+}
+a { color: var(--blue); }
+button, summary { font: inherit; }
+
+/* ---------- Top bar and nav ---------- */
+#topbar {
+  position: fixed; inset: 0 0 auto 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center; gap: .5rem;
+  padding: .6rem max(16px, 2vw); pointer-events: none; flex-wrap: wrap;
+  background: linear-gradient(var(--bg) 60%, transparent);
+}
+#topbar .group { display: flex; gap: .5rem; pointer-events: auto; flex-wrap: wrap; }
+.btn {
+  background: var(--card); color: var(--text); border: 1px solid var(--border);
+  padding: .35rem .8rem; border-radius: 6px; cursor: pointer; font-size: .72rem; font-weight: 600;
+}
+.btn:hover { border-color: var(--blue); }
+.btn:focus-visible, summary:focus-visible, .chip:focus-visible, .draggable:focus-visible, .dropzone:focus-visible, input:focus-visible {
+  outline: 3px solid var(--yellow); outline-offset: 2px;
+}
+.btn.primary { background: var(--blue); color: var(--on-accent); border-color: var(--blue); }
+#deck-title { font-size: .68rem; color: var(--muted); font-weight: 600; pointer-events: none; }
+#navbtns { position: fixed; left: max(16px, 2vw); bottom: 1rem; z-index: 100; display: flex; gap: .5rem; }
+#counter { position: fixed; right: max(16px, 2vw); bottom: 1rem; z-index: 100; font-size: .7rem; color: var(--muted); }
+#progress { position: fixed; left: 0; right: 0; bottom: 0; height: 6px; background: var(--card); z-index: 100; }
+#progress > div { height: 100%; width: 0; background: var(--blue); transition: width .3s; }
+
+/* ---------- Slides ---------- */
+#deck { position: fixed; inset: 0; }
+.slide {
+  position: absolute; inset: 0; display: none; overflow-y: auto;
+  padding: 4.6rem max(16px, 6vw) 4.6rem;
+}
+.slide.active { display: block; animation: fade .3s ease; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+.slide-inner { max-width: 1240px; margin: 0 auto; min-height: 100%; display: flex; flex-direction: column; justify-content: center; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(15rem, 20rem); gap: 2rem; align-items: start; }
+.layout.solo { grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+
+h1 { font-size: 2.6em; line-height: 1.1; color: var(--blue); margin-bottom: .4em; font-weight: 800; }
+h2 { font-size: 1.75em; line-height: 1.15; margin-bottom: .55em; font-weight: 800; }
+h3 { font-size: 1.15em; color: var(--yellow); margin: .9em 0 .4em; font-weight: 800; }
+p, ul, ol { margin-bottom: .8em; }
+ul, ol { padding-left: 1.4em; }
+li { margin-bottom: .3em; }
+.kicker { text-transform: uppercase; letter-spacing: .12em; font-size: .7em; color: var(--muted); font-weight: 600; margin-bottom: .4em; }
+.lead { font-size: 1.1em; }
+.muted { color: var(--muted); }
+.small { font-size: .82em; }
+.y { color: var(--yellow); font-weight: 700; } .b { color: var(--blue); font-weight: 700; }
+.g { color: var(--green); font-weight: 700; } .p { color: var(--purple); font-weight: 700; } .r { color: var(--red); font-weight: 700; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1.2rem; }
+.panel { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.2rem; }
+.panel h3:first-child { margin-top: 0; }
+kbd { font-family: var(--mono); font-size: .8em; border: 1px solid var(--border); border-bottom-width: 3px; border-radius: 5px; padding: 0 .35em; background: var(--code-bg); }
+
+code { font-family: var(--mono); background: var(--code-bg); padding: .1em .35em; border-radius: 4px; font-size: .86em; }
+pre {
+  position: relative; background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px;
+  padding: .8rem 1rem; margin-bottom: .9em; overflow-x: auto; font-family: var(--mono); font-size: .76em; line-height: 1.55;
+}
+pre code { background: none; padding: 0; font-size: 1em; }
+pre.cmd { padding-right: 5.2rem; border-left: 4px solid var(--blue); }
+pre.out { border-left: 4px solid var(--green); color: var(--muted); }
+pre.out::before { content: "output"; display: block; font-family: var(--font); font-size: .75em; text-transform: uppercase; letter-spacing: .1em; color: var(--green); margin-bottom: .3em; }
+.cmt { color: var(--muted); }
+.copy { position: absolute; top: .45rem; right: .45rem; font-size: .7rem; padding: .2rem .55rem; }
+
+.tbl-wrap { overflow-x: auto; margin-bottom: .9em; }
+table.tbl { width: 100%; border-collapse: collapse; font-size: .82em; }
+.tbl th, .tbl td { text-align: left; padding: .45em .7em; border-bottom: 1px solid var(--border); vertical-align: top; }
+.tbl th { color: var(--blue); font-weight: 700; }
+.tbl code { white-space: nowrap; }
+.badge { display: inline-block; font-size: .68em; font-weight: 700; padding: .05em .45em; border-radius: 4px; border: 1px solid var(--yellow); color: var(--yellow); margin-left: .35em; vertical-align: middle; white-space: nowrap; }
+
+.callout { border-radius: 8px; padding: .8rem 1rem; margin: .8em 0; border: 1px solid; }
+.callout strong:first-child { display: block; margin-bottom: .2em; }
+.callout.warn { border-color: var(--red); background: color-mix(in srgb, var(--red) 12%, transparent); }
+.callout.tip { border-color: var(--green); background: color-mix(in srgb, var(--green) 10%, transparent); }
+.callout.note { border-color: var(--blue); background: color-mix(in srgb, var(--blue) 10%, transparent); }
+.callout.gh { border-color: var(--purple); background: color-mix(in srgb, var(--purple) 10%, transparent); }
+.joke { border-left: 4px solid var(--purple); padding: .5rem 1rem; margin-top: 1em; font-size: .85em; color: var(--muted); }
+
+details.reveal { margin: .8em 0; border: 1px dashed var(--blue); border-radius: 8px; padding: .6rem .9rem; }
+details.reveal > summary { cursor: pointer; font-weight: 700; color: var(--blue); }
+details.reveal > summary::marker { content: "🤔 "; }
+details.reveal[open] > summary::marker { content: "💡 "; }
+details.reveal > div { margin-top: .6em; }
+
+/* OS-specific text: hidden by default, shown for the active OS */
+.os-win, .os-mac { display: none; }
+html[data-os="windows"] .os-win, html[data-os="mac"] .os-mac { display: inline; }
+html[data-os="windows"] div.os-win, html[data-os="mac"] div.os-mac { display: block; }
+
+/* ---------- Companion cards ---------- */
+.companions { display: flex; flex-direction: column; gap: 1rem; }
+.companions { font-size: .82em; }
+.companion { background: var(--card); border: 1px solid var(--border); border-left: 6px solid var(--yellow); border-radius: 0 10px 10px 0; padding: .7rem .9rem; }
+.companion .tag { font-size: .62em; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); font-weight: 700; }
+.companion .term { font-size: 1.2em; font-weight: 800; color: var(--yellow); line-height: 1.2; margin: .1em 0; }
+.companion .say { font-family: var(--mono); font-size: .72em; color: var(--muted); }
+.companion .meaning { margin: .35em 0; font-size: .95em; }
+.companion .origin { font-size: .8em; color: var(--muted); margin-bottom: .35em; }
+.companion .usage { font-size: .8em; font-style: italic; color: var(--muted); border-top: 1px solid var(--border); padding-top: .35em; }
+
+/* ---------- Drawers ---------- */
+.drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; width: min(440px, 100vw); z-index: 200;
+  background: var(--card); border-left: 1px solid var(--border); padding: 1.4rem 1.4rem 3rem; overflow-y: auto;
+  transform: translateX(100%); visibility: hidden; transition: transform .3s ease, visibility 0s linear .3s;
+  box-shadow: -6px 0 18px rgba(0,0,0,.35); font-size: .8em;
+}
+.drawer.open { transform: translateX(0); visibility: visible; transition: transform .3s ease; }
+.drawer h2 { font-size: 1.4em; padding-right: 3rem; border-bottom: 1px solid var(--border); padding-bottom: .4em; }
+.drawer .close { position: absolute; top: 1rem; right: 1rem; }
+.note-row { margin-bottom: 1em; }
+.note-row b { display: block; color: var(--blue); font-size: .8em; text-transform: uppercase; letter-spacing: .08em; }
+.gloss { padding: .6em 0; border-bottom: 1px solid var(--border); }
+.gloss .gterm { font-weight: 800; color: var(--yellow); }
+.gloss.locked { opacity: .45; }
+.gloss.locked .gdef { filter: blur(4px); user-select: none; }
+.gloss .lock { font-size: .75em; color: var(--muted); }
+#gloss-count { color: var(--muted); margin-bottom: .6em; }
+
+/* ---------- Overview ---------- */
+body.overview #deck { position: fixed; inset: 0; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; padding: 4.5rem 1.5rem 2rem; align-content: start; }
+body.overview .slide { position: relative; inset: auto; display: block; height: 170px; overflow: hidden; padding: .8rem; font-size: 7px; border: 2px solid var(--border); border-radius: 8px; cursor: pointer; background: var(--bg); }
+body.overview .slide.active { border-color: var(--blue); }
+body.overview .slide .slide-inner { justify-content: flex-start; }
+body.overview .slide::after { content: attr(data-num) ". " attr(aria-label); position: absolute; left: 0; right: 0; bottom: 0; padding: .3rem .5rem; font-size: 12px; font-weight: 700; background: var(--card); border-top: 1px solid var(--border); }
+body.overview #navbtns, body.overview #counter, body.overview #progress { display: none; }
+
+/* ---------- Quiz ---------- */
+.quiz { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem; max-width: 900px; }
+.quiz .qcount { font-size: .75em; color: var(--muted); margin-bottom: .4em; }
+.quiz h3 { color: var(--text); margin-top: 0; }
+.quiz .opts { display: flex; flex-direction: column; gap: .6rem; margin: 1rem 0; }
+.quiz .opt { text-align: left; padding: .75rem 1rem; border-radius: 8px; border: 2px solid var(--border); background: var(--bg); color: var(--text); cursor: pointer; font-size: .9em; }
+.quiz .opt:hover:not(:disabled) { border-color: var(--blue); }
+.quiz .opt:disabled { cursor: default; }
+.quiz .opt.right { border-color: var(--green); }
+.quiz .opt.right::before { content: "✓ "; color: var(--green); font-weight: 800; }
+.quiz .opt.wrong { border-color: var(--red); }
+.quiz .opt.wrong::before { content: "✗ "; color: var(--red); font-weight: 800; }
+.quiz .fb { min-height: 1.5em; margin-bottom: .8em; }
+
+/* ---------- Jargon decoder ---------- */
+.jargon { font-size: 1.15em; line-height: 2.1; text-align: center; margin: .6em 0; }
+.chip { display: inline-block; border: 2px solid var(--blue); background: var(--code-bg); color: var(--text); border-radius: 6px; padding: 0 .45em; cursor: pointer; line-height: 1.6; font-size: 1em; }
+.chip:hover { background: color-mix(in srgb, var(--blue) 25%, transparent); }
+.chip.done { border-color: var(--green); cursor: default; }
+.chip .m { display: block; font-size: .62em; color: var(--green); font-weight: 700; line-height: 1.3; }
+.jargon-result { text-align: center; color: var(--green); font-weight: 700; min-height: 1.5em; }
+
+/* ---------- Matching game ---------- */
+.match { display: grid; grid-template-columns: minmax(8rem, 14rem) minmax(0, 1fr); gap: 1rem; margin-top: .6em; }
+@media (max-width: 600px) { .match { grid-template-columns: minmax(0, 1fr); } }
+.match .col { display: flex; flex-direction: column; gap: .6rem; }
+.draggable { background: var(--card); border: 2px solid var(--yellow); border-radius: 8px; padding: .55rem .8rem; cursor: grab; font-weight: 700; text-align: center; touch-action: manipulation; }
+.draggable.sel { outline: 3px solid var(--yellow); outline-offset: 2px; }
+.draggable.used { display: none; }
+.dropzone { background: var(--code-bg); border: 2px dashed var(--border); border-radius: 8px; padding: .55rem .8rem; cursor: pointer; font-size: .85em; touch-action: manipulation; }
+.dropzone.over { border-color: var(--blue); }
+.dropzone.correct { border: 2px solid var(--green); cursor: default; }
+.dropzone.correct::before { content: "✓ "; color: var(--green); font-weight: 800; }
+.dropzone.shake { animation: shake .45s; border-color: var(--red); }
+@keyframes shake { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+.match-status { font-weight: 700; min-height: 1.5em; margin-top: .6em; grid-column: 1 / -1; }
+
+/* ---------- Terminal simulator ---------- */
+.term-sim { background: #0b0b0b; color: #e5e7eb; border: 1px solid #333; border-radius: 10px; font-family: var(--mono); font-size: .72em; height: 15em; overflow-y: auto; padding: .8rem 1rem; }
+.term-sim .line { white-space: pre-wrap; word-break: break-word; }
+.term-sim .echo { color: #9ca3af; }
+.term-sim .in { display: flex; align-items: center; gap: .5em; }
+.term-sim .pr { color: #34d399; white-space: nowrap; }
+.term-sim input { flex: 1; min-width: 4em; background: transparent; border: none; color: #fff; font: inherit; outline: none; }
+.term-sim input:focus-visible { outline: none; }
+.term-sim:focus-within { border-color: #34d399; }
+
+/* ---------- Git staging visualizer ---------- */
+.gitviz .cols4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .7rem; }
+@media (max-width: 760px) { .gitviz .cols4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.gitviz .zone { background: var(--card); border: 1px solid var(--border); border-top: 5px solid; border-radius: 8px; padding: .6rem; min-height: 9.5em; }
+.gitviz .zone h4 { font-size: .72em; text-transform: uppercase; letter-spacing: .08em; margin-bottom: .4em; }
+.gitviz .zone .sub { font-size: .62em; color: var(--muted); margin-bottom: .5em; }
+.gitviz .z1 { border-top-color: var(--yellow); } .gitviz .z2 { border-top-color: var(--blue); }
+.gitviz .z3 { border-top-color: var(--green); } .gitviz .z4 { border-top-color: var(--purple); }
+.gitviz .card { font-family: var(--mono); font-size: .62em; border: 1px solid var(--border); border-radius: 6px; padding: .35em .5em; margin-bottom: .4em; background: var(--bg); animation: fade .35s; }
+.gitviz .card .st { display: block; font-family: var(--font); font-size: .9em; color: var(--muted); }
+.gitviz .controls { display: flex; flex-wrap: wrap; gap: .5rem; margin: .8rem 0; align-items: center; }
+.gitviz .controls input { font-family: var(--mono); font-size: .7rem; padding: .35rem .5rem; border-radius: 6px; border: 1px solid var(--border); background: var(--code-bg); color: var(--text); min-width: 14em; flex: 1; }
+.gitviz pre { min-height: 6em; max-height: 13em; overflow-y: auto; }
+
+/* ---------- Undo guide ---------- */
+.undo { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.2rem; }
+.undo .trail { font-size: .75em; color: var(--muted); margin-bottom: .5em; }
+.undo .q { font-size: 1.1em; font-weight: 800; margin-bottom: .6em; }
+.undo .row { display: flex; gap: .6rem; flex-wrap: wrap; }
+.undo .answer { border-left: 5px solid var(--blue); padding-left: .9rem; }
+
+/* ---------- Flow diagram (step → step) ---------- */
+.flow { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr); gap: .4rem; align-items: stretch; margin: .6em 0 .9em; }
+.flow .step { background: var(--card); border: 1px solid var(--border); border-top: 5px solid var(--border); border-radius: 8px; padding: .55rem .7rem; font-size: .74em; display: flex; flex-direction: column; gap: .2em; }
+.flow .step b { font-size: 1.1em; }
+.flow .step em { color: var(--muted); }
+.flow .s1 { border-top-color: var(--yellow); } .flow .s1 b { color: var(--yellow); }
+.flow .s2 { border-top-color: var(--blue); } .flow .s2 b { color: var(--blue); }
+.flow .s3 { border-top-color: var(--green); } .flow .s3 b { color: var(--green); }
+.flow .s4 { border-top-color: var(--purple); } .flow .s4 b { color: var(--purple); }
+.flow .arrow { display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: .66em; color: var(--muted); text-align: center; }
+.flow .arrow::after { content: "\2192"; font-size: 1.8em; line-height: 1; color: var(--text); }
+@media (max-width: 900px) {
+  .flow { grid-template-columns: minmax(0,1fr); }
+  .flow .arrow { flex-direction: row; gap: .4em; }
+  .flow .arrow::after { content: "\2193"; font-size: 1.3em; }
+}
+
+[data-glossary-grid] { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: .5rem; font-size: .66em; }
+[data-glossary-grid] .item { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: .45rem .7rem; }
+[data-glossary-grid] .item b { color: var(--yellow); display: block; }
+.glossary-grid .item b { color: var(--yellow); display: block; }
+
+@media (max-width: 600px) {
+  .slide { padding-top: 6.2rem; }
+  h1 { font-size: 2em; }
+  h2 { font-size: 1.45em; }
+  #deck-title { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<header id="topbar">
+  <div class="group">
+    <button class="btn" id="btn-os" type="button" aria-label="Switch operating system for commands">OS: Windows</button>
+    <button class="btn" id="btn-theme" type="button" aria-label="Switch light or dark theme">Theme</button>
+    <span id="deck-title"></span>
+  </div>
+  <div class="group">
+    <button class="btn" id="btn-overview" type="button" title="Overview (O)">Slides (O)</button>
+    <button class="btn" id="btn-notes" type="button" title="Speaker notes (N)" aria-controls="drawer-notes">Notes (N)</button>
+    <button class="btn" id="btn-glossary" type="button" title="Glossary (G)" aria-controls="drawer-glossary">Glossary (G)</button>
+  </div>
+</header>
+
+<main id="deck" aria-live="polite"></main>
+
+<nav id="navbtns" aria-label="Slide navigation">
+  <button class="btn" id="btn-prev" type="button" aria-label="Previous slide">&larr;</button>
+  <button class="btn" id="btn-next" type="button" aria-label="Next slide">&rarr;</button>
+</nav>
+<div id="counter"></div>
+<div id="progress"><div></div></div>
+
+<aside id="drawer-notes" class="drawer" role="dialog" aria-label="Speaker notes" aria-hidden="true">
+  <button class="btn close" type="button" data-close="drawer-notes" aria-label="Close notes">X</button>
+  <h2>Speaker Notes</h2>
+  <div id="notes-body"></div>
+</aside>
+<aside id="drawer-glossary" class="drawer" role="dialog" aria-label="Glossary" aria-hidden="true">
+  <button class="btn close" type="button" data-close="drawer-glossary" aria-label="Close glossary">X</button>
+  <h2>Career Companion Glossary</h2>
+  <p id="gloss-count"></p>
+  <div id="gloss-body"></div>
+</aside>
+
+<script>
+/* Course glossary: every "career companion" term, defined once.
+   Definitions come from the vocabulary tables in README.md,
+   resources/command-line-basics.md, and resources/git-commands.md.
+   Each weekNN.js lists the ids it reviews and the ids it introduces.
+   Rules: write a literal backslash as \\ ; escape < as &lt; ; no em dashes. */
+window.GLOSSARY = [
+    { id: "editor", term: "Editor / IDE", say: "ED-ih-ter, I-D-E",
+      meaning: "The program where you write, edit, and save code. An IDE (Integrated Development Environment) bundles an editor with tools to run and inspect your code.",
+      usage: "Which editor are you using for this project?" },
+    { id: "terminal", term: "Terminal", say: "TER-mih-nul",
+      meaning: "The window you type into.",
+      usage: "Open a terminal and run the script." },
+    { id: "shell", term: "Shell", say: "shell",
+      meaning: "The program inside that window that reads your commands and runs them.",
+      origin: "the outer layer wrapped around the operating system's core. Bash is a programmer pun: Bourne Again SHell.",
+      usage: "Which shell are you in, PowerShell or zsh?" },
+    { id: "prompt", term: "Prompt", say: "prompt",
+      meaning: "The text waiting at the start of the line, telling you the shell is ready.",
+      usage: "Read your prompt. Are you in the right folder?" },
+    { id: "commandline", term: "Command line", say: "kuh-MAND line",
+      meaning: "The general idea of controlling a computer by typing instead of clicking.",
+      usage: "Can you run that from the command line instead of clicking through menus?" },
+    { id: "option", term: "Option (flag)", say: "OP-shun",
+      meaning: "The part of a command that adjusts what the program does, like --version.",
+      usage: "Add the --version flag so we know exactly what you are running." },
+    { id: "argument", term: "Argument", say: "ARG-yoo-ment",
+      meaning: "The thing the program should act on, like hello.py.",
+      usage: "You forgot the argument. Python needs to know which file to run." },
+    { id: "directory", term: "Working directory", say: "dih-RECK-tor-ee",
+      meaning: "The one folder your terminal is standing in right now. Every command runs from there.",
+      usage: "Check your working directory before you run that." },
+    { id: "path", term: "Path", say: "path",
+      meaning: "The address of a file or folder. Absolute paths start from the top of the computer; relative paths start from where you are standing.",
+      usage: "Paste me the full path to the file that won't open." },
+    { id: "repository", term: "Repository (repo)", say: "rih-POZ-ih-tor-ee, or just REE-po",
+      meaning: "A project folder that Git is tracking.",
+      origin: "a storage place, like a depository.",
+      usage: "Is that code in the repo yet?" },
+    { id: "clone", term: "Clone", say: "klohn",
+      meaning: "Download a repository from GitHub to your computer.",
+      usage: "Clone the repo and you will have everything locally." },
+    { id: "venv", term: "Virtual environment (venv)", say: "VUR-choo-ul en-VY-ron-ment, or VEE-env",
+      meaning: "A clean room for your project's packages, so two projects never fight over versions.",
+      usage: "Activate the venv before you install that package." },
+    { id: "interactive", term: "Interactive mode", say: "in-ter-AK-tiv mode",
+      meaning: "Python waiting at the >>> prompt for you to type Python code one line at a time.",
+      usage: "Pop open interactive mode and test that one line real quick." },
+
+    /* ---- Week 2: Git and GitHub (git-commands.md vocabulary table) ---- */
+    { id: "commit", term: "Commit", say: "kuh-MIT",
+      meaning: "A save point: a snapshot of your project plus a short message.",
+      origin: "borrowed from databases, where committing makes a change permanent.",
+      usage: "Commit that fix before you start the next feature." },
+    { id: "staging", term: "Staging area", say: "STAY-jing AIR-ee-uh",
+      meaning: "The waiting room where you collect changes for your next commit.",
+      usage: "Stage only the files for this fix, then commit." },
+    { id: "remote", term: "Remote", say: "rih-MOTE",
+      meaning: "A copy of the repository that lives somewhere else, usually GitHub.",
+      usage: "Which remote are you pushing to?" },
+    { id: "origin", term: "origin", say: "OR-ih-jin",
+      meaning: "The nickname for the remote you push your own work to.",
+      usage: "Push your branch to origin and open a pull request." },
+    { id: "upstream", term: "upstream", say: "UP-streem",
+      meaning: "The nickname for the original repository your fork was copied from.",
+      usage: "Pull from upstream so you have the latest changes." },
+    { id: "fork", term: "Fork", say: "fork",
+      meaning: "Make your own copy of someone else's repository, on GitHub.",
+      origin: "a fork in the road, where your copy takes its own path.",
+      usage: "Fork the repo and send your changes from there." },
+    { id: "push", term: "Push", say: "push",
+      meaning: "Upload your commits to GitHub.",
+      usage: "Did you push? I don't see your changes yet." },
+    { id: "pull", term: "Pull", say: "pull",
+      meaning: "Download new commits from GitHub and combine them with yours.",
+      usage: "Pull before you start, so you are working on the latest code." },
+    { id: "branch", term: "Branch", say: "branch",
+      meaning: "A separate line of save points, for trying an idea without touching the main one.",
+      usage: "Make a branch for that experiment." },
+    { id: "main", term: "main", say: "main",
+      meaning: "The default branch, and the only one you need for most of this class.",
+      usage: "Is main green, or did the last push break the build?" }
+];
+
+</script>
+<script>
+/* Week 1 deck: "Learn the Controls"
+   Sources of truth: README.md and resources/command-line-basics.md
+   Rebuild after editing: python resources/slides/build.py
+   Rules: write a literal backslash as \\ ; escape < as &lt; ; no em dashes. */
+window.DECK = {
+  title: "Intro to Python, Week 1: Learn the Controls",
+
+  terms: {
+    review: [],
+    fresh: ["editor", "terminal", "shell", "prompt", "commandline", "option", "argument", "directory", "path", "repository", "clone", "venv", "interactive"]
+  },
+
+  slides: [
+    {
+      title: "Learn the Controls",
+      html: `
+<p class="kicker">Intro to Python · Fall 26 · Week 1</p>
+<h1>Learn the Controls</h1>
+<p class="lead">Every game starts with a tutorial level. This is ours.</p>
+<div class="cols">
+  <div class="panel">
+    <h3>Tonight's agenda</h3>
+    <ol>
+      <li>Why the tools feel strange</li>
+      <li>The toolbox, sorted by job</li>
+      <li>Install the constants</li>
+      <li>Terminal survival skills</li>
+      <li>Set up the class repo</li>
+    </ol>
+  </div>
+  <div class="panel">
+    <h3>Our two goals</h3>
+    <ol>
+      <li><span class="b">Tool comfort:</span> open a terminal, move around your folders, and run a Python file, on any computer and in any editor.</li>
+      <li><span class="y">Vocabulary comfort:</span> hear developer words without flinching. Each one is a career companion you will carry into standups and interviews.</li>
+    </ol>
+  </div>
+</div>
+<p class="small muted">Keys: ← → to move · N notes · G glossary · O all slides · F full screen. The OS button swaps every command for Windows or macOS/Linux.</p>`,
+      notes: {
+        timing: "3 min",
+        talking: "Welcome everyone. Acknowledge that career changers are taking a big swing. State both goals plainly and point out the OS button: every command on every slide swaps to match their computer.",
+        question: "Will we build apps tonight? Not yet. Tonight is about the hammer and the saw, so that next week you can build the bookshelf.",
+        failure: "Someone's install is not finished. Pair them with a neighbor for the demos and point them to Getting Started in the README after class.",
+        action: "Have the room say the two goals together: tool comfort, vocabulary comfort."
+      }
+    },
+    {
+      title: "The tutorial level",
+      html: `
+<h2>Why the tools feel strange</h2>
+<p class="lead">The first thirty minutes of any new game are spent walking into walls and pressing the wrong buttons. You are not fighting the boss yet. You are learning the controls.</p>
+<ul>
+  <li>It feels clunky right now. That is normal, and it is temporary.</li>
+  <li>You do not need to memorize anything tonight.</li>
+  <li>Fluency comes from <em>using</em> the tools, not from studying them.</li>
+</ul>
+<div class="callout tip"><strong>The deal for tonight</strong>Unfamiliar words will feel uncomfortable. Say them anyway. By the end of the night, they will be companions instead of strangers.</div>`,
+      notes: {
+        timing: "2 min",
+        talking: "Normalize the overwhelm. Struggling with setup is a rite of passage, not a sign someone is not 'tech enough'. Every professional in the room once typed python into the wrong window.",
+        question: "Is it normal to feel lost this early? Completely. The fog lifts with reps, not with reading.",
+        failure: "Nothing technical here. If energy dips, ask who has ever rage-quit a tutorial level. Hands go up; tension goes down.",
+        action: "No new terms yet. Ask the room for one tech word that sounds scary today, and promise it will be a companion by the end."
+      }
+    },
+    {
+      title: "The toolbox, sorted by job",
+      companions: ["editor"],
+      html: `
+<h2>The toolbox, sorted by job</h2>
+<p>Tools change over a career. The <em>jobs</em> do not. Learn the job, and any tool becomes a quick swap.</p>
+<div class="tbl-wrap"><table class="tbl">
+  <tr><th>The job</th><th>Tools we use</th><th>In one line</th></tr>
+  <tr><td><span class="y">Language</span></td><td>Python 3.10 or newer</td><td>The grammar the computer understands</td></tr>
+  <tr><td><span class="b">Editor</span></td><td>Spyder 6, VS Code, others</td><td>Where you write and save code</td></tr>
+  <tr><td><span class="g">Terminal</span></td><td>PowerShell, zsh, bash</td><td>Where you type commands and run files</td></tr>
+  <tr><td><span class="p">Version control</span></td><td>Git</td><td>Save points for your project</td></tr>
+  <tr><td><span class="p">Online home</span></td><td>GitHub</td><td>Where your save points are backed up and shared</td></tr>
+</table></div>
+<p>The editor is interchangeable. The <strong>terminal and Git are the constants</strong> that follow you to every job.</p>`,
+      notes: {
+        timing: "3 min",
+        talking: "Focus on the JOB of each tool. An IDE is simply an editor with extra tools bolted on: a run button, a console, a variable inspector.",
+        question: "Do I need to buy any of these? No. Every tool in this class is free.",
+        failure: "Someone asks which editor is 'correct'. Answer: whichever one you will actually open tomorrow. The next slide proves it.",
+        action: "Say it together: editor, I-D-E."
+      }
+    },
+    {
+      title: "Same move, different controller",
+      html: `
+<h2>Same move, different controller</h2>
+<p>Jumping is the A button on one console and X on another. The player is still jumping. Editors work the same way.</p>
+<div class="tbl-wrap"><table class="tbl">
+  <tr><th>The move</th><th>Spyder 6</th><th>VS Code</th></tr>
+  <tr><td>Save the file</td><td><kbd><span class="os-win">Ctrl</span><span class="os-mac">Cmd</span></kbd> + <kbd>S</kbd></td><td><kbd><span class="os-win">Ctrl</span><span class="os-mac">Cmd</span></kbd> + <kbd>S</kbd></td></tr>
+  <tr><td>Run the whole file</td><td><kbd>F5</kbd></td><td>The ▶ Run Python File button, top right</td></tr>
+  <tr><td>Run one piece at a time</td><td>A cell (<code># %%</code>) with <kbd><span class="os-win">Ctrl</span><span class="os-mac">Cmd</span></kbd> + <kbd>Enter</kbd></td><td>Select lines, then <kbd>Shift</kbd> + <kbd>Enter</kbd></td></tr>
+  <tr><td>Where output appears</td><td>The IPython Console, bottom right</td><td>The Terminal panel, bottom</td></tr>
+  <tr><td>Type terminal commands</td><td>Open a separate terminal</td><td><strong>Terminal</strong> → <strong>New Terminal</strong></td></tr>
+</table></div>
+<div class="callout note"><strong>One real difference</strong>Spyder's console shows <code>In [1]:</code>. That is Python listening, not a system terminal. Commands like <code>cd</code> and <code>git</code> belong in a real terminal.</div>`,
+      notes: {
+        timing: "3 min",
+        talking: "Reinforce that Spyder and VS Code do the same job for our purposes. Demo saving and running the same file in both if time allows. Do not let anyone get pulled into editor wars.",
+        question: "Which one is better? Whichever you feel comfortable in right now. You can switch any week, and every move on this slide has a partner in the other column.",
+        failure: "VS Code has no Run button. Fix: install the Python extension from the Extensions panel, then reopen the file.",
+        action: "Say it together: editor. Then have three people name the editor they installed."
+      }
+    },
+    {
+      title: "Install the constants",
+      html: `
+<h2>Install the constants: Python and Git</h2>
+<p>These two follow you everywhere, no matter which editor you pick.</p>
+<div class="cols">
+  <div class="panel">
+    <h3>1. Python 3.10 or newer</h3>
+    <p>Download from <code>python.org/downloads</code></p>
+    <div class="os-win callout warn"><strong>Windows: check this box</strong>During install, tick <span class="r">Add Python to PATH</span>. Miss it, and the terminal will say <code>python</code> is not recognized.</div>
+    <div class="os-mac callout note"><strong>macOS and Linux</strong>Install a current Python so everyone in class runs the same version. You will type <code>python3</code> until your virtual environment is active.</div>
+  </div>
+  <div class="panel">
+    <h3>2. Git</h3>
+    <p>Download from <code>git-scm.com/downloads</code></p>
+    <p>After any install, <strong>close and reopen your terminal</strong> so it notices the new tool.</p>
+  </div>
+</div>
+<h3>Check both</h3>
+<pre class="cmd"><code><span class="os-win">python --version</span><span class="os-mac">python3 --version</span>
+git --version</code></pre>
+<p class="small muted">You should see Python 3.10 or higher, and a Git version number.</p>`,
+      notes: {
+        timing: "4 min",
+        talking: "Hammer the PATH checkbox for Windows users; it causes more first-week pain than anything else. Flip the OS toggle so Mac users see their version of the check.",
+        question: "I already have Python 3.9. Is that okay? Please install 3.10 or newer so our commands and error messages match.",
+        failure: "'python is not recognized'. Fix from the README: try python3 or py. If neither works, reinstall Python and check Add Python to PATH. 'git is not recognized': install Git, then close and reopen the terminal.",
+        action: "Say it together: Python, Git. Ask who remembers seeing the PATH checkbox."
+      }
+    },
+    {
+      title: "Pick an editor",
+      html: `
+<h2>Pick an editor (either is fine)</h2>
+<div class="cols">
+  <div class="panel">
+    <h3>Spyder 6</h3>
+    <p><code>docs.spyder-ide.org</code></p>
+    <ul><li>Built for Python and data work</li><li>Run button, console, and Variable Explorer in one window</li><li>Our Monday code-alongs use it</li></ul>
+  </div>
+  <div class="panel">
+    <h3>Visual Studio Code</h3>
+    <p><code>code.visualstudio.com</code></p>
+    <ul><li>An all-purpose editor with a real terminal built in</li><li>The README's setup steps use its terminal</li><li>Add the Python extension after installing</li></ul>
+  </div>
+</div>
+<div class="callout tip"><strong>Can't decide?</strong>Install both. Spyder for writing and exploring code, VS Code when you want a terminal and editor side by side. Same moves, different controllers.</div>`,
+      notes: {
+        timing: "2 min",
+        talking: "Keep this brief. These are ordinary programs to download. The point is permission: there is no wrong editor in this class.",
+        question: "Do I have to use the same editor as the instructor? No. Every move you will see has a partner in your editor.",
+        failure: "macOS says 'code: command not found' later. Fix from the docs: open VS Code, press Cmd + Shift + P, run 'Shell Command: Install code command in PATH', then reopen the terminal.",
+        action: "Say it together: editor, IDE, extension."
+      }
+    },
+    {
+      title: "Terminal, shell, prompt",
+      companions: ["terminal", "shell", "prompt"],
+      html: `
+<h2>Terminal, shell, prompt</h2>
+<p>Ordering by pointing at menu pictures is friendly but limited. The terminal is talking straight to the kitchen: you say exactly what you want, and you get exactly that.</p>
+<div class="tbl-wrap"><table class="tbl">
+  <tr><th>Word</th><th>What it means</th></tr>
+  <tr><td><strong>Terminal</strong></td><td>The window you type into</td></tr>
+  <tr><td><strong>Shell</strong></td><td>The program inside that window that reads your commands and runs them</td></tr>
+  <tr><td><strong>Prompt</strong></td><td>The text waiting at the start of the line, telling you the shell is ready</td></tr>
+  <tr><td><strong>PowerShell</strong></td><td>The default shell on Windows</td></tr>
+  <tr><td><strong>zsh</strong> and <strong>bash</strong></td><td>The default shells on macOS and Linux</td></tr>
+  <tr><td><strong>Git Bash</strong></td><td>A bash shell for Windows that installs along with Git</td></tr>
+</table></div>
+<p class="small muted">In everyday conversation, people use terminal, shell, and command line to mean the same thing. You can too.</p>`,
+      notes: {
+        timing: "3 min",
+        talking: "Window versus engine: the terminal is the window, the shell is what reads your typing, the prompt is the shell saying 'I'm listening'. Share the Bourne Again SHell pun; puns make words stick.",
+        question: "Is Command Prompt the same thing? It is an older Windows shell. We use PowerShell because the class docs are written for it.",
+        failure: "Someone opened Command Prompt. Fix: close it and search the Start menu for PowerShell instead.",
+        action: "Say it together: terminal, shell, prompt."
+      }
+    },
+    {
+      title: "Which terminal to open",
+      companions: ["commandline"],
+      html: `
+<h2>Which terminal to open</h2>
+<div class="tbl-wrap"><table class="tbl">
+  <tr><th>Your computer</th><th>Open this</th><th>Follow this column in the docs</th></tr>
+  <tr><td>Windows</td><td>PowerShell</td><td><strong>Windows PowerShell</strong></td></tr>
+  <tr><td>macOS</td><td>Terminal (it runs a shell called zsh)</td><td><strong>macOS, Linux, Git Bash</strong></td></tr>
+  <tr><td>Linux</td><td>Terminal (it runs a shell called bash)</td><td><strong>macOS, Linux, Git Bash</strong></td></tr>
+  <tr><td>Windows, using Git Bash</td><td>Git Bash (installed along with Git)</td><td><strong>macOS, Linux, Git Bash</strong></td></tr>
+</table></div>
+<div class="os-win panel"><h3>On Windows right now</h3><p>Start menu → type <code>powershell</code> → open <strong>Windows PowerShell</strong>. Your prompt looks like <code>PS C:\\Users\\you&gt;</code></p></div>
+<div class="os-mac panel"><h3>On macOS right now</h3><p>Press <kbd>Cmd</kbd> + <kbd>Space</kbd> → type <code>terminal</code> → <kbd>Enter</kbd>. Your prompt looks like <code>you@computer ~ %</code></p></div>
+<div class="callout tip"><strong>Easiest way on any computer</strong>Open VS Code, then choose <strong>Terminal</strong> → <strong>New Terminal</strong>. A terminal opens at the bottom, already pointed at your open folder.</div>`,
+      notes: {
+        timing: "3 min",
+        talking: "Use the OS toggle live. Walk everyone through opening their terminal right now; this is the first hands-on moment.",
+        question: "Can I use Git Bash on Windows? Yes. Follow the macOS/Linux column of the docs when you do.",
+        failure: "Student is typing into Spyder's console and gets errors on every command. Fix: In [1]: means Python is listening. Open a real terminal.",
+        action: "Say it together: command line. Then everyone opens a terminal."
+      }
+    },
+    {
+      title: "Anatomy of a command",
+      companions: ["option", "argument"],
+      html: `
+<h2>Anatomy of a command</h2>
+<p>A command is a short sentence with strict word order: the tool first, the details after, spaces between the pieces.</p>
+<pre><code><span class="b">python</span>   <span class="p">--version</span>      <span class="cmt">program, then an option (also called a flag)</span>
+<span class="b">python</span>   <span class="y">hello.py</span>       <span class="cmt">program, then an argument</span></code></pre>
+<div class="cols">
+  <div class="panel"><h3 class="b">Program</h3><p>The tool you are calling: <code>python</code>, <code>git</code>, <code>ls</code></p></div>
+  <div class="panel"><h3 class="p">Option / flag</h3><p>Adjusts what the program does: <code>--version</code>, <code>-a</code></p></div>
+  <div class="panel"><h3 class="y">Argument</h3><p>The thing the program acts on: <code>hello.py</code></p></div>
+</div>
+<h3>Three rules cover almost everything</h3>
+<ol>
+  <li>Nothing happens until you press <kbd>Enter</kbd>.</li>
+  <li>Spelling and spacing are exact. <code>python--version</code> and <code>python --version</code> are different commands.</li>
+  <li>Silence usually means success.</li>
+</ol>
+<p class="small muted">Tutorials often show <code>$</code> or <code>PS&gt;</code> before a command. That is the prompt. Type only what comes after it.</p>`,
+      notes: {
+        timing: "3 min",
+        talking: "Commands are sentences. Cooking version: the recipe step 'chop, finely, onion' is program, option, argument.",
+        question: "Do spaces really matter? Yes. Spaces are how the shell knows where one piece ends and the next begins.",
+        failure: "Someone types python--version (no space) and gets an error. Point at the spaces on the slide.",
+        action: "Say it together: program, option, argument. Then label python --version and python hello.py out loud."
+      }
+    },
+    {
+      title: "Folders and paths: the game map",
+      companions: ["directory", "path"],
+      html: `
+<h2>Folders and paths: the game map</h2>
+<p>Your terminal is a character on a game map, standing on exactly one tile. That tile is the <strong>working directory</strong>, and every command runs from there.</p>
+<div class="tbl-wrap"><table class="tbl">
+  <tr><th>Kind of path</th><th>What it is</th><th>Example</th></tr>
+  <tr><td><strong>Absolute</strong></td><td>The full street address from the top of the computer. Works from anywhere.</td><td>The long one below</td></tr>
+  <tr><td><strong>Relative</strong></td><td>Directions from where you stand right now. Shorter, but depends on your position.</td><td><code>hello.py</code></td></tr>
+</table></div>
+<pre><code><span class="os-mac">/Users/you/python-fall26-code-alongs/lp01-intro-to-python/hello.py</span><span class="os-win">C:\\Users\\you\\python-fall26-code-alongs\\lp01-intro-to-python\\hello.py</span></code></pre>
+<div class="tbl-wrap"><table class="tbl">
+  <tr><th>Shortcut</th><th>Means</th><th>Example</th></tr>
+  <tr><td><code>.</code></td><td>The folder you are in right now</td><td><code>code .</code> opens it in VS Code</td></tr>
+  <tr><td><code>..</code></td><td>One level up (the parent)</td><td><code>cd ..</code></td></tr>
+  <tr><td><code>~</code></td><td>Your home folder</td><td><code>cd ~</code> takes you home from anywhere</td></tr>
+  <tr><td><code>../other</code></td><td>Up one level, then into a neighbor</td><td><code>cd ../lp02-data-structures</code></td></tr>
+</table></div>
+<p class="joke">🧓 Why did the folder break up with the file? It needed more space. (That is also why we never put spaces in file names.)</p>`,
+      notes: {
+        timing: "4 min",
+        talking: "Directory is a fancy word for folder. The game map is the key image: you cannot pick up an item in the next room without walking there, or yelling its exact address (an absolute path). Windows draws its slashes backward, and PowerShell accepts either direction.",
+        question: "How do I type the tilde? Usually Shift plus the key left of 1. On some keyboards it hides elsewhere; ask a neighbor.",
+        failure: "Someone gets lost three folders deep. Fix: cd ~ to teleport home, then pwd to confirm.",
+        action: "Say it together: working directory, path, absolute, relative."
+      }
+    },
+    {
+      title: "The Look, Move, Act loop",
+      html: `
+<h2>The Look, Move, Act loop</h2>
+<p>Most beginner terminal errors have one cause: the right command in the wrong folder. The cure is a habit. Look before you act.</p>
+<div class="cols">
+  <div class="panel"><h3 class="b">1. Look</h3><p><code>pwd</code> where am I?<br><code>ls</code> what is in here?</p></div>
+  <div class="panel"><h3 class="y">2. Move</h3><p><code>cd folder-name</code> step inside<br><code>cd ..</code> step back out</p></div>
+  <div class="panel"><h3 class="g">3. Act</h3><p>Run your command, from the right place.</p></div>
+</div>
+<details class="reveal"><summary>Predict: what does <code>cd</code> print when it works?</summary><div>Nothing at all. Your prompt changes to show the new folder. Silence usually means success. Run <code>pwd</code> to confirm the move.</div></details>
+<h3>Practice terminal</h3>
+<div data-sim="w1"></div>
+<p class="small muted">The practice terminal follows the OS button. Try <code>pwd</code>, then <code>ls</code>, then <code>cd python-fall26-code-alongs</code>, then <span class="os-win"><code>ls -Force</code></span><span class="os-mac"><code>ls -a</code></span> to find the hidden <code>.git</code> folder.</p>`,
+      notes: {
+        timing: "6 min",
+        talking: "Clickers rely on their eyes. Terminal users rely on pwd and ls. Run the predict question before revealing, then drive the practice terminal together. Flip the OS toggle and show how the same moves look in PowerShell versus zsh.",
+        question: "I typed cd python and it says it can't find it. You must type the exact folder name ls shows you. Press Tab to finish names for you.",
+        failure: "In a real terminal, someone is lost. Fix: cd ~ to go home, then pwd and ls to get their bearings.",
+        action: "Say each command as a verb: pwd 'where am I', ls 'what is here', cd 'go there'."
+      }
+    },
+    {
+      title: "Essential commands (1 of 2)",
+      html: `
+<h2>Essential commands: look, move, make</h2>
+<p>PowerShell understands most of the same short commands as macOS and Linux. Rows tagged <span class="badge">OS</span> change when you flip the OS button.</p>
+<div class="tbl-wrap"><table class="tbl">
+  <tr><th>Goal</th><th>Command</th><th>Good to know</th></tr>
+  <tr><td>Show where you are</td><td><code>pwd</code></td><td>Prints your working directory</td></tr>
+  <tr><td>List what is here</td><td><code>ls</code></td><td>Run it often</td></tr>
+  <tr><td>List hidden files too <span class="badge">OS</span></td><td><code><span class="os-win">ls -Force</span><span class="os-mac">ls -a</span></code></td><td>Reveals names starting with a dot, like <code>.gitignore</code></td></tr>
+  <tr><td>Go into a folder</td><td><code>cd folder-name</code></td><td>The folder must be visible in <code>ls</code></td></tr>
+  <tr><td>Go up one level</td><td><code>cd ..</code></td><td>Two dots mean the parent folder</td></tr>
+  <tr><td>Go to your home folder</td><td><code>cd ~</code></td><td>Works from anywhere</td></tr>
+  <tr><td>Make a new folder</td><td><code>mkdir folder-name</code></td><td>Short for make directory</td></tr>
+  <tr><td>Make an empty file <span class="badge">OS</span></td><td><code><span class="os-win">New-Item hello.py</span><span class="os-mac">touch hello.py</span></code></td><td><strong>Different on Windows</strong></td></tr>
+  <tr><td>Open a file in VS Code</td><td><code>code hello.py</code></td><td>Creates the file if it does not exist yet</td></tr>
+  <tr><td>Open this whole folder in VS Code</td><td><code>code .</code></td><td>The dot means right here</td></tr>
+</table></div>`,
+      notes: {
+        timing: "3 min",
+        talking: "Walk the table top to bottom. Flip the OS toggle on the two tagged rows so the room sees the swap.",
+        question: "Why does Windows use New-Item instead of touch? Different operating systems grew up with different command families. PowerShell borrowed most of the short names, but not that one.",
+        failure: "A Windows user types touch and gets 'not recognized'. Fix: New-Item hello.py.",
+        action: "Say each command as a verb: pwd 'where am I', ls 'what is here', cd 'go there', mkdir 'make a folder'."
+      }
+    },
+    {
+      title: "Essential commands (2 of 2)",
+      html: `
+<h2>Essential commands: manage and run</h2>
+<p>The terminal trusts you completely, so read the right-hand column before you press <kbd>Enter</kbd>.</p>
+<div class="tbl-wrap"><table class="tbl">
+  <tr><th>Goal</th><th>Command</th><th>Good to know</th></tr>
+  <tr><td>Print a file's contents</td><td><code>cat hello.py</code></td><td>Quick peek without opening an editor</td></tr>
+  <tr><td>Copy a file</td><td><code>cp hello.py backup.py</code></td><td>Original first, copy second</td></tr>
+  <tr><td>Rename or move a file</td><td><code>mv old.py new.py</code></td><td>Renaming and moving are the same action</td></tr>
+  <tr><td>Delete a file</td><td><code>rm hello.py</code></td><td><strong>No recycle bin.</strong> More on this shortly</td></tr>
+  <tr><td>Delete a folder and its contents</td><td><code>rm -r folder-name</code></td><td><strong>No recycle bin, and it takes everything inside</strong></td></tr>
+  <tr><td>Clear the screen</td><td><code>clear</code></td><td>Deletes nothing, only tidies the view</td></tr>
+  <tr><td>Open this folder in the file browser <span class="badge">OS</span></td><td><code><span class="os-win">explorer .</span><span class="os-mac">open .</span></code></td><td>See the terminal and the mouse world side by side</td></tr>
+  <tr><td>Check your Python version <span class="badge">OS</span></td><td><code><span class="os-win">python --version</span><span class="os-mac">python3 --version</span></code></td><td><strong>Different on Windows</strong></td></tr>
+  <tr><td>Run a Python file <span class="badge">OS</span></td><td><code><span class="os-win">python hello.py</span><span class="os-mac">python3 hello.py</span></code></td><td><strong>Different on Windows</strong></td></tr>
+</table></div>
+<p class="small muted">Once your virtual environment is active and your prompt starts with <code>(venv)</code>, plain <code>python</code> works on every system.</p>`,
+      notes: {
+        timing: "3 min",
+        talking: "Flip the OS toggle on the last three rows so the room sees python become python3. Explain the history: macOS and Linux reserve python3 for modern Python; the Windows installer registers python (and py).",
+        question: "Is there an undo for rm? No. That is why the next slides cover handling it with care, and why committed Git work is your real safety net.",
+        failure: "A Mac user types python hello.py and gets command not found. Fix: python3 hello.py, or activate the venv so plain python works.",
+        action: "Say each command as a verb: cat 'show me', cp 'copy', mv 'move or rename', rm 'remove for good'."
+      }
+    },
+    {
+      title: "Pro moves: type less",
+      html: `
+<h2>Pro moves: type less, not faster</h2>
+<p>Professionals look fast in a terminal because they type less.</p>
+<div class="tbl-wrap"><table class="tbl">
+  <tr><th>Keys</th><th>What it does</th><th>Why it matters</th></tr>
+  <tr><td><kbd>Tab</kbd></td><td>Finishes a file or folder name for you</td><td>Type <code>cd lp01</code>, press <kbd>Tab</kbd>. If it completes, the folder exists. If nothing happens, check for a typo or the wrong folder. A spell checker and a time saver in one key.</td></tr>
+  <tr><td><kbd>↑</kbd> and <kbd>↓</kbd></td><td>Scroll through commands you already ran</td><td>Rerun or fix your last command without retyping it</td></tr>
+  <tr><td><kbd>Ctrl</kbd> + <kbd>C</kbd></td><td>Stops whatever is running</td><td>The universal escape hatch. Yes, it is <kbd>Ctrl</kbd> on a Mac too</td></tr>
+  <tr><td><code>clear</code></td><td>Wipes the screen</td><td>A clean view. Nothing is deleted</td></tr>
+  <tr><td><code>exit()</code></td><td>Leaves Python interactive mode</td><td>Gets you from <code>&gt;&gt;&gt;</code> back to your shell</td></tr>
+</table></div>`,
+      notes: {
+        timing: "2 min",
+        talking: "Tab completion is the single biggest quality-of-life habit. Demo it on a folder name live. Then demo the up arrow to rerun.",
+        question: "Ctrl + C copies text everywhere else. Why does it stop things here? In a terminal it means 'cancel'. To copy, select text and use the right-click menu, or Ctrl + Shift + C in many terminals.",
+        failure: "Someone's terminal looks frozen. Fix: Ctrl + C.",
+        action: "Say it together: tab completion, Control C."
+      }
+    },
+    {
+      title: "Naming rules",
+      html: `
+<h2>Naming rules</h2>
+<p>The terminal splits commands at every space, so <code>my homework.py</code> looks like two separate things. A few habits prevent a whole category of errors.</p>
+<div class="tbl-wrap"><table class="tbl">
+  <tr><th>Rule</th><th>Instead of</th><th>Use</th><th>Why</th></tr>
+  <tr><td>No spaces</td><td><code>my homework.py</code></td><td><code>my_homework.py</code></td><td>Spaces separate arguments</td></tr>
+  <tr><td>Lowercase</td><td><code>Hello.PY</code></td><td><code>hello.py</code></td><td>Some systems treat <code>Hello.py</code> and <code>hello.py</code> as different files</td></tr>
+  <tr><td>Underscores for Python files</td><td><code>data-cleaner.py</code></td><td><code>data_cleaner.py</code></td><td>Python can only <code>import</code> names made of letters, numbers, and underscores</td></tr>
+  <tr><td>Never borrow a library's name</td><td><code>random.py</code></td><td><code>random_practice.py</code></td><td>Python looks in your folder first, so your file hides the real module</td></tr>
+</table></div>
+<details class="reveal"><summary>Predict: what happens if you run <code>cd my project</code>?</summary><div>The shell sees two arguments, <code>my</code> and <code>project</code>, and fails. If you must use a name with spaces, wrap it in quotes: <code>cd "My Folder"</code>.</div></details>`,
+      notes: {
+        timing: "2 min",
+        talking: "random.py is the sneakiest one: the error message never mentions your file, so beginners chase it for an hour. Snake_case is the Python house style.",
+        question: "Can I use dashes? For folders, yes. For Python files, use underscores so you can import them later.",
+        failure: "Someone's import random fails with a strange error. Fix: rename their random.py and delete any __pycache__ folder next to it.",
+        action: "Ask the predict question before revealing. Say it together: snake case."
+      }
+    },
+    {
+      title: "Handle with care",
+      html: `
+<h2>Handle with care</h2>
+<p>The terminal does not ask "are you sure?" and it does not keep a recycle bin.</p>
+<div class="callout warn"><strong>Permanent</strong><code>rm</code> deletes a file forever. <code>rm -r</code> deletes a folder <strong>and everything inside it</strong>. There is no undo.</div>
+<h3>Four habits that keep you safe</h3>
+<ol>
+  <li><strong>Look before you delete.</strong> Run <code>pwd</code> and <code>ls</code> first, every time.</li>
+  <li><strong>Name the target precisely.</strong> Leave wildcards like <code>*</code> alone until you know what they match.</li>
+  <li><strong>Understand before you paste.</strong> If you cannot explain a command from a website, ask first. That goes double for <code>sudo</code>, which runs a command with full administrator power on macOS and Linux.</li>
+  <li><strong>Commit your work with Git.</strong> Committed work can be recovered even after a bad <code>rm</code>. That is Week 2.</li>
+</ol>`,
+      notes: {
+        timing: "2 min",
+        talking: "rm is a sharp knife. Respect, not fear. Habit one is the Look, Move, Act loop again; it keeps paying off.",
+        question: "Can I undo rm? No. Re-download or recreate the file, and start committing your work next week so this never costs you a night.",
+        failure: "A website told someone to run a sudo command and things got weird. Fix: stop, do not run more, bring the exact command to Monday night or the cohort channel.",
+        action: "Say together: look before you delete. Then say rm, rm dash r, and sudo."
+      }
+    },
+    {
+      title: "Set up the class repo",
+      companions: ["repository", "clone", "venv"],
+      html: `
+<h2>Set up the class repo</h2>
+<p>Straight from the README's Getting Started. Type each line yourself.</p>
+<pre class="cmd"><code><span class="cmt"># 1. Clone the class repo, then step inside it (once)</span>
+git clone https://github.com/StrayDogSyn/python-fall26-code-alongs.git
+cd python-fall26-code-alongs
+
+<span class="cmt"># 2. Create a virtual environment (once per project)</span>
+<span class="os-win">python -m venv venv</span><span class="os-mac">python3 -m venv venv</span>
+
+<span class="cmt"># 3. Activate it (every time you open a new terminal)</span>
+<span class="os-win">venv\\Scripts\\Activate.ps1</span><span class="os-mac">source venv/bin/activate</span>
+
+<span class="cmt"># 4. Check your setup</span>
+python --version
+git --version
+
+<span class="cmt"># 5. Run your first line of Python</span>
+python -c "print('Hello, Fall 26!')"</code></pre>
+<details class="reveal"><summary>Predict: how will you know the virtual environment is on?</summary><div>Your prompt starts with <code>(venv)</code>. That is your cue that the clean room is open for business, and plain <code>python</code> now works on every system.</div></details>`,
+      notes: {
+        timing: "6 min",
+        talking: "A virtual environment is a clean room for your project's packages. Without one, every project shares a single junk drawer. Cooking version: one labeled container per recipe, not every leftover in one bowl. Create once, activate every session.",
+        question: "Do I create the venv every time? No. Create it once. Activate it every time you open a new terminal.",
+        failure: "PowerShell blocks the activate script. Fix from the README: run Set-ExecutionPolicy -Scope CurrentUser RemoteSigned, then try again. No (venv) in the prompt: run the activate command again from inside the project folder.",
+        action: "Say it together: repository, clone, virtual environment, venv."
+      }
+    },
+    {
+      title: "Read your prompt",
+      companions: ["interactive"],
+      html: `
+<h2>Read your prompt: who is listening?</h2>
+<p>Shell commands only work in the shell. Python code only works in Python. The prompt tells you which one you are talking to.</p>
+<div class="tbl-wrap"><table class="tbl">
+  <tr><th>Your prompt looks like</th><th>Who is listening</th><th>What it understands</th></tr>
+  <tr><td><code>PS C:\\Users\\you&gt;</code></td><td>PowerShell</td><td><code>cd</code>, <code>ls</code>, <code>git</code>, <code>python</code></td></tr>
+  <tr><td><code>you@computer ~ %</code> or a line ending in <code>$</code></td><td>zsh or bash</td><td><code>cd</code>, <code>ls</code>, <code>git</code>, <code>python3</code></td></tr>
+  <tr><td><code>(venv)</code> at the very start</td><td>Your shell, with the virtual environment active</td><td>Everything above, using this project's packages</td></tr>
+  <tr><td><code>&gt;&gt;&gt;</code></td><td>Python interactive mode</td><td>Python code only. <code>cd</code> and <code>ls</code> fail here</td></tr>
+  <tr><td><code>In [1]:</code></td><td>An IPython console, like Spyder's</td><td>Python code. Not a system terminal</td></tr>
+</table></div>
+<div class="cols">
+  <div class="panel"><h3>Run a whole file</h3><p><code>python hello.py</code> runs top to bottom, then hands the terminal back. This is how you run your work.</p></div>
+  <div class="panel"><h3>Interactive mode</h3><p><code>python</code> with nothing after it waits at <code>&gt;&gt;&gt;</code>. Great for quick experiments. Type <code>exit()</code> to leave.</p></div>
+</div>
+<p class="joke">🧓 My terminal and I have an honest relationship. I tell it what I want, and it tells me "command not found."</p>`,
+      notes: {
+        timing: "3 min",
+        talking: "The most common beginner trap: typing shell commands into Python, or Python into the shell. Teach them to glance at the prompt before every command.",
+        question: "How do I get out of >>>? Type exit() and press Enter.",
+        failure: "SyntaxError after typing cd or ls: they are inside interactive mode. Fix: exit(). Someone runs git clone in Spyder's console: In [1]: is Python, so open a real terminal.",
+        action: "Say it together: prompt, interactive mode. Point at each prompt on screen and have the room call out who is listening."
+      }
+    },
+    {
+      title: "Translate the jargon",
+      html: `
+<h2>Translate the jargon</h2>
+<p>Here is a sentence you might hear on day one of a dev job. Tap each highlighted word to translate it.</p>
+<div data-jargon="w1"></div>
+<h3>Match the companions</h3>
+<div data-match="w1"></div>
+<p class="small muted">Feeling the words get lighter? That is fluency arriving through use. Press <kbd>G</kbd> any time to open your glossary.</p>`,
+      notes: {
+        timing: "4 min",
+        talking: "Do the decoder together as a room, then let people try the matching game on their own screens. Celebrate that this sentence would have been gibberish two hours ago.",
+        question: "What if I forget a term next week? Press G for the glossary. Forgetting is part of the loop, and the glossary is your save file.",
+        failure: "Dragging doesn't work on a phone or touchscreen. Fix: tap the word, then tap its meaning.",
+        action: "Read the full jargon sentence out loud together, then the translated version."
+      }
+    },
+    {
+      title: "Week 1 checkpoint",
+      html: `
+<h2>Week 1 checkpoint</h2>
+<p class="muted">Low stakes. Every wrong answer here is one you will not make in a real terminal.</p>
+<div data-quiz="w1"></div>`,
+      notes: {
+        timing: "5 min",
+        talking: "Run it as a group vote: read the question, let people shout answers, then click. Wrong answers are welcome; the explanation is the lesson.",
+        question: "Does this score count for anything? No. It is a practice round. Hit Retry as many times as you like.",
+        failure: "Someone feels bad about a low score. Point back to slide 2: tutorial level. The explanation teaches more than the score.",
+        action: "After each question, have the room say the key term in it out loud."
+      }
+    },
+    {
+      title: "Practice missions and resources",
+      html: `
+<h2>Your missions this week</h2>
+<p>Reading about commands does about as much for you as reading about push-ups. Full solutions are in <code>resources/command-line-basics.md</code>.</p>
+<div class="cols">
+  <div class="panel"><h3>1. Scavenger hunt</h3><p>Using only the terminal: what is your home folder's absolute path, how many items are inside it, and what hidden files live in your copy of the class repo?</p></div>
+  <div class="panel"><h3>2. Build a folder tree</h3><p>From home, build <code>terminal-gym/code/hello.py</code> and <code>terminal-gym/notes/week1.txt</code> without touching the mouse.</p></div>
+  <div class="panel"><h3>3. Rename, copy, clean up</h3><p>Rename <code>hello.py</code> to <code>greet.py</code>, copy it into <code>notes</code>, then leave and delete <code>terminal-gym</code>. Look before you delete.</p></div>
+</div>
+<h3>Keep going</h3>
+<ul>
+  <li>🎮 Practice site: <a href="https://straydogsyn.github.io/Python-Essentials-Bridge-The-Dream/" target="_blank" rel="noopener">Python Essentials: Bridge the Dream</a></li>
+  <li>🎥 Recordings: <a href="https://www.youtube.com/@EricHunterPetross" target="_blank" rel="noopener">Eric Hunter Petross on YouTube</a></li>
+  <li>📂 Class repo: <a href="https://github.com/StrayDogSyn/python-fall26-code-alongs" target="_blank" rel="noopener">StrayDogSyn/python-fall26-code-alongs</a></li>
+  <li>🏫 <a href="https://codethedream.org/" target="_blank" rel="noopener">Code the Dream</a></li>
+</ul>
+<p class="lead"><strong>See you Monday at 8:00 PM Eastern.</strong> Next week: save points, with Git.</p>`,
+      notes: {
+        timing: "2 min",
+        talking: "Assign the three missions. Remind everyone that the solutions live in the docs, and that this deck lives in the repo under week01 for review.",
+        question: "Where do I find this deck later? In the class repo, week01/week01-slides.html. Download it and open it in any browser.",
+        failure: "Someone can't find their clone for mission 1. That is the mission working as intended: ls and cd until you find it.",
+        action: "Say all thirteen companions out loud in order, using the glossary (G) as a cue card."
+      }
+    }
+  ],
+
+  quizzes: {
+    w1: [
+      { q: "Your prompt shows <code>&gt;&gt;&gt;</code>. What happens if you type <code>cd Desktop</code>?",
+        options: [
+          { text: "You move into the Desktop folder." },
+          { text: "Python raises a SyntaxError.", correct: true },
+          { text: "A new folder named Desktop is created." }
+        ],
+        why: "<code>&gt;&gt;&gt;</code> means Python is listening, and Python does not speak shell. Type <code>exit()</code> to get back to your terminal." },
+      { q: "You save a practice file as <code>random.py</code>, and now <code>import random</code> breaks with a confusing error. Why?",
+        options: [
+          { text: "Python looks in your folder first, so your file hides the real random module.", correct: true },
+          { text: "File names cannot be ordinary English words." },
+          { text: "Spyder blocks files with that name." }
+        ],
+        why: "Never borrow a library's name. Rename it to something like <code>random_practice.py</code>." },
+      { q: "Before you run <code>rm</code> to delete a file, what should you do?",
+        options: [
+          { text: "Run <code>pwd</code> and <code>ls</code> so you know exactly where you are and what is there.", correct: true },
+          { text: "Add <code>sudo</code> so the delete definitely works." },
+          { text: "Close your editor." }
+        ],
+        why: "Look before you delete. <code>rm</code> is permanent, and there is no recycle bin." },
+      { q: "Your prompt now starts with <code>(venv)</code>. What does that mean?",
+        options: [
+          { text: "Your code has an error." },
+          { text: "You are signed in to GitHub." },
+          { text: "This project's virtual environment is active.", correct: true }
+        ],
+        why: "The clean room is open for business, and plain <code>python</code> works on every system." },
+      { q: "A classmate uses VS Code and you use Spyder 6. Can you both follow the same lesson?",
+        options: [
+          { text: "Yes. Same moves, different controllers.", correct: true },
+          { text: "No. Python only runs in Spyder." },
+          { text: "Only if you both switch to the same operating system." }
+        ],
+        why: "Editors are interchangeable. The terminal and Git are the constants." }
+    ]
+  },
+
+  jargon: {
+    w1: {
+      parts: [
+        "\u201cOpen a ", { term: "terminal", meaning: "the window you type into" },
+        ", check your ", { term: "working directory", meaning: "the folder you are standing in" },
+        ", then ", { term: "cd", meaning: "change directory: move" },
+        " into the ", { term: "repo", meaning: "the project folder Git tracks" },
+        " and activate the ", { term: "venv", meaning: "the project's clean room for packages" }, ".\u201d"
+      ],
+      done: "Translation: open the typing window, see which folder you are in, step into the class project folder, and switch on its clean room. You just spoke developer."
+    }
+  },
+
+  matches: {
+    w1: [
+      { term: "Shell", meaning: "The program that reads your commands and runs them" },
+      { term: "Prompt", meaning: "The text that says the shell is ready for you" },
+      { term: "Path", meaning: "The address of a file or folder" },
+      { term: "Working directory", meaning: "The folder your terminal is standing in" }
+    ]
+  }
+};
+
+</script>
+<script>
+(function () {
+  "use strict";
+  var D = window.DECK;
+  var deckEl = document.getElementById("deck");
+  var html = document.documentElement;
+  var current = 0;
+  var unlocked = {};
+  var termsById = {};
+  (window.GLOSSARY || []).forEach(function (t) { termsById[t.id] = t; });
+  // A deck lists the glossary ids it reviews (unlocked from the start) and the ids it introduces.
+  var reviewIds = D.terms.review || [], freshIds = D.terms.fresh || [];
+  D.terms = reviewIds.concat(freshIds).map(function (id) {
+    if (!termsById[id]) throw new Error("Unknown glossary id in deck: " + id);
+    return termsById[id];
+  });
+  reviewIds.forEach(function (id) { unlocked[id] = true; });
+
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function isWin() { return html.getAttribute("data-os") === "windows"; }
+
+  /* ---------- OS and theme ---------- */
+  function setOS(os) {
+    html.setAttribute("data-os", os);
+    $("#btn-os").textContent = os === "windows" ? "OS: Windows" : "OS: macOS / Linux";
+    store("ctd-os", os);
+    document.dispatchEvent(new CustomEvent("oschange"));
+  }
+  function setTheme(t) { html.setAttribute("data-theme", t); store("ctd-theme", t); }
+  var savedOS = store("ctd-os");
+  setOS(savedOS === "mac" || savedOS === "windows" ? savedOS : (/Mac|Linux|X11/.test(navigator.userAgent) && !/Windows/.test(navigator.userAgent) ? "mac" : "windows"));
+  var savedTheme = store("ctd-theme");
+  setTheme(savedTheme === "light" || savedTheme === "dark" ? savedTheme : (window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"));
+  $("#btn-os").addEventListener("click", function () { setOS(isWin() ? "mac" : "windows"); });
+  $("#btn-theme").addEventListener("click", function () { setTheme(html.getAttribute("data-theme") === "dark" ? "light" : "dark"); });
+  $("#deck-title").textContent = D.title;
+
+  /* ---------- Render slides ---------- */
+  function companionHTML(id) {
+    var t = termsById[id];
+    if (!t) return "";
+    return '<div class="companion"><div class="tag">New Companion</div><div class="term">' + t.term + '</div>' +
+      (t.say ? '<div class="say">say it: ' + t.say + '</div>' : "") +
+      '<div class="meaning">' + t.meaning + '</div>' +
+      (t.origin ? '<div class="origin">Where the word comes from: ' + t.origin + '</div>' : "") +
+      (t.usage ? '<div class="usage">You\u2019ll hear it when: \u201c' + t.usage + '\u201d</div>' : "") + '</div>';
+  }
+  D.slides.forEach(function (s, i) {
+    var sec = document.createElement("section");
+    sec.className = "slide";
+    sec.id = "slide-" + i;
+    sec.setAttribute("aria-label", s.title);
+    sec.setAttribute("data-num", i + 1);
+    var comps = (s.companions || []);
+    var body = comps.length
+      ? '<div class="layout"><div class="main">' + s.html + '</div><aside class="companions" aria-label="New vocabulary">' + comps.map(companionHTML).join("") + '</aside></div>'
+      : '<div class="layout solo"><div class="main">' + s.html + '</div></div>';
+    sec.innerHTML = '<div class="slide-inner">' + body + '</div>';
+    deckEl.appendChild(sec);
+  });
+
+  /* ---------- Copy buttons ---------- */
+  function copyText(text, btn) {
+    function done() { btn.textContent = "Copied!"; setTimeout(function () { btn.textContent = "Copy"; }, 1600); }
+    function fallback() {
+      var ta = document.createElement("textarea"); ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); done(); } catch (e) { btn.textContent = "Select and copy"; }
+      ta.remove();
+    }
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
+  }
+  $all("pre.cmd").forEach(function (pre) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "btn copy"; b.textContent = "Copy"; b.setAttribute("aria-label", "Copy commands");
+    b.addEventListener("click", function () {
+      var clone = pre.cloneNode(true);
+      $all(".copy", clone).forEach(function (x) { x.remove(); });
+      $all(isWin() ? ".os-mac" : ".os-win", clone).forEach(function (x) { x.remove(); });
+      copyText(clone.textContent.replace(/\n{3,}/g, "\n\n").trim(), b);
+    });
+    pre.appendChild(b);
+  });
+
+  /* ---------- Glossary ---------- */
+  function renderGlossary() {
+    var body = $("#gloss-body"), n = 0;
+    body.innerHTML = "";
+    D.terms.forEach(function (t) {
+      var open = !!unlocked[t.id];
+      if (open) n++;
+      var d = document.createElement("div");
+      d.className = "gloss" + (open ? "" : " locked");
+      d.innerHTML = '<div class="gterm">' + t.term + (open ? "" : ' <span class="lock">(unlocks later in the deck)</span>') + '</div><div class="gdef">' + (open ? t.meaning : "Keep going to unlock this one.") + '</div>';
+      body.appendChild(d);
+    });
+    $("#gloss-count").textContent = n + " of " + D.terms.length + " companions unlocked";
+    $all("[data-glossary-grid]").forEach(function (g) {
+      g.innerHTML = D.terms.filter(function (t) { return unlocked[t.id]; }).map(function (t) { return '<div class="item"><b>' + t.term + '</b>' + t.meaning + '</div>'; }).join("");
+    });
+  }
+  function unlockThrough(idx) {
+    for (var i = 0; i <= idx; i++) (D.slides[i].companions || []).forEach(function (id) { unlocked[id] = true; });
+    if (D.slides[idx].unlockAll) D.terms.forEach(function (t) { unlocked[t.id] = true; });
+    renderGlossary();
+  }
+
+  /* ---------- Drawers ---------- */
+  function setDrawer(id, open) {
+    var d = document.getElementById(id);
+    if (open) $all(".drawer").forEach(function (x) { if (x !== d) setDrawer(x.id, false); });
+    d.classList.toggle("open", open);
+    d.setAttribute("aria-hidden", open ? "false" : "true");
+  }
+  function toggleDrawer(id) { setDrawer(id, !document.getElementById(id).classList.contains("open")); }
+  $("#btn-notes").addEventListener("click", function () { toggleDrawer("drawer-notes"); });
+  $("#btn-glossary").addEventListener("click", function () { toggleDrawer("drawer-glossary"); });
+  $all("[data-close]").forEach(function (b) { b.addEventListener("click", function () { setDrawer(b.getAttribute("data-close"), false); }); });
+
+  /* ---------- Navigation ---------- */
+  function show(i) {
+    current = Math.max(0, Math.min(D.slides.length - 1, i));
+    $all(".slide").forEach(function (s, k) { s.classList.toggle("active", k === current); if (k === current) s.scrollTop = 0; });
+    $("#progress > div").style.width = (D.slides.length > 1 ? current / (D.slides.length - 1) * 100 : 100) + "%";
+    $("#counter").textContent = (current + 1) + " / " + D.slides.length;
+    var n = D.slides[current].notes || {};
+    $("#notes-body").innerHTML = [["Slide", (current + 1) + ". " + D.slides[current].title], ["Timing", n.timing], ["Talking points", n.talking], ["Likely question", n.question], ["If something breaks live", n.failure], ["Say it out loud", n.action]]
+      .filter(function (r) { return r[1]; }).map(function (r) { return '<div class="note-row"><b>' + r[0] + '</b>' + r[1] + '</div>'; }).join("");
+    unlockThrough(current);
+    if (history.replaceState) history.replaceState(null, "", "#" + (current + 1));
+  }
+  function toggleOverview(force) {
+    var on = typeof force === "boolean" ? force : !document.body.classList.contains("overview");
+    document.body.classList.toggle("overview", on);
+    if (!on) show(current); else { var a = $(".slide.active"); if (a) a.scrollIntoView({ block: "center" }); }
+  }
+  $("#btn-prev").addEventListener("click", function () { show(current - 1); });
+  $("#btn-next").addEventListener("click", function () { show(current + 1); });
+  $("#btn-overview").addEventListener("click", function () { toggleOverview(); });
+  deckEl.addEventListener("click", function (e) {
+    if (!document.body.classList.contains("overview")) return;
+    var s = e.target.closest(".slide"); if (!s) return;
+    e.preventDefault(); e.stopPropagation();
+    current = parseInt(s.id.split("-")[1], 10); toggleOverview(false);
+  }, true);
+  document.addEventListener("keydown", function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    var tag = (e.target.tagName || "").toLowerCase();
+    if (tag === "input" || tag === "textarea" || e.target.isContentEditable) return;
+    var k = e.key, typing = tag === "button" || tag === "summary";
+    if (k === "Escape") { $all(".drawer.open").forEach(function (d) { setDrawer(d.id, false); }); toggleOverview(false); return; }
+    if (k === "ArrowRight" || k === "PageDown" || (k === " " && !typing)) { e.preventDefault(); show(current + 1); }
+    else if (k === "ArrowLeft" || k === "PageUp") { e.preventDefault(); show(current - 1); }
+    else if (k === "Home") { e.preventDefault(); show(0); }
+    else if (k === "End") { e.preventDefault(); show(D.slides.length - 1); }
+    else if (k === "f" || k === "F") { if (!document.fullscreenElement) { if (html.requestFullscreen) html.requestFullscreen().catch(function () {}); } else document.exitFullscreen(); }
+    else if (k === "n" || k === "N") toggleDrawer("drawer-notes");
+    else if (k === "g" || k === "G") toggleDrawer("drawer-glossary");
+    else if (k === "o" || k === "O") toggleOverview();
+  });
+  var tx = null, ty = null;
+  deckEl.addEventListener("touchstart", function (e) {
+    if (e.target.closest("pre, .term-sim, .match, .gitviz, .tbl-wrap, input")) { tx = null; return; }
+    tx = e.touches[0].clientX; ty = e.touches[0].clientY;
+  }, { passive: true });
+  deckEl.addEventListener("touchend", function (e) {
+    if (tx === null || document.body.classList.contains("overview")) return;
+    var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > 70 && Math.abs(dy) < 50) show(current + (dx < 0 ? 1 : -1));
+    tx = null;
+  });
+
+  /* ---------- Quiz ---------- */
+  $all("[data-quiz]").forEach(function (box) {
+    var qs = D.quizzes[box.getAttribute("data-quiz")], i = 0, score = 0;
+    box.className += " quiz";
+    function render() {
+      if (i >= qs.length) {
+        box.innerHTML = '<h3>You scored ' + score + ' / ' + qs.length + '</h3><p>' + (score === qs.length ? "Flawless run. " : "") + 'Every miss is a lesson you only have to learn once.</p><button type="button" class="btn primary">Retry</button>';
+        $("button", box).addEventListener("click", function () { i = 0; score = 0; render(); });
+        return;
+      }
+      var q = qs[i];
+      var order = shuffle(q.options.map(function (o, k) { return k; }));
+      box.innerHTML = '<div class="qcount">Question ' + (i + 1) + ' of ' + qs.length + ' \u00b7 Score: ' + score + '</div><h3>' + q.q + '</h3><div class="opts">' +
+        order.map(function (k) { return '<button type="button" class="opt" data-k="' + k + '">' + q.options[k].text + '</button>'; }).join("") +
+        '</div><div class="fb" aria-live="polite"></div><button type="button" class="btn primary next" hidden>' + (i === qs.length - 1 ? "See my score" : "Next question") + '</button>';
+      var opts = $all(".opt", box), fb = $(".fb", box), nx = $(".next", box);
+      opts.forEach(function (b) {
+        b.addEventListener("click", function () {
+          var right = !!q.options[+b.getAttribute("data-k")].correct;
+          opts.forEach(function (x) { x.disabled = true; if (q.options[+x.getAttribute("data-k")].correct) x.classList.add("right"); });
+          if (right) score++; else b.classList.add("wrong");
+          fb.innerHTML = '<strong>' + (right ? "Right on." : "Not quite.") + '</strong> ' + q.why;
+          nx.hidden = false; nx.focus();
+        });
+      });
+      nx.addEventListener("click", function () { i++; render(); });
+    }
+    render();
+  });
+
+  /* ---------- Jargon decoder ---------- */
+  $all("[data-jargon]").forEach(function (box) {
+    var J = D.jargon[box.getAttribute("data-jargon")];
+    var line = document.createElement("div"); line.className = "jargon";
+    var result = document.createElement("div"); result.className = "jargon-result"; result.setAttribute("aria-live", "polite");
+    var chips = [];
+    J.parts.forEach(function (p) {
+      if (typeof p === "string") { line.appendChild(document.createTextNode(p)); return; }
+      var c = document.createElement("button"); c.type = "button"; c.className = "chip"; c.textContent = p.term;
+      c.addEventListener("click", function () {
+        if (c.classList.contains("done")) return;
+        c.classList.add("done"); c.innerHTML = esc(p.term) + '<span class="m">' + esc(p.meaning) + '</span>';
+        if (chips.every(function (x) { return x.classList.contains("done"); })) result.textContent = J.done;
+      });
+      chips.push(c); line.appendChild(c);
+    });
+    box.appendChild(line); box.appendChild(result);
+  });
+
+  /* ---------- Matching game (drag, tap, or keyboard) ---------- */
+  $all("[data-match]").forEach(function (box) {
+    var pairs = D.matches[box.getAttribute("data-match")];
+    var left = document.createElement("div"); left.className = "col";
+    var right = document.createElement("div"); right.className = "col";
+    var status = document.createElement("div"); status.className = "match-status"; status.setAttribute("aria-live", "polite");
+    status.textContent = "Drag a word onto its meaning, or tap a word and then tap its meaning.";
+    var selected = null, left2 = pairs.length;
+    pairs.forEach(function (p, k) {
+      var d = document.createElement("button"); d.type = "button"; d.className = "draggable"; d.draggable = true; d.textContent = p.term; d.setAttribute("data-k", k);
+      d.addEventListener("dragstart", function (e) { selected = d; try { e.dataTransfer.setData("text/plain", String(k)); } catch (x) {} });
+      d.addEventListener("click", function () { $all(".draggable", box).forEach(function (x) { x.classList.remove("sel"); }); selected = d; d.classList.add("sel"); status.textContent = "Now tap the meaning of \u201c" + p.term + "\u201d."; });
+      left.appendChild(d);
+    });
+    shuffle(pairs.map(function (p, k) { return k; })).forEach(function (k) {
+      var z = document.createElement("button"); z.type = "button"; z.className = "dropzone"; z.textContent = pairs[k].meaning; z.setAttribute("data-k", k);
+      function attempt() {
+        if (!selected || z.classList.contains("correct")) return;
+        if (selected.getAttribute("data-k") === String(k)) {
+          z.classList.add("correct"); z.innerHTML = "<strong>" + esc(pairs[k].term) + "</strong> = " + esc(pairs[k].meaning);
+          selected.classList.add("used"); selected = null; left2--;
+          status.textContent = left2 ? "Matched. " + left2 + " to go." : "All matched. Those words are officially yours.";
+        } else {
+          z.classList.add("shake"); setTimeout(function () { z.classList.remove("shake"); }, 500);
+          status.textContent = "Not quite. Try another meaning.";
+        }
+      }
+      z.addEventListener("dragover", function (e) { e.preventDefault(); z.classList.add("over"); });
+      z.addEventListener("dragleave", function () { z.classList.remove("over"); });
+      z.addEventListener("drop", function (e) { e.preventDefault(); z.classList.remove("over"); attempt(); });
+      z.addEventListener("click", attempt);
+      right.appendChild(z);
+    });
+    box.className += " match";
+    box.appendChild(left); box.appendChild(right); box.appendChild(status);
+  });
+
+  /* ---------- Terminal simulator (PowerShell or zsh, follows the OS toggle) ---------- */
+  $all("[data-sim]").forEach(function (sim) {
+    sim.className += " term-sim";
+    sim.innerHTML = '<div class="line">Practice terminal. Try: pwd, ls, cd python-fall26-code-alongs, ls -a or ls -Force, cd .., mkdir practice, clear</div><div class="in"><span class="pr"></span><input type="text" aria-label="Type a terminal command" autocomplete="off" autocapitalize="off" spellcheck="false"></div>';
+    var inLine = $(".in", sim), pr = $(".pr", sim), input = $("input", sim), path = [];
+    var fs = {
+      "": { dirs: ["python-fall26-code-alongs"], files: [], hidden: [] },
+      "python-fall26-code-alongs": { dirs: ["lp01-intro-to-python", "venv"], files: ["LICENSE", "README.md"], hidden: [".git", ".gitignore"] },
+      "python-fall26-code-alongs/lp01-intro-to-python": { dirs: [], files: ["hello.py"], hidden: [] },
+      "python-fall26-code-alongs/venv": { os: true }
+    };
+    function key(p) { return p.join("/"); }
+    function node(p) {
+      var n = fs[key(p)];
+      if (n && n.os) return isWin() ? { dirs: ["Include", "Lib", "Scripts"], files: ["pyvenv.cfg"], hidden: [] } : { dirs: ["bin", "include", "lib"], files: ["pyvenv.cfg"], hidden: [] };
+      return n;
+    }
+    function winPath(p) { return "C:\\Users\\Student" + (p.length ? "\\" + p.join("\\") : ""); }
+    function macPath(p) { return "/Users/student" + (p.length ? "/" + p.join("/") : ""); }
+    function promptText() { return isWin() ? "PS " + winPath(path) + ">" : "student@macbook " + (path.length ? path[path.length - 1] : "~") + " %"; }
+    function refresh() { pr.textContent = promptText(); }
+    function print(t, cls) { var d = document.createElement("div"); d.className = "line" + (cls ? " " + cls : ""); d.textContent = t; sim.insertBefore(d, inLine); }
+    function notFound(c) { return isWin() ? c + " : The term '" + c + "' is not recognized as the name of a cmdlet, function, script file, or operable program." : "zsh: command not found: " + c; }
+    function psTable(rows) { return "\n    Directory: " + winPath(path) + "\n\nMode    Name\n----    ----\n" + rows.join("\n") + "\n"; }
+    function resolve(arg) {
+      var parts = arg.replace(/\\/g, "/").split("/").filter(function (x) { return x && x !== "."; }), p = path.slice();
+      if (parts[0] === "~") { p = []; parts.shift(); }
+      for (var i = 0; i < parts.length; i++) {
+        if (parts[i] === "..") { if (p.length) p.pop(); continue; }
+        var n = node(p); if (!n || n.dirs.indexOf(parts[i]) < 0) return null;
+        p.push(parts[i]); if (!fs[key(p)]) fs[key(p)] = { dirs: [], files: [], hidden: [] };
+      }
+      return p;
+    }
+    input.addEventListener("keydown", function (e) {
+      e.stopPropagation();
+      if (e.key !== "Enter") return;
+      var raw = input.value.trim(); input.value = "";
+      print(promptText() + " " + raw, "echo");
+      if (raw) {
+        var a = raw.split(/\s+/), c = a[0], lc = c.toLowerCase();
+        if (lc === "clear" || lc === "cls") { $all(".line", sim).forEach(function (l) { l.remove(); }); }
+        else if (lc === "pwd") print(isWin() ? "\nPath\n----\n" + winPath(path) + "\n" : macPath(path));
+        else if (lc === "ls") {
+          var n = node(path), flag = a[1], hidden = false, ok = true;
+          if (flag) {
+            if (isWin() && flag.toLowerCase() === "-force") hidden = true;
+            else if (!isWin() && flag === "-a") hidden = true;
+            else if (isWin() && flag === "-a") { ok = false; print("Hint: in PowerShell, use ls -Force to see hidden files."); }
+            else if (!isWin() && flag.toLowerCase() === "-force") { ok = false; print("Hint: on macOS and Linux, use ls -a to see hidden files."); }
+            else { ok = false; print("This practice terminal knows ls, plus ls -a on macOS/Linux and ls -Force on Windows."); }
+          }
+          if (ok && n) {
+            if (isWin()) {
+              var rows = [];
+              if (hidden) n.hidden.forEach(function (h) { rows.push((h === ".git" ? "d--h-   " : "-a-h-   ") + h); });
+              n.dirs.forEach(function (d) { rows.push("d----   " + d); });
+              n.files.forEach(function (f) { rows.push("-a---   " + f); });
+              if (rows.length) print(psTable(rows));
+            } else {
+              var items = (hidden ? [".", ".."].concat(n.hidden) : []).concat(n.dirs, n.files);
+              if (items.length) print(items.join("    "));
+            }
+          }
+        }
+        else if (lc === "cd") {
+          var t = a.slice(1).join(" ");
+          if (!t) { if (!isWin()) path = []; }
+          else { var r = resolve(t); if (r) path = r; else print(isWin() ? "Set-Location : Cannot find path '" + t + "' because it does not exist." : "cd: no such file or directory: " + t); }
+        }
+        else if (lc === "mkdir") {
+          var nm = a[1], cur = node(path);
+          if (!nm) print(isWin() ? "Give it a folder name, like: mkdir practice" : "usage: mkdir folder-name");
+          else if (cur.dirs.indexOf(nm) >= 0) print(isWin() ? "New-Item : An item with the specified name " + winPath(path) + "\\" + nm + " already exists." : "mkdir: " + nm + ": File exists");
+          else { cur.dirs.push(nm); fs[key(path.concat([nm]))] = { dirs: [], files: [], hidden: [] }; if (isWin()) print(psTable(["d----   " + nm])); }
+        }
+        else if (lc === "touch" || lc === "new-item") {
+          var isTouch = lc === "touch", f = a[1], cur2 = node(path);
+          if (isWin() && isTouch) print(notFound(c) + "\nHint: PowerShell makes an empty file with New-Item hello.py");
+          else if (!isWin() && !isTouch) print(notFound(c) + "\nHint: macOS and Linux make an empty file with touch hello.py");
+          else if (!f) print("Give it a file name, like: " + (isWin() ? "New-Item hello.py" : "touch hello.py"));
+          else { if (cur2.files.indexOf(f) < 0) cur2.files.push(f); if (isWin()) print(psTable(["-a---   " + f])); }
+        }
+        else if (lc === "python" || lc === "python3") print("This practice terminal is for moving around. Run Python in your real terminal.");
+        else { print(notFound(c)); print("Hint: this practice terminal knows pwd, ls, cd, mkdir, " + (isWin() ? "New-Item" : "touch") + ", and clear."); }
+      }
+      refresh(); sim.scrollTop = sim.scrollHeight;
+    });
+    sim.addEventListener("click", function (e) { if (!window.getSelection().toString()) input.focus(); });
+    document.addEventListener("oschange", refresh);
+    refresh();
+  });
+
+  /* ---------- Git staging visualizer ---------- */
+  $all("[data-gitviz]").forEach(function (box) {
+    box.className += " gitviz";
+    var state;
+    function hex() { var s = ""; for (var i = 0; i < 7; i++) s += "0123456789abcdef"[Math.floor(Math.random() * 16)]; return s; }
+    function reset() {
+      state = {
+        files: [{ name: "my-work/hello_mine.py", tracked: false, staged: null, unstaged: "untracked" }],
+        local: [], remote: [{ id: "7dfaf2c", msg: "Add LP 01" }]
+      };
+      draw(); out("Fresh start. You just created my-work/hello_mine.py in your editor and saved it.\nRun git status to see what Git thinks.");
+    }
+    box.innerHTML =
+      '<div class="cols4">' +
+      '<div class="zone z1"><h4 class="y">1. Working folder</h4><div class="sub">items on your desk</div><div data-z="1"></div></div>' +
+      '<div class="zone z2"><h4 class="b">2. Staging area</h4><div class="sub">items in the open box</div><div data-z="2"></div></div>' +
+      '<div class="zone z3"><h4 class="g">3. Local repository</h4><div class="sub">box taped and labeled</div><div data-z="3"></div></div>' +
+      '<div class="zone z4"><h4 class="p">4. GitHub</h4><div class="sub">box at the warehouse</div><div data-z="4"></div></div>' +
+      '</div><div class="controls">' +
+      '<button type="button" class="btn" data-a="edit">Edit and save the file</button>' +
+      '<button type="button" class="btn" data-a="status">git status</button>' +
+      '<button type="button" class="btn" data-a="add">git add .</button>' +
+      '<input type="text" aria-label="Commit message" value="Add my version of the hello script">' +
+      '<button type="button" class="btn" data-a="commit">git commit -m</button>' +
+      '<button type="button" class="btn" data-a="push">git push</button>' +
+      '<button type="button" class="btn" data-a="reset">Reset</button>' +
+      '</div><pre class="out" aria-live="polite"></pre>';
+    var pre = $("pre", box), msgIn = $("input", box);
+    msgIn.addEventListener("keydown", function (e) { e.stopPropagation(); });
+    function out(t) { pre.textContent = t; }
+    function card(t, st) { return '<div class="card">' + esc(t) + (st ? '<span class="st">' + esc(st) + '</span>' : "") + '</div>'; }
+    function draw() {
+      var f = state.files;
+      $('[data-z="1"]', box).innerHTML = f.filter(function (x) { return x.unstaged; }).map(function (x) { return card(x.name, x.unstaged); }).join("") || '<div class="sub">clean desk</div>';
+      $('[data-z="2"]', box).innerHTML = f.filter(function (x) { return x.staged; }).map(function (x) { return card(x.name, x.staged); }).join("") || '<div class="sub">empty box</div>';
+      $('[data-z="3"]', box).innerHTML = state.local.map(function (c) { return card(c.id + " " + c.msg, "not pushed yet"); }).join("") || '<div class="sub">nothing waiting to ship</div>';
+      $('[data-z="4"]', box).innerHTML = state.remote.slice().reverse().map(function (c) { return card(c.id + " " + c.msg); }).join("");
+    }
+    function status() {
+      var f = state.files, s = "On branch main\n", n = state.local.length;
+      s += n ? "Your branch is ahead of 'origin/main' by " + n + " commit" + (n > 1 ? "s" : "") + ".\n  (use \"git push\" to publish your local commits)\n" : "Your branch is up to date with 'origin/main'.\n";
+      var staged = f.filter(function (x) { return x.staged; }), mod = f.filter(function (x) { return x.unstaged === "modified"; }), un = f.filter(function (x) { return x.unstaged === "untracked"; });
+      if (staged.length) s += "\nChanges to be committed:\n  (use \"git restore --staged <file>...\" to unstage)\n" + staged.map(function (x) { return "\t" + (x.staged === "new file" ? "new file:   " : "modified:   ") + x.name; }).join("\n") + "\n";
+      if (mod.length) s += "\nChanges not staged for commit:\n  (use \"git add <file>...\" to update what will be committed)\n  (use \"git restore <file>...\" to discard changes in working directory)\n" + mod.map(function (x) { return "\tmodified:   " + x.name; }).join("\n") + "\n";
+      if (un.length) s += "\nUntracked files:\n  (use \"git add <file>...\" to include in what will be committed)\n" + un.map(function (x) { return "\t" + x.name; }).join("\n") + "\n";
+      if (!staged.length && mod.length) s += "\nno changes added to commit (use \"git add\" and/or \"git commit -a\")";
+      else if (!staged.length && un.length) s += "\nnothing added to commit but untracked files present (use \"git add\" to track)";
+      else if (!staged.length) s += "\nnothing to commit, working tree clean";
+      return s;
+    }
+    var actions = {
+      edit: function () {
+        var x = state.files[0];
+        if (!x.tracked) { out("You saved more changes to " + x.name + ".\nGit still has never met this file, so it stays untracked until you git add it."); return; }
+        x.unstaged = "modified"; draw();
+        out("You edited " + x.name + " and saved it in your editor.\nIt is back on your desk as a modified file." + (x.staged ? "\nNotice it is ALSO still in the box: the box holds the version from when you ran git add. Run git add again to box the newest edit." : ""));
+      },
+      status: function () { out("$ git status\n" + status()); },
+      add: function () {
+        var any = false;
+        state.files.forEach(function (x) { if (x.unstaged) { x.staged = x.tracked ? "modified" : "new file"; x.unstaged = null; any = true; } });
+        draw(); out("$ git add .\n" + (any ? "(git add prints nothing when it works. Run git status to see the file move into \"Changes to be committed\".)" : "(Nothing to add. Your desk is already clean.)"));
+      },
+      commit: function () {
+        var msg = msgIn.value.trim(), staged = state.files.filter(function (x) { return x.staged; });
+        var cmd = "$ git commit -m \"" + msg + "\"\n";
+        if (!msg) { out(cmd + "Aborting commit due to empty commit message."); return; }
+        if (!staged.length) { out(cmd + status()); return; }
+        var id = hex(), created = staged.filter(function (x) { return x.staged === "new file"; });
+        state.local.push({ id: id, msg: msg });
+        staged.forEach(function (x) { x.tracked = true; x.staged = null; });
+        draw();
+        out(cmd + "[main " + id + "] " + msg + "\n " + staged.length + " file" + (staged.length > 1 ? "s" : "") + " changed, 1 insertion(+)" + created.map(function (x) { return "\n create mode 100644 " + x.name; }).join(""));
+      },
+      push: function () {
+        if (!state.local.length) { out("$ git push\nEverything up-to-date"); return; }
+        var from = state.remote[state.remote.length - 1].id, to = state.local[state.local.length - 1].id;
+        state.remote = state.remote.concat(state.local); state.local = []; draw();
+        out("$ git push\nTo https://github.com/YOUR-USERNAME/python-fall26-code-alongs.git\n   " + from + ".." + to + "  main -> main");
+      },
+      reset: reset
+    };
+    $all("[data-a]", box).forEach(function (b) { b.addEventListener("click", function () { actions[b.getAttribute("data-a")](); }); });
+    reset();
+  });
+
+  /* ---------- Undo guide ---------- */
+  $all("[data-undo]").forEach(function (box) {
+    var T = D.undo[box.getAttribute("data-undo")];
+    box.className += " undo";
+    function go(id, trail) {
+      var n = T[id];
+      if (n.q) {
+        box.innerHTML = '<div class="trail">' + (trail.length ? trail.join(" \u2192 ") : "Start here") + '</div><div class="q">' + n.q + '</div><div class="row"><button type="button" class="btn" data-go="no">No</button><button type="button" class="btn" data-go="yes">Yes</button></div>';
+        $('[data-go="no"]', box).addEventListener("click", function () { go(n.no, trail.concat([n.short + " No"])); });
+        $('[data-go="yes"]', box).addEventListener("click", function () { go(n.yes, trail.concat([n.short + " Yes"])); });
+      } else {
+        box.innerHTML = '<div class="trail">' + trail.join(" \u2192 ") + '</div><div class="answer"><div class="q"><code>' + n.cmd + '</code></div><p>' + n.what + '</p></div><button type="button" class="btn" data-go="restart">Start over</button>';
+        $('[data-go="restart"]', box).addEventListener("click", function () { go("start", []); });
+      }
+    }
+    go("start", []);
+  });
+
+  /* ---------- Start ---------- */
+  function fromHash() { var n = parseInt((location.hash || "").replace("#", ""), 10); return isNaN(n) ? 0 : n - 1; }
+  window.addEventListener("hashchange", function () { var t = fromHash(); if (t !== current) show(t); });
+  show(fromHash());
+})();
+</script>
+</body>
+</html>

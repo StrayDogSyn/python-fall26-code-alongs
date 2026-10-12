@@ -16,6 +16,7 @@ New to coding? You are in the right place. No experience is needed, and every qu
 | 🎮 | **Practice online** (pinned: keep your skills sharp between classes) | [Python Essentials: Bridge the Dream](https://straydogsyn.github.io/Python-Essentials-Bridge-The-Dream/) |
 | 🎥 | **Watch the recordings** | [Eric Hunter Petross on YouTube](https://www.youtube.com/@EricHunterPetross) |
 | ⏰ | **Join the live class** | Mondays, 8:00 PM Eastern |
+| 🖥️ | **Review the slides** (interactive decks for self-study) | [Week 1: Learn the Controls](week01/week01-slides.html) · [Week 2: Save Points](week02/week02-slides.html) |
 | 🏫 | **About the program** | [Code the Dream](https://codethedream.org/) |
 
 **Your first move:** jump to [Getting Started](#getting-started) and get your computer ready. It takes about 15 minutes.
@@ -245,10 +246,14 @@ python-fall26-code-alongs/
 ├── lp03-more-python-skills/       Classes, comprehensions, decorators
 ├── lp04-intro-data-engineering/   Pandas fundamentals
 ├── ...                            One folder per lesson packet
+├── week01/, week02/               Weekly slide decks and starter scripts
+├── resources/                     Command line and Git guides, plus slide sources
 ├── .gitignore
 ├── LICENSE
 └── README.md                      You are here
 ```
+
+**Opening a slide deck:** GitHub shows the file's code instead of the slides, so open it from your own copy of the repo. Double-click the `.html` file in your file browser, or use the Week 1 commands from inside the project folder: `explorer week01\week01-slides.html` on Windows, or `open week01/week01-slides.html` on macOS. The OS button in the top corner switches every command between Windows and macOS/Linux, and <kbd>N</kbd> shows the speaker notes.
 
 Inside each lesson folder you will find the finished **code-along files** from the live session, short **practice exercises** to try on your own, and **notes** summarizing the key ideas when they help.
 
