@@ -1,4 +1,4 @@
-"""Week 1 instructor code-along. Run from the repository root or this folder."""
+"""LP 01 instructor code-along. Run from the repository root or this folder."""
 
 
 def classify_score(score):

@@ -1,6 +1,6 @@
-# W2 | Data structures and files | Fall 26
+# LP 02 | Data structures and files | Fall 26
 
-This is the canonical Gemini Notebook source for Week 2. It provides worked examples and independent questions without revealing the `practice.py` answers. Run Python locally to verify generated output.
+This is a supplemental Gemini Notebook source for LP 02. The actual Week 02 session covers Git and GitHub. This lab provides worked examples and independent questions without revealing the `practice.py` answers. Run Python locally to verify generated output.
 
 ## Learning targets
 

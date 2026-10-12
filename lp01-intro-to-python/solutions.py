@@ -1,4 +1,4 @@
-"""Week 1 reference. Compare only after attempting practice.py."""
+"""LP 01 reference. Compare only after attempting practice.py."""
 
 
 def classify_score(score):
@@ -20,4 +20,4 @@ if __name__ == "__main__":
     assert classify_score(69) == "practice"
     assert count_passing([70, 62, 91, 69]) == 2
     assert count_passing([]) == 0
-    print("Week 1 reference checks passed.")
+    print("LP 01 reference checks passed.")

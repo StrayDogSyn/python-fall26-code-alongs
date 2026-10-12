@@ -60,7 +60,8 @@ def main() -> int:
         page = page.replace("/*__DECK__*/", content)
         out = ROOT / out_rel
         out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(page, encoding="utf-8")
+        with out.open("w", encoding="utf-8", newline="\n") as output:
+            output.write(page)
         print(f"built {out_rel}  ({len(page):,} characters)")
     for e in errors:
         print("WARNING", e)

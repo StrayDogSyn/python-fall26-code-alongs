@@ -1,12 +1,12 @@
-# Week 1: Intro to Python
+# LP 01 supplemental lab: Intro to Python
 
-**Goal:** Read, predict, run, and change a small Python program using values, variables, conditions, loops, and functions. This week follows LP 01 in the [course roadmap](../README.md#the-roadmap).
+**Goal:** Read, predict, run, and change a small Python program using values, variables, conditions, loops, and functions. This is a topic lab for LP 01 in the [course roadmap](../README.md#the-roadmap), separate from the Week 01 setup session.
 
 ## Start here
 
 1. Read [the Gemini Notebook source](notebook-source.md). Stop at each **Predict** prompt and write your answer before reading on.
-2. Run the instructor's [code-along](code-along.py): `python week-1/code-along.py` from the repository root. On macOS or Linux, use `python3` if needed.
-3. Work through [practice.py](practice.py) independently. Run `python week-1/practice.py` after each change.
+2. Run the instructor's [code-along](code-along.py): `python lp01-intro-to-python/code-along.py` from the repository root. On macOS or Linux, use `python3` if needed.
+3. Work through [practice.py](practice.py) independently. Run `python lp01-intro-to-python/practice.py` after each change.
 4. Compare with [solutions.py](solutions.py) only after you have tried and tested your own version.
 
 No packages or Gemini account are needed to run the Python files. The Gemini Notebook adds a source-grounded tutor, audio or video review, a mind map, and retrieval practice; see the [notebook teaching kit](../GEMINI_NOTEBOOK.md).
@@ -19,6 +19,6 @@ No packages or Gemini account are needed to run the Python files. The Gemini Not
 | We Do | Together, change the threshold and one input. | Put the new branch and total in chat; discuss different predictions. |
 | You Do | Implement `classify_score` and `count_passing` in `practice.py`. | Show one test case, its result, and a short explanation. |
 
-**Exit check:** Explain `=` versus `==`, predict the return value of a function, and identify the last line of a traceback. If one is unclear, ask the notebook for a hint tied to the Week 1 source, then try another example.
+**Exit check:** Explain `=` versus `==`, predict the return value of a function, and identify the last line of a traceback. If one is unclear, ask the notebook for a hint tied to the LP 01 source, then try another example.
 
 **Accessibility:** The source document contains every code example as text. A learner can pause a recording, use the text-only route, and complete the same task without Studio media.

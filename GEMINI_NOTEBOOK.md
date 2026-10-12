@@ -1,76 +1,72 @@
-# Gemini Notebook teaching kit: Weeks 1 and 2
+# Gemini Notebook studio: Weeks 01 and 02
 
-This kit accompanies the [Python Fall 26 code-alongs](README.md). It is designed for the existing Gemini Notebook used by the instructor. The repository is the version-controlled source of truth; generated notebook outputs are study aids, and Python remains the place to run and verify code.
+The [cohort notebook](https://notebook.google.com/notebook/2d456bd7-b94f-47d8-aa78-8bb958fa0de8) accompanies the [learning hub](docs/index.html). These are the **actual** first two weekly sessions: Week 01 covers setup and the terminal; Week 02 covers Git, GitHub, and maintaining a fork. LP 01 and LP 02 Python topic labs live separately in [`lp01-intro-to-python`](lp01-intro-to-python/README.md) and [`lp02-data-structures`](lp02-data-structures/README.md).
 
-## Add the sources
+The repository is the version-controlled source of truth. Generated Notebook artifacts need an instructor accuracy check before they are shared. A Gemini account is optional for the repository lessons and slide decks.
 
-1. In the instructor notebook, add [Week 1 source](week-1/notebook-source.md) and [Week 2 source](week-2/notebook-source.md) as **Markdown file uploads**. Gemini Notebook supports `.md` uploads. Give the sources clear titles: `W1 | Intro to Python | Fall 26` and `W2 | Data structures and files | Fall 26`.
-2. For a Week 1 activity, select only the Week 1 source in the Sources panel. For Week 2, select only the Week 2 source. Select both only for the bridge and cumulative review. This keeps a Week 1 question from being answered with later material.
-3. When a source changes in GitHub, upload the revised Markdown file again and remove the stale copy. A file upload is a snapshot, not a live link to this repository.
-4. Keep `practice.py` out of the notebook until learners have attempted it. Keep `solutions.py` out of student-facing sources so a source-grounded tutor cannot reveal the answer accidentally. The reference solution remains in GitHub for comparison after an attempt.
-5. If a session recording is public and captioned, add its YouTube URL after checking that it matches the week. Ask the notebook for a transcript-based recap, and check any generated code against the repository files.
+## Build the source set
 
-The [official source guide](https://support.google.com/gemininotebook/answer/16215270?hl=en) documents source types and the difference between uploaded files and synced Google Drive sources. The [official product guide](https://knowledge.workspace.google.com/admin/generative-ai/gemini-notebook/turn-gemini-notebook-on-or-off-for-users) lists chat, reports, audio, video, quizzes, flashcards, and mind maps. Some newer features roll out gradually and account access varies; use the text activities below whenever a Studio option is absent.
+Add these Markdown files to the cohort notebook, using the shown titles:
 
-## Teaching rhythm
+| Source | Notebook title | Purpose |
+| --- | --- | --- |
+| [`week01/notebook-source.md`](week01/notebook-source.md) | `W01 · Learn the Controls` | Short, task-focused Week 01 source |
+| [`resources/command-line-basics.md`](resources/command-line-basics.md) | `W01 · Terminal reference` | Full commands, OS differences, troubleshooting |
+| [`week02/notebook-source.md`](week02/notebook-source.md) | `W02 · Save Points` | Short, task-focused Week 02 source |
+| [`resources/git-commands.md`](resources/git-commands.md) | `W02 · Git reference` | Full Git, GitHub, fork, sync, and undo guide |
 
-| Phase | Instructor action | Learner action | Evidence of learning |
+Gemini Notebook [supports Markdown uploads](https://support.google.com/gemininotebook/answer/16215270?hl=en). A local upload is a snapshot. Re-upload changed files and remove stale copies after a curriculum edit. If captioned class recordings are published, add the matching YouTube URL as another source and check that the transcript agrees with current course material. Upload only material that can be shared with students; do not include student names, private notes, tokens, or credentials.
+
+Select **only the W01 sources** for Week 01 artifacts, **only the W02 sources** for Week 02 artifacts, and all four only for cross-week review. This keeps generated answers anchored to the right session. Add the LP 01 and LP 02 supplemental sources later, when those topics are actually taught.
+
+## Remote I Do → We Do → You Do
+
+| Phase | Instructor | Learner | Proof to collect |
 | --- | --- | --- | --- |
-| **I Do** | Run a short example, narrate each prediction, then inspect the output or error. | Predict before watching the run; write one question. | Prediction and observed result differ or agree for a stated reason. |
-| **We Do** | Give a partially changed example, ask for a prediction, and let learners choose the next line in chat or aloud. | Explain the choice to a partner or in chat, then run it locally. | A concrete explanation of state, type, or data structure. |
-| **You Do** | Provide an independent task and a check, then wait before showing the reference. | Edit `practice.py`, run it, explain the result, and compare later. | Working code plus a brief explanation of why it works. |
+| **I Do** | Show a short task, say what you expect, run it, and explain the result. | Predict before the click or Enter. | Prediction and observed result. |
+| **We Do** | Change one condition and ask the room what to try next. | Post the next command and a reason in chat; run it locally. | A path, status section, or remote URL explained in the learner's own words. |
+| **You Do** | Give an independent mission and one check; wait before revealing a solution. | Work in a safe practice folder or personal fork, then report the result. | A working command sequence plus an explanation of where data or history went. |
 
-For remote learners, show the prompt and expected behavior before typing. Pause the recording after each prediction question. Ask students to post a value, trace, or error line in chat rather than only “done.” Offer a text transcript and code path for anyone unable to use audio or video. Generated media never replaces an executable example.
+Pause a recording after each prediction prompt. Keep the full command as selectable text on screen for learners who cannot use audio or video. Ask for a concrete observation (“What did `pwd` print?”), rather than a generic “done.” A Notebook tutor should give one hint at a time and ask the learner to verify it in their own terminal.
 
-## Week 1 studio plan
+## Week 01 Studio production: Learn the Controls
 
-Read [Week 1 README](week-1/README.md) and select the Week 1 source.
+**Source selection:** `W01 · Learn the Controls` + `W01 · Terminal reference`.
 
-| Feature | Use it for | Custom instruction or prompt |
+| Format | Instructor prompt or direction | Learning use |
 | --- | --- | --- |
-| **Mind map** | Preview relationships before coding. | “Map the path from a value and its type to a variable, expression, condition, loop, function, and error message. Use only W1. Keep `=` and `==` separate.” |
-| **Audio Overview** | A second explanation for commuters and replay. | “Two patient hosts teach a new Python learner. Pause after asking what `int('4') + 2` prints. Explain conversion, then show how `==` differs from `=`. End with one try-it-yourself task; do not give its answer.” |
-| **Video Overview** | Short visual recap of a trace. | “Show the value of `total` after each loop iteration in W1. Label the line that changes it. Avoid presenting generated code as executable proof.” |
-| **Infographic** | One-screen syntax and decision aid. | “Make a readable beginner infographic with `str` versus `int`, `=` versus `==`, and the predict → run → observe → revise loop. Use one correct micro-example for each distinction.” |
-| **Slide Deck** | Instructor-paced I Do and We Do. | “Make a short deck: goal, value/type demo, loop trace, branch prediction, function return prediction, independent task. Put each prediction on a slide before its answer slide.” |
-| **Flashcards** | Retrieval, not recognition. | “Make cards on `str` versus `int`, conversion, `=` versus `==`, indentation, `return`, and reading a traceback. Include a tiny code prediction on at least half the cards.” |
-| **Quiz** | Pre and post check. | “Create 6 questions from W1: 2 predictions, 2 error diagnoses, 1 function return value, 1 transfer problem. Include plausible distractors and an explanation tied to the source. Do not use W2.” |
-| **Learning guide / report** | Guided review after class. | “Use I Do, We Do, You Do. Show one worked trace, ask me to predict a changed trace, then ask for an independent function. Wait for my response before explaining. Cite W1.” |
+| **Mind Map** | “Map Python, editor, terminal, shell, Git, working directory, relative path, and Look → Move → Act. Show how a wrong folder leads to file-not-found. Cite W01.” | Preview the tool ecosystem. |
+| **Audio Overview** | “Two patient hosts guide a beginner through a first terminal session. Ask listeners to predict the output of `pwd`, `ls`, and `cd ..` before explaining. Include Windows PowerShell and macOS/Linux differences. Finish with a mission, without its answer.” | Review away from a screen. |
+| **Video Overview / Short Video** | “Visually follow the prompt as the learner enters and leaves `python-fall26-code-alongs`. Label the working directory after each command. Keep commands and output legible.” | Make path movement visible. |
+| **Infographic** | “Create a one-page Look → Move → Act flow. Pair common symptoms with the first safe check: command not found, file not found, wrong folder, wrong shell flag. Use exact commands from the W01 sources.” | Printable troubleshooting aid. |
+| **Data Table** | “Compare PowerShell with macOS/Linux for listing hidden files and creating an empty file; include `pwd`, `ls`, `cd`, and running Python. Note when `python3` may be needed.” | OS-specific quick reference. |
+| **Flashcards** | “Make 8 cards: terminal vs shell, prompt, current directory, `.` and `..`, absolute vs relative path, `pwd`, hidden files, and the first response to file-not-found. At least half should ask for a prediction.” | Recall without rereading. |
+| **Quiz** | “Make 6 W01 questions: two path traces, one command anatomy, one OS choice, one file-not-found diagnosis, and one transfer task. Explain answers with source citations.” | Check mental model. |
+| **Interactive learning report** | “Teach Look → Move → Act in I Do, We Do, You Do order. After one worked trace, stop and ask the learner to choose the next command. Give one hint if needed, then an independent folder mission.” | Guided practice. |
 
-**Live tutor chat prompt:** “Use only the selected W1 source. Ask me to predict the next value in the `total` trace. Wait for my answer. If I am wrong, give one hint and ask again. Show the answer only after my second attempt, and cite the relevant source section.”
+**Tutor chat behavior:** “Use only the selected Week 01 sources. Ask me where I am before suggesting a command. If I report an error, ask for the exact command and `pwd`/`ls` output. Give one next step, wait for my observation, then explain with a citation.”
 
-## Week 2 studio plan
+## Week 02 Studio production: Save Points
 
-Read [Week 2 README](week-2/README.md) and select the Week 2 source.
+**Source selection:** `W02 · Save Points` + `W02 · Git reference`.
 
-| Feature | Use it for | Custom instruction or prompt |
+| Format | Instructor prompt or direction | Learning use |
 | --- | --- | --- |
-| **Mind map** | Compare the four collections and file flow. | “Show list, dictionary, tuple, and set by access pattern, mutability, duplicates, and a course example. Add the path from a list of names to a UTF-8 text file and back.” |
-| **Audio Overview** | Contrast similar looking structures. | “Teach a learner choosing between a list, dictionary, tuple, and set. Ask them which stores a participant name with a score. Explain why a set is useful for unique names. End with a file-handling prediction.” |
-| **Video Overview** | Make indexing and file flow visible. | “Animate `names[0]`, `scores['Maya']`, and the two lines produced by `write_text`. Label indexes, keys, and newline characters.” |
-| **Data Table** | Compare structures with the same criteria. | “Create a table of list, dictionary, tuple, and set with order, mutability, duplicates, lookup style, and a W2 example. Check every cell against W2 before sharing.” |
-| **Infographic** | Visual collection chooser. | “Show four choices from a learner's need: ordered sign-ins → list, name-to-score → dictionary, fixed pair → tuple, unique tags → set. Include an example and one common trap for each.” |
-| **Slide Deck** | Guided collection and file demo. | “Make a short deck: collection choice, index/key predictions, set uniqueness, file round trip, then an independent roster challenge. Keep the challenge answer off the final slide.” |
-| **Flashcards** | Mixed retrieval practice. | “Create 8 cards: two choose-the-structure cases, two output predictions, two common errors, one set uniqueness case, and one file mode or path case.” |
-| **Quiz** | Diagnose transfer. | “Create 6 W2 questions: collection choice, index versus key, dictionary lookup, set deduplication, tuple immutability, and file round trip. Include a short explanation and citation for each answer.” |
-| **Learning guide / report** | Scaffold independent work. | “Use I Do, We Do, You Do to guide a roster-to-file task. Demonstrate one record, ask me to extend it, then give a fresh task without its solution. Wait for my attempt before hints.” |
+| **Mind Map** | “Show the four places for code: working folder → staging area → local repository → GitHub. Put `git status`, `git add`, `git commit`, `git push`, and `git pull` on the correct transitions. Add fork, origin, and upstream.” | See the flow before memorizing commands. |
+| **Audio Overview** | “Explain Git as save points. Pause for predictions after staging and committing: where is the newest version now? Compare a local commit with a pushed one. End with the difference between origin and upstream.” | Conceptual replay. |
+| **Video Overview / Short Video** | “Animate one file through edit, stage, commit, and push. Show a second edit after staging and why another `git add` is needed. Label the status sections.” | Visualize hidden Git state. |
+| **Infographic** | “Create a one-page daily Git loop and a separate small panel for weekly fork upkeep. Use only safe first checks; do not recommend `reset --hard` or forced push.” | Desk reference. |
+| **Slide Deck** | “Make a six-slide I Do, We Do, You Do deck: four places, read status, stage one file, commit, push to origin, independent mission. Put predictions before answers.” | Live remote teaching. |
+| **Flashcards** | “Make 10 cards on Git vs GitHub, status sections, staging, commit, push, fork, origin, upstream, pull, and `.gitignore`. Use realistic status snippets.” | Retrieval practice. |
+| **Quiz** | “Make 7 questions about the four places, a status reading, staging after a second edit, push destination, fork sync, ignored files, and a safe first step after push rejection. Cite sources.” | Diagnose misconceptions. |
+| **Interactive learning report** | “Guide a learner from one saved edit to a pushed commit. Pause after every status change for a prediction. Then give an independent practice-repo mission without solving it.” | Scaffold transfer. |
 
-**Live tutor chat prompt:** “Use only the selected W2 source. Present a tiny roster with two names and scores. Ask me to choose a collection and explain why. Wait, then offer one counterexample. Do not write my practice solution.”
+**Tutor chat behavior:** “Use only W02 sources. Ask me to paste a non-sensitive `git status` summary and say where my change currently lives. Explain the next safe command and why, one step at a time. Never suggest a destructive recovery command without identifying the exact state first.”
 
-## Cross-week review and quality check
+## Cross-week capstone and review
 
-Select both sources and ask: “How do Week 1 functions and loops help process a Week 2 list of dictionary records? Show a three-step plan, one small code sketch, and two questions for me to answer. Cite both sources.”
+Select all four sources and ask: “A student cannot run `hello.py` from their repo, then wants to save the fix to their fork. Guide them through **Look → Move → Act → Status → Add → Commit → Push**. Ask for a prediction at each boundary. Explain the role of the working directory and the role of `origin`, with citations from both weeks.”
 
-If **custom chat** is available, set its behavior to: “Act as a patient Python tutor for beginners. Ground answers in the selected weekly source and cite it. Ask for a prediction before explaining. Give one hint at a time. Ask the learner to run code locally and report the observed output. Do not supply a complete `practice.py` solution before the learner has made an attempt.” If **analytics** are available on the instructor account, use them to identify which study formats learners opened and decide what to revisit; do not treat an open count as proof of understanding. Use the exit checks and runnable practice for that.
+Before sharing any Studio output, check every command against the source and the target operating system. Run any generated commands in a disposable practice folder or fork. Check quiz keys and distractors. If a format is unavailable for a learner's account, the source text, slide deck, and practice mission provide an equivalent route. Google documents current [feature and account differences](https://knowledge.workspace.google.com/admin/generative-ai/gemini-notebook/turn-gemini-notebook-on-or-off-for-users).
 
-Before sharing a generated artifact with students, check its code by running it, check its citations against the selected source, and fix any misleading explanation. For quizzes, verify each answer and distractor. Share the notebook only after checking its Google sharing setting and that the selected sources contain no private student data. Students can use the public repository without a premium subscription; the text prompts and runnable files cover the same learning targets.
-
-## Student study loop
-
-1. Read the weekly source and predict each worked example before running the code-along.
-2. Use the mind map or audio/video recap to explain the idea in a different form.
-3. Ask the notebook tutor for one hint at a time while working in `practice.py`.
-4. Run the local checks, then use flashcards and the quiz for retrieval practice.
-5. Compare with `solutions.py` only after an attempt. Write down one difference and why it matters.
-
-Suggested reflection to paste into a class chat or learning journal: “I predicted ___; Python did ___ because ___; next I will try ___.”
+The student reflection for both weeks is: “I predicted ___; the tool showed ___; that tells me ___; my next safe step is ___.”

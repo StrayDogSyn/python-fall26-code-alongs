@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c1725">
+  <meta name="description" content="Explore the full Python Fall 26 lesson plan, interactive weekly slides, Gemini Notebook study routes, and practice resources in one learning hub.">
+  <title>Python Fall 26 · Learning Hub</title>
+  <link rel="stylesheet" href="site/style.css">
+  <script defer src="site/plan.js"></script>
+  <script defer src="site/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#journey">Skip to learning path</a>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Python Fall 26 learning hub home"><span class="brand-mark" aria-hidden="true">P<span>·</span>26</span><span>CODE-ALONGS<br><small>FALL 2026</small></span></a>
+    <nav aria-label="Main navigation">
+      <a href="#journey">Learning path</a>
+      <a href="#studio">Study studio</a>
+      <a href="#resources">Resources</a>
+      <a class="nav-github" href="https://github.com/StrayDogSyn/python-fall26-code-alongs">Repository <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pulse" aria-hidden="true"></span> CODE THE DREAM · MONDAYS AT 8:00 PM EASTERN</div>
+        <h1 id="hero-title">A clear path from <em>first command</em> to data story.</h1>
+        <p class="hero-lead">One place to see where the course is headed, open this week's materials, practice at your pace, and return when new lessons arrive.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#journey">Explore the lesson map <span aria-hidden="true">↘</span></a>
+          <a class="button button-quiet" href="week01/week01-slides.html">Start Week 01 <span aria-hidden="true">→</span></a>
+        </div>
+        <p class="hero-note">Live or asynchronous · Beginner friendly · Free course materials</p>
+      </div>
+      <div class="hero-graphic" aria-label="Course journey: Launchpad, Core Python, Working with data, Real-world sources" role="img">
+        <div class="orbit orbit-1"></div><div class="orbit orbit-2"></div>
+        <div class="graphic-grid" aria-hidden="true"></div>
+        <div class="graphic-center"><span>YOUR<br>LEARNING<br>PATH</span><strong><span id="stop-count">13</span><span>STOPS</span></strong></div>
+        <span class="graphic-node node-a"><b>01</b> Launchpad</span>
+        <span class="graphic-node node-b"><b>02</b> Core Python</span>
+        <span class="graphic-node node-c"><b>03</b> Working with data</span>
+        <span class="graphic-node node-d"><b>04</b> Real-world sources</span>
+      </div>
+    </section>
+
+    <section class="status-strip" aria-label="Course status">
+      <div><strong id="week-count">02</strong><span>weekly sessions<br>ready now</span></div>
+      <div><strong id="lab-count">02</strong><span>Python labs<br>to preview</span></div>
+      <div><strong id="packet-count">11</strong><span>lesson packets<br>on the roadmap</span></div>
+      <div class="strip-message"><span class="strip-spark" aria-hidden="true">✳</span><p>Start with the tools. Build the habits. Then make things that matter.</p></div>
+    </section>
+
+    <section class="journey-section section-pad" id="journey" aria-labelledby="journey-title">
+      <div class="section-heading">
+        <div><p class="section-kicker">THE WHOLE COURSE, AT A GLANCE</p><h2 id="journey-title">Follow the learning path.</h2><p>Choose a stop to see what you will learn, how to practice, and what is ready to open.</p></div>
+        <div class="progress-card" aria-live="polite"><span class="progress-icon" aria-hidden="true">↗</span><div><strong id="progress-text">0 of 2 weeks marked complete</strong><span>Your checkmarks stay in this browser.</span></div><div class="progress-track"><span id="progress-fill"></span></div></div>
+      </div>
+      <div class="toolbar">
+        <div class="filter-group" role="group" aria-label="Filter lessons">
+          <button class="filter active" type="button" data-filter="all" aria-pressed="true">All stops</button>
+          <button class="filter" type="button" data-filter="ready" aria-pressed="false">Open now</button>
+          <button class="filter" type="button" data-filter="planned" aria-pressed="false">Coming next</button>
+        </div>
+        <label class="search-wrap"><span aria-hidden="true">⌕</span><span class="sr-only">Search lessons or topics</span><input id="lesson-search" type="search" placeholder="Search lessons or topics" autocomplete="off"></label>
+      </div>
+      <div class="journey-layout">
+        <div id="phase-list" class="phase-list" aria-label="Lesson map"></div>
+        <aside class="detail-panel" id="lesson-detail" aria-live="polite" aria-label="Selected lesson details"></aside>
+      </div>
+      <p class="map-note"><span aria-hidden="true">◌</span> Planned stops show the curriculum direction. Materials appear here as the cohort reaches them.</p>
+    </section>
+
+    <section class="studio-section section-pad" id="studio" aria-labelledby="studio-title">
+      <div class="studio-intro"><p class="section-kicker">MORE THAN ONE WAY TO LEARN</p><h2 id="studio-title">Your study studio.</h2><p>Move from watching to doing. Use the format that helps the idea click, then verify it in your own terminal or fork.</p></div>
+      <div class="studio-grid">
+        <article class="studio-card"><span class="studio-number">01 / WATCH & PREDICT</span><div class="studio-symbol" aria-hidden="true">◉</div><h3>I Do</h3><p>Open an interactive deck. Pause at a prediction, then compare your thinking with what the tool actually shows.</p><a href="week01/week01-slides.html">Open Week 01 slides <span aria-hidden="true">↗</span></a></article>
+        <article class="studio-card"><span class="studio-number">02 / BUILD TOGETHER</span><div class="studio-symbol" aria-hidden="true">⟷</div><h3>We Do</h3><p>Use the Gemini Notebook's grounded chat, mind maps, audio, or visuals to question each step with the week's sources selected.</p><a href="https://notebook.google.com/notebook/2d456bd7-b94f-47d8-aa78-8bb958fa0de8">Open cohort notebook <span aria-hidden="true">↗</span></a></article>
+        <article class="studio-card"><span class="studio-number">03 / TRY & EXPLAIN</span><div class="studio-symbol" aria-hidden="true">⌘</div><h3>You Do</h3><p>Run a command, make a safe change, and explain the result. Check the guides or ask for one hint before looking for a full answer.</p><a href="https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/GEMINI_NOTEBOOK.md">See study prompts <span aria-hidden="true">↗</span></a></article>
+      </div>
+      <div class="studio-foot"><span>NOTEBOOK FORMATS</span><p>Audio and video overviews · mind maps · flashcards · quizzes · infographics · guided reports</p><a href="https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/GEMINI_NOTEBOOK.md">Instructor production guide ↗</a></div>
+    </section>
+
+    <section class="resources-section section-pad" id="resources" aria-labelledby="resources-title">
+      <div class="section-heading"><div><p class="section-kicker">THE QUICK ACCESS SHELF</p><h2 id="resources-title">Pick up where you left off.</h2><p>Everything here is useful between Monday sessions, with or without a Gemini account.</p></div></div>
+      <div class="resource-grid">
+        <a class="resource-card" href="week01/week01-slides.html"><span class="resource-tag">INTERACTIVE DECK</span><strong>Week 01 <span>Learn the Controls</span></strong><p>Set up, navigate, and practice in the terminal simulator.</p><span class="resource-arrow" aria-hidden="true">↗</span></a>
+        <a class="resource-card" href="week02/week02-slides.html"><span class="resource-tag">INTERACTIVE DECK</span><strong>Week 02 <span>Save Points</span></strong><p>Trace Git state with a staging visualizer and Undo Guide.</p><span class="resource-arrow" aria-hidden="true">↗</span></a>
+        <a class="resource-card" href="https://notebook.google.com/notebook/2d456bd7-b94f-47d8-aa78-8bb958fa0de8"><span class="resource-tag">GEMINI NOTEBOOK</span><strong>Study in more than one mode</strong><p>Explore source-grounded help and the instructor's shared learning artifacts.</p><span class="resource-arrow" aria-hidden="true">↗</span></a>
+        <a class="resource-card" href="https://straydogsyn.github.io/Python-Essentials-Bridge-The-Dream/"><span class="resource-tag">EXTRA PRACTICE</span><strong>Bridge the Dream</strong><p>Use the previous cohort's practice site by topic when you want more reps.</p><span class="resource-arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div><span class="brand-mark" aria-hidden="true">P<span>·</span>26</span><p>Made for Code the Dream's Fall 26 Intro to Python learners.<br>Bring a working keyboard and a willingness to be wrong out loud.</p></div><div class="footer-links"><a href="https://github.com/StrayDogSyn/python-fall26-code-alongs">Repository</a><a href="https://www.youtube.com/@EricHunterPetross">Recordings</a><a href="https://codethedream.org/">Code the Dream</a><a href="#top">Back to top ↑</a></div></footer>
+</body>
+</html>

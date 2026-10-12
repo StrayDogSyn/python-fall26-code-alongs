@@ -1,12 +1,12 @@
-# Week 2: Data structures and files
+# LP 02 supplemental lab: Data structures and files
 
-**Goal:** Choose the right collection for a task, inspect and update data, and save a small roster to a text file. This week follows LP 02 in the [course roadmap](../README.md#the-roadmap).
+**Goal:** Choose the right collection for a task, inspect and update data, and save a small roster to a text file. This is a topic lab for LP 02 in the [course roadmap](../README.md#the-roadmap), separate from the Week 02 Git session.
 
 ## Start here
 
 1. Read [the Gemini Notebook source](notebook-source.md). Predict before revealing each worked result.
-2. Run [code-along.py](code-along.py): `python week-2/code-along.py` from the repository root. It writes a small `attendance-demo.txt` file in this folder so you can inspect the result.
-3. Complete [practice.py](practice.py). Run `python week-2/practice.py` after each change.
+2. Run [code-along.py](code-along.py): `python lp02-data-structures/code-along.py` from the repository root. It writes a small `attendance-demo.txt` file in this folder so you can inspect the result.
+3. Complete [practice.py](practice.py). Run `python lp02-data-structures/practice.py` after each change.
 4. Compare with [solutions.py](solutions.py) only after an honest attempt. The solution checks use a temporary directory, so they do not overwrite your files.
 
 No third-party Python packages are required. The [Gemini Notebook kit](../GEMINI_NOTEBOOK.md) explains how to use the source with a mind map, audio or video recap, flashcards, quizzes, and a source-grounded tutor.

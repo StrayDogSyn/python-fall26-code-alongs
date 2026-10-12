@@ -1,4 +1,4 @@
-"""Week 2 instructor code-along: collections and a text-file round trip."""
+"""LP 02 instructor code-along: collections and a text-file round trip."""
 
 from pathlib import Path
 

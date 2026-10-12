@@ -1,4 +1,4 @@
-"""Week 2 reference. Compare only after attempting practice.py."""
+"""LP 02 reference. Compare only after attempting practice.py."""
 
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -43,4 +43,4 @@ if __name__ == "__main__":
         assert path.read_text(encoding="utf-8") == "Maya\nLuis\n"
         save_names(path, [])
         assert path.read_text(encoding="utf-8") == ""
-    print("Week 2 reference checks passed.")
+    print("LP 02 reference checks passed.")

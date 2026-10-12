@@ -1,4 +1,4 @@
-"""Week 1 independent practice. Replace each TODO, then run this file."""
+"""LP 01 independent practice. Replace each TODO, then run this file."""
 
 
 def classify_score(score):
@@ -19,4 +19,4 @@ if __name__ == "__main__":
     assert classify_score(69) == "practice"
     assert count_passing([70, 62, 91, 69]) == 2
     assert count_passing([]) == 0
-    print("Week 1 checks passed. Explain one result in your own words.")
+    print("LP 01 checks passed. Explain one result in your own words.")

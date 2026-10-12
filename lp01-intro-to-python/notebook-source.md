@@ -1,6 +1,6 @@
-# W1 | Intro to Python | Fall 26
+# LP 01 | Intro to Python | Fall 26
 
-This is the canonical Gemini Notebook source for Week 1. It contains explanations and worked examples, not the independent exercise answers. Run Python locally to verify any generated explanation or code.
+This is a supplemental Gemini Notebook source for LP 01. The actual Week 01 session covers setup and terminal use. This lab contains explanations and worked examples, not the independent exercise answers. Run Python locally to verify generated explanations or code.
 
 ## Learning targets
 

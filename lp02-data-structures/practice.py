@@ -1,4 +1,4 @@
-"""Week 2 independent practice. Replace TODOs and run this file."""
+"""LP 02 independent practice. Replace TODOs and run this file."""
 
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -36,4 +36,4 @@ if __name__ == "__main__":
         assert path.read_text(encoding="utf-8") == "Maya\nLuis\n"
         save_names(path, [])
         assert path.read_text(encoding="utf-8") == ""
-    print("Week 2 checks passed. Explain one collection choice in your own words.")
+    print("LP 02 checks passed. Explain one collection choice in your own words.")

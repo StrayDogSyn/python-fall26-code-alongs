@@ -67,6 +67,7 @@ button, summary { font: inherit; }
   background: var(--card); color: var(--text); border: 1px solid var(--border);
   padding: .35rem .8rem; border-radius: 6px; cursor: pointer; font-size: .72rem; font-weight: 600;
 }
+.btn.link { text-decoration: none; display: inline-flex; align-items: center; }
 .btn:hover { border-color: var(--blue); }
 .btn:focus-visible, summary:focus-visible, .chip:focus-visible, .draggable:focus-visible, .dropzone:focus-visible, input:focus-visible {
   outline: 3px solid var(--yellow); outline-offset: 2px;
@@ -286,6 +287,7 @@ body.overview #navbtns, body.overview #counter, body.overview #progress { displa
 <body>
 <header id="topbar">
   <div class="group">
+    <a class="btn link" href="../index.html" aria-label="Back to the course learning hub">← Course map</a>
     <button class="btn" id="btn-os" type="button" aria-label="Switch operating system for commands">OS: Windows</button>
     <button class="btn" id="btn-theme" type="button" aria-label="Switch light or dark theme">Theme</button>
     <span id="deck-title"></span>
