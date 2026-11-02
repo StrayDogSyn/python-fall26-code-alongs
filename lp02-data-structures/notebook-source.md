@@ -4,7 +4,9 @@ This is a supplemental Gemini Notebook source for LP 02. The actual Week 02 sess
 
 ## Learning targets
 
-By the end of this week, you can choose among lists, dictionaries, tuples, and sets; access and update a collection; explain duplicate handling; and write and read a UTF-8 text file with a safe path.
+By the end of this week, you can choose among lists, dictionaries, tuples, and sets; preserve order while removing duplicates; count, rank, group, and slice data; parse roster lines; and read and write UTF-8 text files.
+
+## I Do: read and predict the patterns
 
 ## 1. Lists: ordered, changeable sequences
 
@@ -78,13 +80,32 @@ The `\n` between names creates separate lines. The final `\n` ends the last line
 
 **Predict:** What exact lines are saved if `names` becomes `['Maya', 'Luis', 'Ari']`? What does `splitlines()` return? What changes if `write_text` runs twice with different names?
 
+## 6. Read, rank, and group
+
+`with open(path, encoding='utf-8') as source:` reads a file and closes it when the block ends. A missing file raises `FileNotFoundError`; a function can catch that specific error and return an empty result. `strip()` cleans each line, and `split()` turns a line or sentence into parts. Use `lower()` before counting words when case should not matter. A dictionary's `.get(key, 0)` supplies zero for a word's first appearance.
+
+`sorted` can use a key with two parts. To rank name-score pairs by highest score and then alphabetical name, the key can start with a negative score. Slicing, such as `items[:2]`, keeps the first two ranked results. `setdefault(length, [])` gives each word length a list to append to.
+
+```python
+scores = {'Maya': 82, 'Ari': 91, 'Luis': 82}
+ordered = sorted(scores.items(), key=lambda pair: (-pair[1], pair[0]))
+print(ordered[:2])  # [('Ari', 91), ('Luis', 82)]
+
+hour, minute = (20, 0)
+print(f'{hour:02d}:{minute:02d}')  # 20:00
+```
+
+When parsing a roster line such as `" Maya , 82 "`, split at the comma, strip both parts, and convert the score with `int()`. Do not remove items from a list while looping over that same list. Build a new list of items to keep instead.
+
+**Predict:** What changes if Luis also scores 91? What does `ordered[:0]` return? What would the clock text show for `(0, 5)`?
+
 ## We Do: build a tiny roster
 
 Start with `names = ['Maya', 'Luis']` and `scores = {'Maya': 82, 'Luis': 75}`. Add `'Ari'` to the list and assign a score in the dictionary. Predict `names[2]` and `scores['Ari']`; then run the code. Add `'Maya'` to the names list again and discuss why a set can detect the duplicate, but a plain `set(names)` would not preserve sign-in order. Save the names to a file and inspect the exact lines.
 
 ## You Do: independent transfer
 
-Open `practice.py`. Implement `unique_names(names)` so it preserves the first occurrence order, `highest_score(scores)` so it returns the name with the highest score, and `save_names(path, names)` so it writes one name per line. The docstrings specify the empty-input behavior. Predict two results, run the checks, then add a case of your own. Ask the notebook for a hint or error explanation, not a completed solution.
+Open `practice.py`. Work through eleven exercises: four warm-ups, three repairs, and four builds. Begin with `unique_names`, `highest_score`, and `save_names`, then read and parse files, count words, rank and group data, slice top scores, format a tuple, and repair a list-filtering loop. Each docstring gives an example and an edge case. Predict two results, then run `python lp02-data-structures/check.py` from the repository root. Read one `PASS`, `FAIL`, or `NOT STARTED` line per exercise. Open one level in `hints.md` when stuck. Ask the notebook for a hint or error explanation, not a completed solution.
 
 ## Check your understanding
 

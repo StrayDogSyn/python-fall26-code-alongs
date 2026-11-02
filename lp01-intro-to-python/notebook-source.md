@@ -4,7 +4,9 @@ This is a supplemental Gemini Notebook source for LP 01. The actual Week 01 sess
 
 ## Learning targets
 
-By the end of this week, you can identify a value's type, store it in a variable, convert numeric text when needed, choose a branch with a Boolean condition, trace a loop, write a function with a return value, and use an error message to locate a mistake.
+By the end of this week, you can identify a value's type, convert numeric text safely, choose a branch, trace `for` and `while` loops, use `enumerate`, clean strings, write a function with a return value, and use an error message to locate a mistake.
+
+## I Do: read and predict the patterns
 
 ## 1. Values, types, and variables
 
@@ -87,13 +89,33 @@ For this example, inspect `age_text` first. A useful debugging loop is **predict
 
 **Try this:** Read `TypeError`, `ValueError`, and `NameError` aloud in plain English. Give one likely cause for each. Then intentionally misspell a variable and see which error Python reports.
 
+## 6. More tools for a small program
+
+`input()` gives you text, even when the person typed digits. A program can ask again after bad input. The optional `ask_age()` function in `code-along.py` shows that pattern: `while True` repeats the question, `try` converts, and `except ValueError` explains what to fix. Run it with a partner and try `oops` before `20`.
+
+For a list of values, `sum`, `len`, `min`, and `max` answer different questions. `round(value, 1)` keeps one decimal place. Check for an empty list before dividing or calling `min` and `max`.
+
+```python
+readings = [2, 3, 4]
+print(round(sum(readings) / len(readings), 1))  # 3.0
+print(min(readings), max(readings))             # 2 4
+
+names = ["Maya", "Luis"]
+for number, name in enumerate(names, start=1):
+    print(f"Guest {number}: {name}")
+```
+
+`"  mAya   lee ".split()` makes a list of two words without the extra spaces. `" ".join(words)` puts one space between them, and `.title()` changes the capitalization. A `while` loop is useful when the number of visits depends on a changing condition. Make sure the condition can become false.
+
+**Predict before running:** What would the guest lines say if you added Ari? What happens to the mean if `readings` is empty? Why must a countdown decrease its counter?
+
 ## We Do: change one thing together
 
 Start with `score = 68`. Predict the output of `classify_score(score)` in the code-along. Then change `score` to `75`, predict again, and run. Explain which condition changed truth value. Next, change the list in the loop to `[1, 4, 2]` and trace `total` after each pass.
 
 ## You Do: independent transfer
 
-Open `practice.py`. Write `classify_score(score)` and `count_passing(scores)` from their docstrings. Before running, write two expected outputs on paper or in a note. Run the file, compare observed outputs, and revise one thing at a time. Do not ask an AI tutor to write the function. Ask it to question your prediction or explain an error line.
+Open `practice.py`. Work up the ten-exercise ladder: warm-ups `classify_score` and `count_passing`; fixes `parse_score` and `total_points`; builds `average`, `lowest_and_highest`, `countdown`, and `numbered_lines`; then `clean_name` and `grade_letter`. Each docstring has an example and an edge case. Before running, write two expected outputs on paper or in a note. Run `python lp01-intro-to-python/check.py` from the repository root after each change. Read one `PASS`, `FAIL`, or `NOT STARTED` line per exercise, then revise one thing at a time. Open one level in `hints.md` if stuck. Do not ask an AI tutor to write the function. Ask it to question your prediction or explain an error line.
 
 ## Check your understanding
 

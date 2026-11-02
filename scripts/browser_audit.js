@@ -27,7 +27,9 @@ const expected = {
   lab: String(live.filter((u) => u.code.includes("LP")).length).padStart(2, "0"),
   packet: String(units.filter((u) => u.status === "planned").length).padStart(2, "0"),
 };
-const ignorable = (t) => /fonts\.googleapis|fonts\.gstatic|ERR_TUNNEL|ERR_INTERNET|ERR_NAME_NOT_RESOLVED/.test(t);
+const ignorable = (message, url = "") =>
+  /fonts\.googleapis|fonts\.gstatic/.test(`${message} ${url}`) &&
+  /ERR_TUNNEL|ERR_INTERNET|ERR_NAME_NOT_RESOLVED|ERR_NETWORK_ACCESS_DENIED/.test(message);
 const problems = [];
 const report = {};
 
@@ -38,7 +40,7 @@ const report = {};
     const page = await ctx.newPage();
     const errs = [];
     page.on("pageerror", (e) => errs.push("pageerror: " + e.message));
-    page.on("console", (m) => { if (m.type() === "error" && !ignorable(m.text())) errs.push("console: " + m.text()); });
+    page.on("console", (m) => { if (m.type() === "error" && !ignorable(m.text(), m.location().url)) errs.push("console: " + m.text()); });
     await page.goto(base + rel, { waitUntil: "load" });
     await page.waitForTimeout(500);
     return { ctx, page, errs };
