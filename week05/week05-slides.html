@@ -474,9 +474,9 @@ check_70 = make_checker(70)</code></pre><p>The returned function still uses <cod
     },
     {
       title: "Independent practice",
-      html: `<h2>Independent practice</h2><p>First implement <code>Tally</code> and <code>long_words</code>. Then implement <code>make_multiplier</code> and <code>count_calls</code>. Replace one TODO at a time.</p><pre class="cmd"><code>python lp03-more-python-skills/code-along.py
-python lp03-more-python-skills/practice.py</code></pre><p>The starter raises <code>NotImplementedError</code> until the TODOs are replaced. It checks that <code>shout.calls == 2</code>.</p><p>Share one passing assertion and explain the line that made it pass.</p>`,
-      notes: { timing: "32 min", talking: "Give silent work time. Use the session plan for checkpoints. Offer one hint at a time. Do not open the solution early.", question: "Where should wrapper.calls start? Zero, before any calls happen.", failure: "If practice stops at a TODO, that is expected. If a call count is three, count the two shout calls in the main block.", action: "Ask for one successful test and one explanation." }
+      html: `<h2>Independent practice</h2><p>Begin with <code>Tally</code> and <code>long_words</code>, then choose a Fix it or Build exercise. Finish with the <code>Gradebook</code> mini project.</p><pre class="cmd"><code>python lp03-more-python-skills/code-along.py
+python lp03-more-python-skills/check.py</code></pre><p>The check prints <code>PASS</code>, <code>FAIL</code> with a nudge, or <code>NOT STARTED</code> for each of ten exercises. Open one level at a time in <a href="../lp03-more-python-skills/hints.md">hints.md</a>.</p>`,
+      notes: { timing: "32 min", talking: "Give silent work time. Use the session plan for checkpoints. Offer one hint at a time. Keep the reference closed until students attempt the task.", question: "Where should wrapper.calls start? Zero, before any calls happen.", failure: "A NOT STARTED line means the TODO remains. A FAIL line names the input, expected result, actual result, and a nudge.", action: "Ask for one check result and one explanation." }
     },
     {
       title: "Week 5 check",
@@ -488,7 +488,7 @@ python lp03-more-python-skills/practice.py</code></pre><p>The starter raises <co
     { q: "What does <code>self</code> refer to in <code>book.add_score</code>?", options: [{ text: "The book instance", correct: true }, { text: "The Gradebook class itself" }, { text: "The name string" }], why: "The method runs on the instance named book." },
     { q: "At a cutoff of 70, which name passes?", options: [{ text: "Maya", correct: true }, { text: "Luis" }, { text: "Ari" }], why: "Maya's average is 78.0; Luis is 63.5; Ari has no score." },
     { q: "What does check_70 remember?", options: [{ text: "The threshold 70", correct: true }, { text: "Only its most recent average" }, { text: "The Gradebook class" }], why: "The closure keeps access to threshold from make_checker(70)." },
-    { q: "How many times is shout called in the practice checks?", options: [{ text: "2", correct: true }, { text: "1" }, { text: "3" }], why: "The main block calls shout with hi and again." }
+    { q: "What does a decorator return to replace the original function?", options: [{ text: "A callable wrapper", correct: true }, { text: "The original function's first result" }, { text: "Only a count of calls" }], why: "A decorator takes a function and returns a callable, often a wrapper that adds behavior." }
   ] }
 };
 

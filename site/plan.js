@@ -192,7 +192,7 @@ window.COURSE_PLAN = {
       objective: "I can explain how a class owns data, how a comprehension builds values, and what decorators and closures retain.",
       teach: "Trace Gradebook, the passing list, a wrapped call, and a checker that remembers its threshold.",
       together: "Change the threshold and predict the passing list before running.",
-      solo: "Implement Tally, long_words, make_multiplier, and count_calls in the practice starter.",
+      solo: "Complete nine exercises and the Gradebook mini project. Run the local check after each TODO.",
       links: [
         { label: "Week 5 slides", href: "week05/week05-slides.html", kind: "primary" },
         { label: "Lesson packet", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03-more-python-skills/README.md" },
@@ -211,15 +211,17 @@ window.COURSE_PLAN = {
           { key: "practice", label: "Practice together", mode: "WE DO", text: "Change the passing threshold to 65, predict the names that pass, then check the output.", links: [
             { label: "Week 5 slides", href: "week05/week05-slides.html" }
           ] },
-          { key: "try", label: "Try independently", mode: "YOU DO", text: "Replace each TODO in practice.py, then rerun the file. Start with Tally and long_words.", links: [
-            { label: "Practice starter", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03-more-python-skills/practice.py" }
+          { key: "try", label: "Try independently", mode: "YOU DO", text: "Start with Tally and long_words, then work through the ladder and Gradebook. Run python lp03-more-python-skills/check.py after each TODO.", links: [
+            { label: "Practice starter", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03-more-python-skills/practice.py" },
+            { label: "Local check", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03-more-python-skills/check.py" }
           ] },
           { key: "check", label: "Check understanding", text: "Take the deck quiz, explain the wrapper call order, and compare with the reference after your own attempt.", links: [
             { label: "Week 5 quiz", href: "week05/week05-slides.html" },
             { label: "Reference solutions", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03-more-python-skills/solutions.py" }
           ] },
           { key: "unstuck", label: "Get unstuck", text: "Find the exercise's FAIL or NOT STARTED line in the local check output. Open one hint level for that function at a time.", links: [
-            { label: "Text source", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03-more-python-skills/notebook-source.md" }
+            { label: "Text source", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03-more-python-skills/notebook-source.md" },
+            { label: "Three-level hints", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03-more-python-skills/hints.md" }
           ] }
         ]
       }

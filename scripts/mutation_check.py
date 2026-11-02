@@ -14,9 +14,17 @@ def split(path):
 
 def replace_function(source, name, replacement):
     tree = ast.parse(source)
-    node = next(item for item in tree.body if isinstance(item, ast.FunctionDef) and item.name == name)
+    parts = name.split('.')
+    if len(parts) == 2:
+        parent = next(item for item in tree.body if isinstance(item, ast.ClassDef) and item.name == parts[0])
+        node = next(item for item in parent.body if isinstance(item, ast.FunctionDef) and item.name == parts[1])
+    else:
+        node = next(item for item in tree.body if isinstance(item, (ast.FunctionDef, ast.ClassDef)) and item.name == name)
     lines = source.splitlines(keepends=True)
-    return ''.join(lines[:node.lineno - 1]) + textwrap.dedent(replacement).strip() + '\n\n' + ''.join(lines[node.end_lineno:])
+    new_block = textwrap.dedent(replacement).strip()
+    if len(parts) == 2:
+        new_block = textwrap.indent(new_block, '    ')
+    return ''.join(lines[:node.lineno - 1]) + new_block + '\n\n' + ''.join(lines[node.end_lineno:])
 
 lp01_mutants = {
  'classify_score': [
@@ -201,18 +209,112 @@ lp02_mutants = {
     return [word for word in words if len(word) > min_length]'''),
  ],
 }
-cases={
- 'lp03-more-python-skills':[
-  ('Tally.count KeyError on unseen',lambda s:s.replace('return self.counts.get(label, 0)\n\n\ndef long','return self.counts[label]\n\n\ndef long')),
-  ('long_words uses >',lambda s:s.replace('len(word) >= min_length','len(word) > min_length')),
-  ('count_calls forgets to return result',lambda s:s.replace('return func(*args, **kwargs)\n\n    wrapper.calls = 0','func(*args, **kwargs)\n\n    wrapper.calls = 0')),
-  ('count_calls counts at decoration time only',lambda s:s.replace('        wrapper.calls += 1\n','')),
-  ('make_multiplier adds instead of multiplies',lambda s:s.replace('value * factor','value + factor')),
- ]}
+lp03_mutants = {
+ 'Tally.add': [
+  ('resets count to one', '''def add(self, label):
+    self.counts[label] = 1'''),
+ ],
+ 'Tally.count': [
+  ('raises for unseen label', '''def count(self, label):
+    return self.counts[label]'''),
+ ],
+ 'long_words': [
+  ('excludes boundary length', '''def long_words(words, min_length):
+    return [word for word in words if len(word) > min_length]'''),
+  ('sorts result alphabetically', '''def long_words(words, min_length):
+    return sorted(word for word in words if len(word) >= min_length)'''),
+ ],
+ 'make_multiplier': [
+  ('adds instead of multiplies', '''def make_multiplier(factor):
+    return lambda value: value + factor'''),
+  ('always doubles', '''def make_multiplier(factor):
+    return lambda value: value * 2'''),
+ ],
+ 'count_calls': [
+  ('forgets original result', '''def count_calls(func):
+    def wrapper(*args, **kwargs):
+        wrapper.calls += 1
+        func(*args, **kwargs)
+    wrapper.calls = 0
+    return wrapper'''),
+  ('counts at decoration time', '''def count_calls(func):
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    wrapper.calls = 1
+    return wrapper'''),
+ ],
+ 'make_counter': [
+  ('returns before increasing', '''def make_counter():
+    count = 0
+    def next_count():
+        nonlocal count
+        result = count
+        count += 1
+        return result
+    return next_count'''),
+  ('shares all counters', '''def make_counter():
+    if not hasattr(make_counter, "count"):
+        make_counter.count = 0
+    def next_count():
+        make_counter.count += 1
+        return make_counter.count
+    return next_count'''),
+ ],
+ 'once': [
+  ('runs on every call', '''def once(func):
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    return wrapper'''),
+  ('uses None as not-run signal', '''def once(func):
+    result = None
+    def wrapper(*args, **kwargs):
+        nonlocal result
+        if result is None:
+            result = func(*args, **kwargs)
+        return result
+    return wrapper'''),
+ ],
+ 'Stack.pop': [
+  ('pops oldest item', '''def pop(self):
+    if not self.items:
+        raise IndexError("Stack is empty")
+    return self.items.pop(0)'''),
+ ],
+ 'Stack.peek': [
+  ('removes top item', '''def peek(self):
+    if not self.items:
+        raise IndexError("Stack is empty")
+    return self.items.pop()'''),
+ ],
+ 'group_scores': [
+  ('keeps first duplicate', '''def group_scores(rows):
+    result = {}
+    for name, score in rows:
+        result.setdefault(name, score)
+    return result'''),
+  ('returns rows as a list', '''def group_scores(rows):
+    return list(rows)'''),
+ ],
+ 'compose': [
+  ('applies f before g', '''def compose(f, g):
+    return lambda value: g(f(value))'''),
+  ('forgets f', '''def compose(f, g):
+    return lambda value: g(value)'''),
+ ],
+ 'Gradebook.ranked_report': [
+  ('sorts averages low first', '''def ranked_report(self):
+    averages = {name: self.average(name) for name in self.scores}
+    return sorted(averages.items(), key=lambda pair: (pair[1] is None, pair[1] or 0, pair[0]))'''),
+  ('keeps insertion order', '''def ranked_report(self):
+    averages = {name: self.average(name) for name in self.scores}
+    return list(averages.items())'''),
+ ],
+}
 total=0; caught=0; escaped=[]
 for packet, mutations in (
     ('lp01-intro-to-python', lp01_mutants),
     ('lp02-data-structures', lp02_mutants),
+    ('lp03-more-python-skills', lp03_mutants),
 ):
     source = pathlib.Path(packet, 'solutions.py').read_text(encoding='utf-8')
     for exercise, mutants in mutations.items():
@@ -225,26 +327,11 @@ for packet, mutations in (
                     capture_output=True, text=True,
                 )
             total += 1
-            status = 'CAUGHT' if result.returncode == 1 and f'FAIL {exercise}:' in result.stdout else 'ESCAPED'
+            test_name = exercise.split('.')[0]
+            status = 'CAUGHT' if result.returncode == 1 and f'FAIL {test_name}:' in result.stdout else 'ESCAPED'
             if status == 'CAUGHT': caught += 1
             else: escaped.append((packet, exercise, label, result.stdout, result.stderr))
             print(f'{packet:26} {exercise}: {label:38} {status}')
-for d,muts in cases.items():
-    sol,_=split(f'{d}/solutions.py'); _,pmain=split(f'{d}/practice.py')
-    # decorated shout in practice main is wrapped manually; emulate for lp03
-    for name,fn in muts:
-        m=fn(sol)
-        assert m!=sol, f'mutation did not apply: {d} {name}'
-        code=m+'\n'+pmain
-        if d.startswith('lp03'): code=m+'\n'+pmain.replace('shout = count_calls(shout)','shout = shout')
-        with tempfile.TemporaryDirectory() as t:
-            f=pathlib.Path(t)/'x.py'; f.write_text(code)
-            runs=[subprocess.run([sys.executable,str(f)],capture_output=True,text=True,env={**os.environ,'PYTHONHASHSEED':str(seed)}).returncode for seed in range(1,13)]
-        total+=1
-        status='CAUGHT' if all(runs) else ('FLAKY (passes %d/12 hash seeds)'%sum(1 for r in runs if r==0) if any(r==0 for r in runs) and not all(r==0 for r in runs) else 'ESCAPED')
-        if status=='CAUGHT': caught+=1
-        else: escaped.append((d,name,status))
-        print(f'{d:26} {name:48} {status}')
 print(f'\nmutants caught by lesson checks: {caught}/{total}')
 for e in escaped: print('  NOT RELIABLY CAUGHT:',e)
 raise SystemExit(1 if escaped else 0)
