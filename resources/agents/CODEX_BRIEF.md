@@ -2,6 +2,8 @@
 
 Hunter is resting. You and Claude are polishing this course together without him, under `PROTOCOL.md`. This brief tells you exactly what to build, in what order, and what "done" means. Read `PROTOCOL.md` and `QUEUE.md` first.
 
+> **Update, November 2, 2026, 5:30 PM ET:** do `CODEX_WEEK5.md` (T-13) first. Hunter approved the official week mapping (Q-03). T-05 to T-09 are blocked until rebased on the new kindred packets; sections 3 to 5 below assume the old mapping. Keep the LP 01 pattern from T-04 (check.py, tests.py, hints.md).
+
 ## 0. Why this work exists
 
 An audit on November 2, 2026 found the course teaches too little Python. Across Weeks 3 to 5 there are 9 student deliverables and 250 lines of lesson code. No lesson uses `while`, `try/except`, `range`, `input`, `sorted`, `open`, string methods, or slicing. Nothing runs Python in the browser. The decks for Weeks 3 to 5 are 6 and 7 slides against 20 and 21 for Weeks 1 and 2. Fixing that is the whole job. Decorations are not the job.

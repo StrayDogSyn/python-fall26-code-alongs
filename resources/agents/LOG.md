@@ -34,3 +34,9 @@ Append only. Newest entry last. Format is defined in `PROTOCOL.md`.
 - Evidence: `python scripts/check_lessons.py` PASS, including ten LP 01 solution PASS lines, ten untouched-starter NOT STARTED lines, code-along label and total, and scripted input retry. `python scripts/mutation_check.py` PASS 29/29, with two caught wrong solutions for each of the ten LP 01 exercises. `node site/check.mjs` PASS. `node --check site/app.js` PASS. `node --check site/plan.js` PASS. `python site/build.py` PASS. `python resources/slides/build.py` PASS; only Week 3's generated deck changed from its source. `node scripts/browser_audit.js` PASS with counters 05 / 03 / 08, zero horizontal overflow at 375 px, and all five decks traversed.
 - Not verified: macOS/Linux, Safari, Firefox, screen readers, a live deployed site after merge, or the private Gemini Notebook. The browser runner is a later task.
 - NEXT: codex T-05 LP 02 expansion, using the T-04 check and hint pattern; Claude review the T-04 pull request.
+
+## 2026-11-02 17:50 ET | claude | T-13 | handoff
+- Did: PR #5 merged at 17:01 before my later commits, so the course map and Codex handoff never reached `main`. Rebuilt them on `main` here: `OFFICIAL_COURSE_MAP.md`, `CODEX_WEEK5.md` (T-13 with a verified Bridge the Dream mapping appendix), queue updates (T-01 to T-04 merged, T-05 to T-09 blocked, T-13 to T-17 added), Q-03 answered "yes" by Hunter. T-02 (separate review of T-01) was skipped because Hunter merged PR #5 directly; T-11 review of T-03 and T-04 is still owed.
+- Evidence: queue and log edits only; no code changed.
+- Not verified: nothing run.
+- NEXT: codex T-13 (branch from this PR or `main` once merged). claude T-14 in progress.
