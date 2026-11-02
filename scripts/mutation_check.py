@@ -253,6 +253,8 @@ lp03a_mutants = {
     return sum(numbers)'''),
   ('ignores negative evens', '''def total_of_evens(numbers):
     return sum(number for number in numbers if number > 0 and number % 2 == 0)'''),
+  ('counts evens instead of adding', '''def total_of_evens(numbers):
+    return sum(1 for number in numbers if number % 2 == 0)'''),
  ],
  'count_up_by': [
   ('includes stop', '''def count_up_by(start, stop, step):
@@ -261,6 +263,9 @@ lp03a_mutants = {
   ('forces positive step', '''def count_up_by(start, stop, step):
     if step == 0: raise ValueError("step cannot be zero")
     return list(range(start, stop, abs(step)))'''),
+  ('skips start', '''def count_up_by(start, stop, step):
+    if step == 0: raise ValueError("step cannot be zero")
+    return list(range(start + step, stop, step))'''),
  ],
  'repair_average': [
   ('resets inside loop', '''def repair_average(numbers):
@@ -272,6 +277,8 @@ lp03a_mutants = {
     return round(total / len(numbers), 1)'''),
   ('rounds to whole number', '''def repair_average(numbers):
     return round(sum(numbers) / len(numbers)) if numbers else 0.0'''),
+  ('truncates the mean', '''def repair_average(numbers):
+    return float(int(sum(numbers) / len(numbers))) if numbers else 0.0'''),
  ],
  'repair_first_even': [
   ('returns after first odd', '''def repair_first_even(numbers):
@@ -284,6 +291,8 @@ lp03a_mutants = {
     for number in numbers:
         if number % 2 == 0: found = number
     return found'''),
+  ('returns first value without checking', '''def repair_first_even(numbers):
+    return numbers[0] if numbers else None'''),
  ],
  'ask_until_valid': [
   ('excludes bounds', '''def ask_until_valid(read, low, high, max_attempts=5):
@@ -296,6 +305,12 @@ lp03a_mutants = {
         value = read()
         if low <= value <= high: return value
     return None'''),
+  ('stops after first invalid', '''def ask_until_valid(read, low, high, max_attempts=5):
+    for _ in range(max_attempts):
+        value = read()
+        if low <= value <= high: return value
+        return None
+    return None'''),
  ],
  'linear_search': [
   ('keeps last match', '''def linear_search(items, target):
@@ -306,6 +321,10 @@ lp03a_mutants = {
   ('does not count winning check', '''def linear_search(items, target):
     for index, item in enumerate(items):
         if item == target: return index, index
+    return -1, len(items)'''),
+  ('always reports full scan cost', '''def linear_search(items, target):
+    for index, item in enumerate(items):
+        if item == target: return index, len(items)
     return -1, len(items)'''),
  ],
  'binary_search': [
@@ -327,6 +346,10 @@ lp03a_mutants = {
         if sorted_items[mid] < target: low = mid + 1
         else: high = mid - 1
     return -1, 0'''),
+  ('counts a linear scan', '''def binary_search(sorted_items, target):
+    for index, item in enumerate(sorted_items):
+        if item == target: return index, index + 1
+    return -1, len(sorted_items)'''),
  ],
  'selection_sort': [
   ('selects largest first', '''def selection_sort(items):
@@ -345,6 +368,8 @@ lp03a_mutants = {
             if result[index] < result[chosen]: chosen = index
         result[left], result[chosen] = result[chosen], result[left]
     return result'''),
+  ('drops duplicate values', '''def selection_sort(items):
+    return sorted(set(items))'''),
  ],
  'bubble_sort_passes': [
   ('records only final pass', '''def bubble_sort_passes(items):
@@ -363,6 +388,18 @@ lp03a_mutants = {
                 values[index], values[index + 1] = values[index + 1], values[index]
         snapshots.append(values)
     return snapshots'''),
+  ('stops after a quiet pass', '''def bubble_sort_passes(items):
+    values = list(items)
+    snapshots = []
+    for end in range(len(values) - 1, 0, -1):
+        changed = False
+        for index in range(end):
+            if values[index] > values[index + 1]:
+                values[index], values[index + 1] = values[index + 1], values[index]
+                changed = True
+        snapshots.append(values.copy())
+        if not changed: break
+    return snapshots'''),
  ],
  'duplicate_pair': [
   ('returns a boolean', '''def duplicate_pair(items):
@@ -376,6 +413,10 @@ lp03a_mutants = {
         for second in range(first + 1, len(items)):
             if items[first] == items[second]: found = (first, second)
     return found'''),
+  ('checks only neighbors', '''def duplicate_pair(items):
+    for first in range(len(items) - 1):
+        if items[first] == items[first + 1]: return first, first + 1
+    return None'''),
  ],
  'squares_of_odds': [
   ('returns only one version', '''def squares_of_odds(numbers):
@@ -383,6 +424,9 @@ lp03a_mutants = {
   ('includes even values', '''def squares_of_odds(numbers):
     values = [n * n for n in numbers]
     return values, values.copy()'''),
+  ('reverses output order', '''def squares_of_odds(numbers):
+    values = [n * n for n in numbers if n % 2]
+    return values[::-1], values[::-1]'''),
  ],
 }
 lp03a_source = pathlib.Path('lp03a-iteration-and-algorithms/solutions.py').read_text(encoding='utf-8')
