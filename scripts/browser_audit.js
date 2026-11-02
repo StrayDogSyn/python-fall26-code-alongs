@@ -22,6 +22,7 @@ const ctxPlan = { window: {} };
 vm.runInNewContext(fs.readFileSync(path.join(root, "site", "plan.js"), "utf8"), ctxPlan);
 const units = ctxPlan.window.COURSE_PLAN.units;
 const live = units.filter((u) => u.status === "live");
+const available = units.filter((u) => u.status !== "planned");
 const expected = {
   week: String(live.length).padStart(2, "0"),
   lab: String(live.filter((u) => u.code.includes("LP")).length).padStart(2, "0"),
@@ -57,22 +58,25 @@ const report = {};
       cards: document.querySelectorAll("#phase-list a, #phase-list button, #phase-list li").length,
     }));
     for (const k of ["week", "lab", "packet"]) if (stats[k] !== expected[k]) problems.push(`hub counter ${k}: page ${stats[k]} vs plan ${expected[k]}`);
-    const links = await page.evaluate(() => [...document.querySelectorAll("a[href]")].map((a) => a.getAttribute("href")));
-    const bad = [];
-    for (const h of [...new Set(links.filter((x) => !/^(https?:|#|mailto:)/.test(x)))]) {
-      const r = await page.request.get(base + h.split("#")[0]);
-      if (!r.ok()) bad.push(`${h} ${r.status()}`);
-    }
+    const links = new Set(await page.evaluate(() => [...document.querySelectorAll("a[href]")].map((a) => a.getAttribute("href"))));
     await page.setViewportSize({ width: 375, height: 800 });
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     if (overflow > 0) problems.push(`hub overflows by ${overflow}px at 375px`);
-    for (const u of live) {
+    for (const u of available) {
       await page.goto(base + "index.html#/" + u.id); await page.waitForTimeout(250);
       const ok = await page.evaluate((t) => document.body.innerText.includes(t), u.title);
       if (!ok) problems.push(`hub route #/${u.id} does not show "${u.title}"`);
+      const routeLinks = await page.evaluate(() => [...document.querySelectorAll("a[href]")].map((a) => a.getAttribute("href")));
+      for (const href of routeLinks) links.add(href);
+    }
+    const bad = [];
+    for (const h of links) {
+      if (/^(https?:|#|mailto:)/.test(h)) continue;
+      const r = await page.request.get(base + h.split("#")[0]);
+      if (!r.ok()) bad.push(`${h} ${r.status()}`);
     }
     problems.push(...errs.map((e) => "hub " + e), ...bad.map((b) => "hub broken link " + b));
-    report.hub = { stats, expected, internalLinksChecked: links.length, overflow375: overflow };
+    report.hub = { stats, expected, internalLinksChecked: links.size, availableRoutesChecked: available.length, overflow375: overflow };
     await ctx.close();
   }
 

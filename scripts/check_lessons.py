@@ -18,6 +18,7 @@ PACKETS = (
     "lp02-data-structures",
     "lp03-more-python-skills",
     "lp03a-iteration-and-algorithms",
+    "lp06a-functions-and-scope",
 )
 
 
@@ -79,6 +80,18 @@ def main() -> int:
                 failures.append(f"{packet} code-along output changed:\n{demo.stdout}{demo.stderr}")
             else:
                 print(f"PASS {packet}/code-along.py (loop and algorithm traces)")
+        if packet == "lp06a-functions-and-scope":
+            demo = run(folder / "code-along.py")
+            expected = (
+                "Tag: Science: Night Sky", "Default: Detroit / standard",
+                "Keyword: Detroit / express", "Printed function returned: None",
+                "Scope: ('sky', 'hall:local') global: sky",
+                "Fresh defaults: ['A'] ['B']", "Clicks: 3 4",
+            )
+            if demo.returncode or any(piece not in demo.stdout for piece in expected):
+                failures.append(f"{packet} code-along output changed:\n{demo.stdout}{demo.stderr}")
+            else:
+                print(f"PASS {packet}/code-along.py (defaults, return, scope, and refactoring)")
         names = (
                 "classify_score", "count_passing", "parse_score", "average",
                 "lowest_and_highest", "countdown", "numbered_lines", "clean_name",
@@ -94,6 +107,10 @@ def main() -> int:
             "total_of_evens", "count_up_by", "repair_average", "repair_first_even",
             "ask_until_valid", "last_match_search", "binary_search", "selection_sort",
             "bubble_sort_passes", "duplicate_pair", "squares_of_odds",
+        ) if packet == "lp03a-iteration-and-algorithms" else (
+            "badge_line", "headline", "format_duration", "repair_price_line",
+            "repair_shadowed_prefix", "card_from_parts", "scope_snapshot",
+            "make_signoff", "render_agenda", "make_visit_tracker", "batch_badges",
         )
         reference = run(folder / "check.py", "--solutions")
         expected_pass = [f"PASS {name}" for name in names]

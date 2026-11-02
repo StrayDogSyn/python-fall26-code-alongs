@@ -265,6 +265,44 @@ window.COURSE_PLAN = {
         ]
       }
     },
+    {
+      id: "lp06a", phase: "core", code: "W06 / LP 06A", title: "Functions & Scope", status: "preview",
+      summary: "Preview the November 9 lesson on function calls, returned values, local names, and refactoring.",
+      topics: ["def and parameters", "defaults and keyword arguments", "return versus print", "scope and docstrings", "refactoring"],
+      objective: "I can name a small job, return its result, and explain which names a function can use.",
+      teach: "Predict the outputs of calls with defaults and watch where a returned value goes.",
+      together: "Repair a print-only function and a parameter shadowing bug in event text.",
+      solo: "Complete one of eleven new practice exercises and explain its local check result.",
+      links: [
+        { label: "Week 6 slides", href: "week06/week06-slides.html", kind: "primary" },
+        { label: "Kindred lesson packet", href: "lp06a-functions-and-scope/README.md" },
+        { label: "Practice starter", href: "lp06a-functions-and-scope/practice.py" },
+        { label: "Local check", href: "lp06a-functions-and-scope/check.py" }
+      ],
+      lesson: {
+        estimate: "≈90 min",
+        steps: [
+          { key: "start", label: "Start here", text: "Open the packet and predict each function result before running the code-along.", links: [
+            { label: "Week 6 slides", href: "week06/week06-slides.html", kind: "primary" },
+            { label: "Text walkthrough", href: "lp06a-functions-and-scope/week06-walkthrough.md" }
+          ] },
+          { key: "watch", label: "Watch / observe", mode: "I DO", text: "Run the code-along and trace a default, a return value, and an inner local name.", links: [
+            { label: "Code-along", href: "lp06a-functions-and-scope/code-along.py" }
+          ] },
+          { key: "practice", label: "Practice together", mode: "WE DO", text: "Compare printed text with a returned value, then find a parameter that the body overwrites.", links: [
+            { label: "Week 6 slides", href: "week06/week06-slides.html" }
+          ] },
+          { key: "try", label: "Try independently", mode: "YOU DO", text: "Complete one TODO at a time. Run python lp06a-functions-and-scope/check.py from the repository root.", links: [
+            { label: "Practice starter", href: "lp06a-functions-and-scope/practice.py" },
+            { label: "Three-level hints", href: "lp06a-functions-and-scope/hints.md" }
+          ] },
+          { key: "check", label: "Check understanding", text: "Explain one return value and one scope boundary, then take the deck quiz.", links: [
+            { label: "Week 6 quiz", href: "week06/week06-slides.html" },
+            { label: "Local check", href: "lp06a-functions-and-scope/check.py" }
+          ] }
+        ]
+      }
+    },
     { id: "lp04", phase: "data", code: "LP 04", title: "Intro to Data Engineering", status: "planned", summary: "Meet pandas Series and DataFrames.", topics: ["pandas", "Series", "DataFrames"], objective: "I can load, inspect, and describe a small table.", teach: "Inspect a DataFrame's rows, columns, and types.", together: "Choose a column and explain what it represents.", solo: "Load a new table and report three observations.", links: [] },
     { id: "lp05", phase: "data", code: "LP 05", title: "Data Cleaning & Validation", status: "planned", summary: "Find and fix missing, inconsistent, or invalid values.", topics: ["missing values", "validation", "data quality"], objective: "I can identify a data-quality problem and verify a correction.", teach: "Show how a bad value affects a summary.", together: "Choose a cleaning rule and test it.", solo: "Document a cleaning decision on fresh data.", links: [] },
     { id: "lp06", phase: "data", code: "LP 06", title: "Wrangling & Aggregation", status: "planned", summary: "Combine and summarize data to answer a question.", topics: ["grouping", "merging", "aggregation"], objective: "I can group records and explain the resulting summary.", teach: "Walk through a group-by result one group at a time.", together: "Predict a merge and inspect mismatched keys.", solo: "Build a summary for a new question.", links: [] },

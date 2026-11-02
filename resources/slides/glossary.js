@@ -120,3 +120,16 @@ window.WEEK05B_GLOSSARY = [
     { id: "bubble_sort", term: "Bubble sort", say: "BUH-bul sort", meaning: "Repeatedly compare neighboring values and swap those out of order.", usage: "Trace the list after each bubble pass." },
     { id: "selection_sort", term: "Selection sort", say: "suh-LEK-shun sort", meaning: "Choose the smallest remaining value and place it in the next open position.", usage: "Select the smallest item for the first position." }
 ];
+/* WEEK06_ONLY_GLOSSARY */
+window.WEEK06_GLOSSARY = [
+    { id: "parameter", term: "Parameter", say: "puh-RAM-ih-ter", meaning: "A name in a function definition that receives a value when called.", usage: "The parameter city receives Detroit." },
+    { id: "argument", term: "Argument", say: "AR-gyuh-ment", meaning: "A value supplied by a caller for a function parameter.", usage: "Detroit is the argument passed for city." },
+    { id: "default", term: "Default value", say: "dee-FAWLT", meaning: "A value a parameter uses when the caller omits that argument.", usage: "The stamp defaults to standard." },
+    { id: "keyword_argument", term: "Keyword argument", say: "KEE-wurd AR-gyuh-ment", meaning: "An argument written with its parameter name at the call site.", usage: "Pass stamp=express to name the choice." },
+    { id: "return_value", term: "Return value", say: "ri-TURN VAL-yoo", meaning: "A value a function hands back to its caller.", usage: "Store the returned agenda text before printing it." },
+    { id: "scope", term: "Scope", say: "skohp", meaning: "The region where a name can be used to refer to its value.", usage: "A local name belongs to its function call." },
+    { id: "shadowing", term: "Shadowing", say: "SHAD-oh-ing", meaning: "Using the same name in an inner scope so it hides an outer name there.", usage: "A nested theme name need not change the module theme." },
+    { id: "docstring", term: "Docstring", say: "DOK-string", meaning: "A string under a definition that explains a function's purpose and contract.", usage: "Read the docstring before changing a TODO." },
+    { id: "refactor", term: "Refactor", say: "ree-FAK-ter", meaning: "Reshape code for clarity while keeping its useful behavior.", usage: "Move one agenda-row rule into a helper." },
+    { id: "closure", term: "Closure", say: "KLOH-zher", meaning: "A returned function that remembers a value from an enclosing call.", usage: "Each visit tracker remembers its own count." }
+];
