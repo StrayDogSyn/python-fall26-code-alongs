@@ -45,7 +45,7 @@ if __name__ == "__main__":
         save_names(path, ["Maya", "Luis"])
         assert path.read_text(encoding="utf-8") == "Maya\nLuis\n"
         save_names(path, ["José", "Zoë"])
-        assert path.read_bytes() == "José\nZoë\n".encode("utf-8")  # Bytes prove the file is UTF-8.
+        assert path.read_text(encoding="utf-8") == "José\nZoë\n"  # Decoding proves UTF-8 on every OS.
         save_names(path, [])
         assert path.read_text(encoding="utf-8") == ""
     print("LP 02 reference checks passed.")

@@ -8,7 +8,7 @@ Decisions already made by Hunter (November 2, 2026): mark Weeks 3 to 5 live; cre
 | --- | --- | --- | --- | --- | --- |
 | T-01 | claude | in review | Wave 0 fixes: one LP 01 label, hub counters, Weeks 3 to 5 live with a "this week" button, LP 02 test hardening, credits, mutation script, this protocol | none | Gate green; Hunter merges before the 8:00 PM Eastern class on November 2 |
 | T-02 | codex | ready | Review T-01: check out `claude/wave0-fixes`, run the gate and `scripts/browser_audit.js`, test the hub on a narrow window, and log `APPROVE` or `CHANGES NEEDED` | T-01 | Review in `LOG.md`; every claim in the T-01 pull request confirmed or corrected |
-| T-03 | codex | ready | Windows check: run every lesson command from READMEs, decks, and walkthroughs in PowerShell; fix any command that fails; record `python` versus `py` | T-01 | A table in `LOG.md` of command, shell, result; fixes in a separate small pull request |
+| T-03 | codex | in review | Windows check: run every lesson command from READMEs, decks, and walkthroughs in PowerShell; fix any command that fails; record `python` versus `py` | T-01 | A table in `LOG.md` of command, shell, result; fixes in a separate small pull request |
 | T-04 | codex | ready | Expand LP 01 to at least 8 graded exercises (see Brief section 3) | T-01 | See Brief; mutation check extended with at least 2 new wrong solutions per new exercise |
 | T-05 | codex | ready | Expand LP 02 to at least 8 graded exercises | T-04 pattern settled | Same |
 | T-06 | codex | ready | Expand LP 03 to at least 6 graded exercises plus one small project; replace the Week 5 quiz question about call counts; remove the slide 6 assertion leak | T-04 pattern settled | Same |
