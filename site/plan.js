@@ -106,14 +106,16 @@ window.COURSE_PLAN = {
       }
     },
     {
-      id: "lp01", phase: "core", code: "LP 01", title: "Intro to Python", status: "preview",
-      summary: "A supplemental lab on values, variables, conditions, loops, functions, and debugging.",
+      id: "lp01", phase: "core", code: "W03 / LP 01", title: "Intro to Python", status: "preview",
+      summary: "Week 3 catch-up: values, variables, conditions, loops, functions, and debugging.",
       topics: ["values and types", "control flow", "functions", "debugging"],
       objective: "I can predict and change a short Python program, then explain its output.",
       teach: "Trace a total loop and narrate why numeric text needs conversion.",
       together: "Change a threshold, predict the branch, and run the changed program.",
       solo: "Implement classify_score and count_passing before opening the reference solution.",
       links: [
+        { label: "Week 3 slides", href: "week03/week03-slides.html", kind: "primary" },
+        { label: "Text walkthrough", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/week03-walkthrough.md" },
         { label: "Open topic lab", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/README.md", kind: "primary" },
         { label: "Practice starter", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/practice.py" }
       ],
@@ -121,11 +123,16 @@ window.COURSE_PLAN = {
         estimate: "≈45–60 min",
         steps: [
           { key: "start", label: "Start here", text: "Open the lab README, then read the notebook source. Stop at each Predict prompt and write your answer before reading on.", links: [
+            { label: "Week 3 walkthrough", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/week03-walkthrough.md" },
             { label: "Lab README", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/README.md", kind: "primary" },
             { label: "Notebook source", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/notebook-source.md" }
           ] },
           { key: "watch", label: "Watch / observe", mode: "I DO", text: "Run the instructor's code-along and trace the total loop line by line, including why int('4') is needed.", links: [
+            { label: "Week 3 slides", href: "week03/week03-slides.html" },
             { label: "Code-along", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/code-along.py" }
+          ] },
+          { key: "practice", label: "Practice together", mode: "WE DO", text: "Change the cutoff to 75 in a scratch copy. Predict the label for 72 before running.", links: [
+            { label: "Week 3 walkthrough", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/week03-walkthrough.md" }
           ] },
           { key: "try", label: "Try independently", mode: "YOU DO", text: "Implement classify_score and count_passing in practice.py, running the file after each change.", links: [
             { label: "Practice starter", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/practice.py" }
@@ -137,14 +144,16 @@ window.COURSE_PLAN = {
       }
     },
     {
-      id: "lp02", phase: "core", code: "LP 02", title: "Data Structures & Files", status: "preview",
-      summary: "A supplemental lab on collections and a text-file round trip.",
+      id: "lp02", phase: "core", code: "W04 / LP 02", title: "Data Structures & Files", status: "preview",
+      summary: "Week 4 catch-up: collections and a text-file round trip.",
       topics: ["lists", "dictionaries", "tuples and sets", "file I/O"],
       objective: "I can choose a collection for a task and save and read a small text file.",
       teach: "Model a roster with ordered names and name-to-score lookup.",
       together: "Add a participant, spot a duplicate, and predict the saved file's lines.",
       solo: "Implement unique_names, highest_score, and save_names before comparison.",
       links: [
+        { label: "Week 4 slides", href: "week04/week04-slides.html", kind: "primary" },
+        { label: "Text walkthrough", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/week04-walkthrough.md" },
         { label: "Open topic lab", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/README.md", kind: "primary" },
         { label: "Practice starter", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/practice.py" }
       ],
@@ -152,11 +161,16 @@ window.COURSE_PLAN = {
         estimate: "≈45–60 min",
         steps: [
           { key: "start", label: "Start here", text: "Open the lab README, then read the notebook source. Stop at each Predict prompt and write your answer before reading on.", links: [
+            { label: "Week 4 walkthrough", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/week04-walkthrough.md" },
             { label: "Lab README", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/README.md", kind: "primary" },
             { label: "Notebook source", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/notebook-source.md" }
           ] },
           { key: "watch", label: "Watch / observe", mode: "I DO", text: "Run the instructor's code-along: model a roster with ordered names and a name-to-score lookup, then predict the saved file's lines.", links: [
+            { label: "Week 4 slides", href: "week04/week04-slides.html" },
             { label: "Code-along", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/code-along.py" }
+          ] },
+          { key: "practice", label: "Practice together", mode: "WE DO", text: "Add Noor and a second Ari to a scratch roster, then predict the saved file and unique count.", links: [
+            { label: "Week 4 walkthrough", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/week04-walkthrough.md" }
           ] },
           { key: "try", label: "Try independently", mode: "YOU DO", text: "Implement unique_names, highest_score, and save_names in practice.py, running the file after each change.", links: [
             { label: "Practice starter", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/practice.py" }
@@ -167,7 +181,45 @@ window.COURSE_PLAN = {
         ]
       }
     },
-    { id: "lp03", phase: "core", code: "LP 03", title: "More Python Skills", status: "planned", summary: "Classes, comprehensions, decorators, and closures.", topics: ["classes", "comprehensions", "decorators", "closures"], objective: "I can organize behavior and recognize compact Python patterns.", teach: "Read a small class and narrate what each method owns.", together: "Refactor a repeated loop into a readable comprehension.", solo: "Choose the clearest form for a fresh task and justify it.", links: [] },
+    {
+      id: "lp03", phase: "core", code: "W05 / LP 03", title: "More Python Skills", status: "preview",
+      summary: "Week 5: classes, comprehensions, decorators, and closures.",
+      topics: ["classes", "comprehensions", "decorators", "closures"],
+      objective: "I can explain how a class owns data, how a comprehension builds values, and what decorators and closures retain.",
+      teach: "Trace Gradebook, the passing list, a wrapped call, and a checker that remembers its threshold.",
+      together: "Change the threshold and predict the passing list before running.",
+      solo: "Implement Tally, long_words, make_multiplier, and count_calls in the practice starter.",
+      links: [
+        { label: "Week 5 slides", href: "week05/week05-slides.html", kind: "primary" },
+        { label: "Lesson packet", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03-more-python-skills/README.md" },
+        { label: "Practice starter", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03-more-python-skills/practice.py" }
+      ],
+      lesson: {
+        estimate: "≈85 min",
+        steps: [
+          { key: "start", label: "Start here", text: "Open the LP 03 packet and write a prediction at each pause in the source.", links: [
+            { label: "Week 5 slides", href: "week05/week05-slides.html", kind: "primary" },
+            { label: "Notebook source", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03-more-python-skills/notebook-source.md" }
+          ] },
+          { key: "watch", label: "Watch / observe", mode: "I DO", text: "Trace Gradebook, the two comprehensions, the decorated call, and the closure before running the code-along.", links: [
+            { label: "Code-along", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03-more-python-skills/code-along.py" }
+          ] },
+          { key: "practice", label: "Practice together", mode: "WE DO", text: "Change the passing threshold to 65, predict the names that pass, then check the output.", links: [
+            { label: "Week 5 slides", href: "week05/week05-slides.html" }
+          ] },
+          { key: "try", label: "Try independently", mode: "YOU DO", text: "Replace each TODO in practice.py, then rerun the file. Start with Tally and long_words.", links: [
+            { label: "Practice starter", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03-more-python-skills/practice.py" }
+          ] },
+          { key: "check", label: "Check understanding", text: "Take the deck quiz, explain the wrapper call order, and compare with the reference after your own attempt.", links: [
+            { label: "Week 5 quiz", href: "week05/week05-slides.html" },
+            { label: "Reference solutions", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03-more-python-skills/solutions.py" }
+          ] },
+          { key: "unstuck", label: "Get unstuck", text: "Read the last traceback line. NotImplementedError marks the next TODO. Ask for one hint about that function at a time.", links: [
+            { label: "Text source", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03-more-python-skills/notebook-source.md" }
+          ] }
+        ]
+      }
+    },
     { id: "lp04", phase: "data", code: "LP 04", title: "Intro to Data Engineering", status: "planned", summary: "Meet pandas Series and DataFrames.", topics: ["pandas", "Series", "DataFrames"], objective: "I can load, inspect, and describe a small table.", teach: "Inspect a DataFrame's rows, columns, and types.", together: "Choose a column and explain what it represents.", solo: "Load a new table and report three observations.", links: [] },
     { id: "lp05", phase: "data", code: "LP 05", title: "Data Cleaning & Validation", status: "planned", summary: "Find and fix missing, inconsistent, or invalid values.", topics: ["missing values", "validation", "data quality"], objective: "I can identify a data-quality problem and verify a correction.", teach: "Show how a bad value affects a summary.", together: "Choose a cleaning rule and test it.", solo: "Document a cleaning decision on fresh data.", links: [] },
     { id: "lp06", phase: "data", code: "LP 06", title: "Wrangling & Aggregation", status: "planned", summary: "Combine and summarize data to answer a question.", topics: ["grouping", "merging", "aggregation"], objective: "I can group records and explain the resulting summary.", teach: "Walk through a group-by result one group at a time.", together: "Predict a merge and inspect mismatched keys.", solo: "Build a summary for a new question.", links: [] },

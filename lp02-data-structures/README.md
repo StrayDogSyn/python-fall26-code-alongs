@@ -2,6 +2,8 @@
 
 **Goal:** Choose the right collection for a task, inspect and update data, and save a small roster to a text file. This is a topic lab for LP 02 in the [course roadmap](../README.md#the-roadmap), separate from the Week 02 Git session.
 
+**Week 4 catch-up route:** Use the [interactive slides](../week04/week04-slides.html) with the [text walkthrough](week04-walkthrough.md). Both follow the I Do → We Do → You Do sequence below.
+
 ## Start here
 
 1. Read [the Gemini Notebook source](notebook-source.md). Predict before revealing each worked result.

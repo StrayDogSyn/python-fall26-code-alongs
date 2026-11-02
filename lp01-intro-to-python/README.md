@@ -2,6 +2,8 @@
 
 **Goal:** Read, predict, run, and change a small Python program using values, variables, conditions, loops, and functions. This is a topic lab for LP 01 in the [course roadmap](../README.md#the-roadmap), separate from the Week 01 setup session.
 
+**Week 3 catch-up route:** Use the [interactive slides](../week03/week03-slides.html) with the [text walkthrough](week03-walkthrough.md). Both follow the I Do → We Do → You Do sequence below.
+
 ## Start here
 
 1. Read [the Gemini Notebook source](notebook-source.md). Stop at each **Predict** prompt and write your answer before reading on.

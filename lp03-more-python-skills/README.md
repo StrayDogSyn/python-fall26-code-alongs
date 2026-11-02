@@ -2,6 +2,8 @@
 
 **Goal:** Read a small class, predict what a comprehension builds, and explain what a decorator wraps and what a closure remembers. This is the topic lab for LP 03 in the [course roadmap](../README.md#the-roadmap). It is the packet for the Week 5 live session.
 
+**Week 5 presentation:** Open the [interactive slides](../week05/week05-slides.html). The instructor's [run of show](week05-run-of-show.md) has timed prompts and checkpoints; the source below is the equivalent text route.
+
 ## Start here
 
 1. Read [the Gemini Notebook source](notebook-source.md). Write down a prediction at each **Predict** prompt before you read the answer.

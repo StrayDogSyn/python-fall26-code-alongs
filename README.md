@@ -17,9 +17,9 @@ New to coding? You are in the right place. No experience is needed, and every qu
 | 🧭 | **Explore the learning hub** | [Interactive course map](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) |
 | 🎥 | **Watch the recordings** | [Eric Hunter Petross on YouTube](https://www.youtube.com/@EricHunterPetross) |
 | ⏰ | **Join the live class** | Mondays, 8:00 PM Eastern |
-| 🖥️ | **Review the slides** (interactive decks for self-study) | [Week 1: Learn the Controls](week01/week01-slides.html) · [Week 2: Save Points](week02/week02-slides.html) |
+| 🖥️ | **Review the slides** (interactive decks for self-study) | [Week 1](week01/week01-slides.html) · [Week 2](week02/week02-slides.html) · [Week 3](week03/week03-slides.html) · [Week 4](week04/week04-slides.html) · [Week 5](week05/week05-slides.html) |
 | 🏫 | **About the program** | [Code the Dream](https://codethedream.org/) |
-| 📚 | **Weeks 1 and 2** | [Week 01: Learn the Controls](week01/week01-slides.html) · [Week 02: Save Points](week02/week02-slides.html) |
+| 📚 | **Weeks 3 to 5** | [Week 3 catch-up](lp01-intro-to-python/week03-walkthrough.md) · [Week 4 catch-up](lp02-data-structures/week04-walkthrough.md) · [Week 5 packet](lp03-more-python-skills/README.md) |
 | 🧠 | **Gemini Notebook study kit** | [Source uploads and teaching plan](GEMINI_NOTEBOOK.md) |
 
 **Your first move:** jump to [Getting Started](#getting-started) and get your computer ready. It takes about 15 minutes.
@@ -31,7 +31,7 @@ New to coding? You are in the right place. No experience is needed, and every qu
 - [Who Can Use This](#who-can-use-this)
 - [The Roadmap](#the-roadmap)
 - [Getting Started](#getting-started)
-- [Weeks 1 and 2](#weeks-1-and-2)
+- [Weeks 1 to 5](#weeks-1-to-5)
 - [How a Code-Along Works](#how-a-code-along-works)
 - [Repository Layout](#repository-layout)
 - [The Dad Joke Vault](#the-dad-joke-vault)
@@ -85,7 +85,7 @@ The class is pinned to Eastern clock time, so daylight saving changes elsewhere 
 
 ## The Roadmap
 
-The weekly course begins with tool setup, terminal use, Git, and GitHub. The lesson packets (LPs) then follow the Code the Dream Python Essentials sequence. LP 01 and LP 02 have supplemental topic labs in this repository; weekly folders will be added as the class reaches more content.
+The weekly course begins with tool setup, terminal use, Git, and GitHub. The lesson packets (LPs) then follow the Code the Dream Python Essentials sequence. Weeks 3, 4, and 5 use LP 01, LP 02, and LP 03 respectively.
 
 The diagram shows the journey in three stages: core Python first, then working with data, then real-world data sources.
 
@@ -212,16 +212,17 @@ Still stuck? Bring it to Monday night, or see [Getting Unstuck](#getting-unstuck
 
 > 🧓 **Dad joke drop #3:** There are 10 kinds of people in this world: those who understand binary and those who do not. *(Come back after we cover how computers count. Yes, it is a joke about counting.)*
 
-## Weeks 1 and 2
+## Weeks 1 to 5
 
-The [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) is the central map for the two weekly sessions, the two supplemental Python topic labs, and the full LP roadmap. The first materials are ready now:
+The [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) is the central map for the weekly sessions and the full LP roadmap. Weeks 3 and 4 have catch-up routes; Week 5 has the live session packet:
 
 | Lesson | Primary material | Gemini Notebook source | Practice |
 | --- | --- | --- | --- |
 | Week 01: setup and terminal | [Learn the Controls slides](week01/week01-slides.html) · [command-line guide](resources/command-line-basics.md) | [W01 source](week01/notebook-source.md) | Slide terminal simulator and folder mission |
 | Week 02: Git and GitHub | [Save Points slides](week02/week02-slides.html) · [Git guide](resources/git-commands.md) | [W02 source](week02/notebook-source.md) | Slide staging visualizer and personal-fork mission |
-| LP 01: Python fundamentals | [Topic lab](lp01-intro-to-python/README.md) | [LP 01 source](lp01-intro-to-python/notebook-source.md) | [Starter](lp01-intro-to-python/practice.py) |
-| LP 02: collections and files | [Topic lab](lp02-data-structures/README.md) | [LP 02 source](lp02-data-structures/notebook-source.md) | [Starter](lp02-data-structures/practice.py) |
+| Week 03 / LP 01: Python fundamentals | [Slides](week03/week03-slides.html) · [walkthrough](lp01-intro-to-python/week03-walkthrough.md) · [topic lab](lp01-intro-to-python/README.md) | [LP 01 source](lp01-intro-to-python/notebook-source.md) | [Starter](lp01-intro-to-python/practice.py) |
+| Week 04 / LP 02: collections and files | [Slides](week04/week04-slides.html) · [walkthrough](lp02-data-structures/week04-walkthrough.md) · [topic lab](lp02-data-structures/README.md) | [LP 02 source](lp02-data-structures/notebook-source.md) | [Starter](lp02-data-structures/practice.py) |
+| Week 05 / LP 03: more Python skills | [Slides](week05/week05-slides.html) · [session plan](lp03-more-python-skills/week05-run-of-show.md) · [topic lab](lp03-more-python-skills/README.md) | [LP 03 source](lp03-more-python-skills/notebook-source.md) | [Starter](lp03-more-python-skills/practice.py) |
 
 Each ready stop on the hub opens a step-by-step study route — start here, watch, practice together, try independently, check understanding, get unstuck, go deeper — with shareable links like `#/week01`. Each session uses **I Do → We Do → You Do**: watch and predict a worked example, change one thing together, then solve a fresh task independently. The [Gemini Notebook teaching kit](GEMINI_NOTEBOOK.md) gives source import steps and prompts for multiple study formats. The slides and Python files work without a Notebook account.
 
@@ -254,13 +255,14 @@ flowchart LR
 
 ## Repository Layout
 
-Weeks 1 and 2 are available now; later folders will appear as the class reaches them. The repository grows toward this layout:
+Weeks 1 through 5 have materials. The repository grows toward this layout:
 
 ```text
 python-fall26-code-alongs/
-├── week01/, week02/               Weekly slide decks and starter scripts
+├── week01/ ... week05/            Weekly slide decks
 ├── lp01-intro-to-python/          Supplemental Python fundamentals lab
 ├── lp02-data-structures/          Supplemental collections and files lab
+├── lp03-more-python-skills/       Classes, comprehensions, decorators, closures
 ├── resources/                     Command line and Git guides, plus slide sources
 ├── site/                          Learning hub data, styles, and build script
 ├── ...                            Later weekly folders as class progresses
@@ -273,7 +275,7 @@ python-fall26-code-alongs/
 
 **Opening a slide deck:** Use the [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) or open the `.html` file from your local copy of the repository. The OS button in the top corner switches commands between Windows and macOS/Linux, and <kbd>N</kbd> shows speaker notes.
 
-The first two weekly folders contain interactive slide decks and Markdown sources for Gemini Notebook. The LP folders contain instructor code-alongs, independent practice, and reference solutions. Later lesson packet folders are planned as the course develops.
+The first five weekly folders contain interactive slide decks. Week 1 and 2 also have Markdown sources for Gemini Notebook; LP folders contain instructor code-alongs, independent practice, reference solutions, and source text. Later lesson packet folders are planned as the course develops.
 
 ## The Dad Joke Vault
 
