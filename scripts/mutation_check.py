@@ -529,6 +529,104 @@ for exercise, mutants in lp03a_mutants.items():
         if status == 'CAUGHT': caught += 1
         else: escaped.append(('lp03a-iteration-and-algorithms', exercise, label, result.stdout, result.stderr))
         print(f'lp03a-iteration-and-algorithms {exercise}: {label:30} {status}')
+lp06a_mutants = {
+ 'badge_line': [
+  ('keeps outer spaces', '''def badge_line(name, role="guest"):
+    return f"{name} | {role}"'''),
+  ('drops blank fallbacks', '''def badge_line(name, role="guest"):
+    return f"{name.strip()} | {role.strip()}"'''),
+ ],
+ 'headline': [
+  ('uses lower case', '''def headline(title, marker="*"):
+    return f"{marker}{title.strip().lower()}{marker}"'''),
+  ('drops blank fallback', '''def headline(title, marker="*"):
+    return f"{marker}{title.strip().upper()}{marker}"'''),
+ ],
+ 'format_duration': [
+  ('drops second padding', '''def format_duration(seconds):
+    minutes, remainder = divmod(seconds, 60)
+    return f"{minutes}:{remainder}"'''),
+  ('rounds up a minute', '''def format_duration(seconds):
+    minutes, remainder = divmod(seconds, 60)
+    return f"{minutes + (remainder > 0)}:{remainder:02d}"'''),
+ ],
+ 'repair_price_line': [
+  ('prints instead of returns', '''def repair_price_line(item, cents):
+    print(f"{item}: ${cents // 100}.{cents % 100:02d}")'''),
+  ('drops cent padding', '''def repair_price_line(item, cents):
+    return f"{item}: ${cents // 100}.{cents % 100}"'''),
+ ],
+ 'repair_shadowed_prefix': [
+  ('always uses default', '''def repair_shadowed_prefix(word, prefix="Note"):
+    return f"Note: {word}"'''),
+  ('uses wrong separator', '''def repair_shadowed_prefix(word, prefix="Note"):
+    return f"{prefix} - {word}"'''),
+ ],
+ 'card_from_parts': [
+  ('forgets tag', '''def card_from_parts(title, place, start, tag="EVENT"):
+    return f"{title} @ {place} ({start})"'''),
+  ('swaps place and start', '''def card_from_parts(title, place, start, tag="EVENT"):
+    return f"[{tag}] {title} @ {start} ({place})"'''),
+ ],
+ 'scope_snapshot': [
+  ('inner leaks outward', '''def scope_snapshot(label):
+    message = f"outer:{label}"
+    def inner():
+        return f"inner:{label}"
+    message = inner()
+    return f"outer:{label}", message, message'''),
+  ('never shadows outer', '''def scope_snapshot(label):
+    message = f"outer:{label}"
+    return message, message, message'''),
+ ],
+ 'make_signoff': [
+  ('forgets author', '''def make_signoff(author):
+    return lambda message: f"{message} / "'''),
+  ('uppercases author', '''def make_signoff(author):
+    return lambda message: f"{message} / {author.upper()}"'''),
+ ],
+ 'render_agenda': [
+  ('sorts rows by time', '''def render_agenda(entries, heading="Today's plan"):
+    return "\\n".join([heading] + [_agenda_line(time, activity) for time, activity in sorted(entries)])'''),
+  ('drops heading', '''def render_agenda(entries, heading="Today's plan"):
+    return "\\n".join(_agenda_line(time, activity) for time, activity in entries)'''),
+ ],
+ 'make_visit_tracker': [
+  ('never advances', '''def make_visit_tracker(start=0):
+    count = start
+    def visit():
+        return count
+    return visit'''),
+  ('advances by two', '''def make_visit_tracker(start=0):
+    count = start
+    def visit():
+        nonlocal count
+        count += 2
+        return count
+    return visit'''),
+ ],
+ 'batch_badges': [
+  ('returns names unchanged', '''def batch_badges(names, role="guest"):
+    return list(names)'''),
+  ('ignores supplied role', '''def batch_badges(names, role="guest"):
+    return [badge_line(name) for name in names]'''),
+ ],
+}
+lp06a_source = pathlib.Path('lp06a-functions-and-scope/solutions.py').read_text(encoding='utf-8')
+for exercise, mutants in lp06a_mutants.items():
+    for label, replacement in mutants:
+        with tempfile.TemporaryDirectory() as folder:
+            path = pathlib.Path(folder) / 'wrong.py'
+            path.write_text(replace_function(lp06a_source, exercise, replacement), encoding='utf-8')
+            result = subprocess.run(
+                [sys.executable, 'lp06a-functions-and-scope/check.py', '--module', str(path)],
+                capture_output=True, text=True,
+            )
+        total += 1
+        status = 'CAUGHT' if result.returncode == 1 and f'FAIL {exercise}:' in result.stdout else 'ESCAPED'
+        if status == 'CAUGHT': caught += 1
+        else: escaped.append(('lp06a-functions-and-scope', exercise, label, result.stdout, result.stderr))
+        print(f'lp06a-functions-and-scope {exercise}: {label:30} {status}')
 print(f'\nmutants caught by lesson checks: {caught}/{total}')
 for e in escaped: print('  NOT RELIABLY CAUGHT:',e)
 raise SystemExit(1 if escaped else 0)

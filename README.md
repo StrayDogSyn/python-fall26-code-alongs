@@ -125,6 +125,7 @@ flowchart TB
 | 04 | Intro to Data Engineering | Pandas basics, Series, DataFrames |
 | 05 | Data Cleaning & Validation | Fixing messy data before it fixes you |
 | 06 | Data Wrangling & Aggregation | Grouping, merging, summarizing |
+| 06A | [Functions & Scope](lp06a-functions-and-scope/README.md) | Defining functions, defaults, returns, scope, docstrings, and refactoring; kindred packet for Python Intro 26.4 Week 6 |
 | 07 | Intro to Data Visualization | Charts that tell the truth |
 | 08 | Intro to Web Scraping | Requests, parsing HTML |
 | 09 | Databases & SQL | Querying data with SQLite |
@@ -213,9 +214,9 @@ Still stuck? Bring it to Monday night, or see [Getting Unstuck](#getting-unstuck
 
 > 🧓 **Dad joke drop #3:** There are 10 kinds of people in this world: those who understand binary and those who do not. *(Come back after we cover how computers count. Yes, it is a joke about counting.)*
 
-## Weeks 1 to 5
+## Weeks 1 to 6
 
-The [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) is the central map for the weekly sessions and the full LP roadmap. Weeks 3 and 4 have catch-up routes; Week 5 has the live session packet:
+The [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) is the central map for the weekly sessions and the full LP roadmap. Weeks 3 and 4 have catch-up routes, Week 5 has the live session packet, and Week 6 has a preview packet for the November 9 class:
 
 | Lesson | Primary material | Gemini Notebook source | Practice |
 | --- | --- | --- | --- |
@@ -225,6 +226,7 @@ The [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) is
 | Week 04 / LP 02: collections and files | [Slides](week04/week04-slides.html) · [walkthrough](lp02-data-structures/week04-walkthrough.md) · [topic lab](lp02-data-structures/README.md) | [LP 02 source](lp02-data-structures/notebook-source.md) | [Starter](lp02-data-structures/practice.py) |
 | Week 05 / LP 03: more Python skills | [Slides](week05/week05-slides.html) · [session plan](lp03-more-python-skills/week05-run-of-show.md) · [topic lab](lp03-more-python-skills/README.md) | [LP 03 source](lp03-more-python-skills/notebook-source.md) | [Starter](lp03-more-python-skills/practice.py) · [check](lp03-more-python-skills/check.py) |
 | Week 05 / LP 03A: iteration and algorithms | [New slides](week05/week05-iteration-slides.html) · [walkthrough](lp03a-iteration-and-algorithms/week05-walkthrough.md) · [kindred packet](lp03a-iteration-and-algorithms/README.md) | [LP 03A source](lp03a-iteration-and-algorithms/notebook-source.md) | [Starter](lp03a-iteration-and-algorithms/practice.py) · [check](lp03a-iteration-and-algorithms/check.py) |
+| Week 06 / LP 06A: functions and scope (preview) | [Slides](week06/week06-slides.html) · [walkthrough](lp06a-functions-and-scope/week06-walkthrough.md) · [kindred packet](lp06a-functions-and-scope/README.md) | [LP 06A source](lp06a-functions-and-scope/notebook-source.md) | [Starter](lp06a-functions-and-scope/practice.py) · [check](lp06a-functions-and-scope/check.py) |
 
 LP 03A is the Python Intro 26.4 Week 5 lesson. The existing LP 03 packet remains available as an extension.
 
