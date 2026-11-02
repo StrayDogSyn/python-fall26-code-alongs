@@ -188,6 +188,7 @@ window.COURSE_PLAN = {
     {
       id: "lp03", phase: "core", code: "W05 / LP 03", title: "More Python Skills", status: "live",
       summary: "Week 5: classes, comprehensions, decorators, and closures.",
+      note: "Extension: classes, comprehensions, decorators, and closures. Also useful after Week 6.",
       topics: ["classes", "comprehensions", "decorators", "closures"],
       objective: "I can explain how a class owns data, how a comprehension builds values, and what decorators and closures retain.",
       teach: "Trace Gradebook, the passing list, a wrapped call, and a checker that remembers its threshold.",
@@ -220,6 +221,44 @@ window.COURSE_PLAN = {
           ] },
           { key: "unstuck", label: "Get unstuck", text: "Find the exercise's FAIL or NOT STARTED line in the local check output. Open one hint level for that function at a time.", links: [
             { label: "Text source", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03-more-python-skills/notebook-source.md" }
+          ] }
+        ]
+      }
+    },
+    {
+      id: "lp03a", phase: "core", code: "W05 / LP 03A", title: "Iteration & Algorithms", status: "live",
+      summary: "This week's loop, search, sorting, and debugging lesson.",
+      topics: ["for and while loops", "linear and binary search", "sorting passes", "loop debugging"],
+      objective: "I can trace a loop, explain how a search narrows its work, and repair a loop bug.",
+      teach: "Predict each result in the code-along, then trace loop state and comparison counts.",
+      together: "Repair a reset accumulator and compare linear with binary search on sorted room codes.",
+      solo: "Complete eleven new exercises and run the local check after each TODO.",
+      links: [
+        { label: "Week 5 iteration slides", href: "week05/week05-iteration-slides.html", kind: "primary" },
+        { label: "Kindred lesson packet", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03a-iteration-and-algorithms/README.md" },
+        { label: "Practice starter", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03a-iteration-and-algorithms/practice.py" },
+        { label: "Local check", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03a-iteration-and-algorithms/check.py" }
+      ],
+      lesson: {
+        estimate: "≈90 min",
+        steps: [
+          { key: "start", label: "Start here", text: "Open the packet and predict each loop result before the reveal.", links: [
+            { label: "Week 5 slides", href: "week05/week05-iteration-slides.html", kind: "primary" },
+            { label: "Text walkthrough", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03a-iteration-and-algorithms/week05-walkthrough.md" }
+          ] },
+          { key: "watch", label: "Watch / observe", mode: "I DO", text: "Run the code-along and trace counts, a bounded while loop, search comparisons, and sorting passes.", links: [
+            { label: "Code-along", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03a-iteration-and-algorithms/code-along.py" }
+          ] },
+          { key: "practice", label: "Practice together", mode: "WE DO", text: "Find an accumulator reset and an early return, then compare linear and binary search step counts.", links: [
+            { label: "Week 5 slides", href: "week05/week05-iteration-slides.html" }
+          ] },
+          { key: "try", label: "Try independently", mode: "YOU DO", text: "Complete one TODO at a time, starting with a Warm-up or Fix it exercise. Run python lp03a-iteration-and-algorithms/check.py from the repository root.", links: [
+            { label: "Practice starter", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03a-iteration-and-algorithms/practice.py" },
+            { label: "Three-level hints", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03a-iteration-and-algorithms/hints.md" }
+          ] },
+          { key: "check", label: "Check understanding", text: "Explain one search comparison count and one sorting pass, then take the deck quiz.", links: [
+            { label: "Week 5 quiz", href: "week05/week05-iteration-slides.html" },
+            { label: "Local check", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03a-iteration-and-algorithms/check.py" }
           ] }
         ]
       }

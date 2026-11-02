@@ -54,7 +54,7 @@
 
   function updateProgress() {
     const count = liveUnits.filter((unit) => completed.has(unit.id)).length;
-    progressText.textContent = `${count} of ${liveUnits.length} weeks marked complete`;
+    progressText.textContent = `${count} of ${liveUnits.length} ready lessons marked complete`;
     progressFill.style.width = `${liveUnits.length ? (count / liveUnits.length) * 100 : 0}%`;
   }
 
@@ -178,6 +178,7 @@
       meta.textContent = "Materials appear as the cohort reaches this stop.";
     }
     shell.append(cap, heading, meta, el("p", "detail-summary", unit.summary));
+    if (unit.note) shell.append(el("p", "detail-summary", unit.note));
     const outcome = el("div", "outcome");
     outcome.append(el("span", "mini-label", "THE GOAL"), el("p", "", unit.objective));
     const topics = el("div", "detail-topics");
@@ -210,7 +211,7 @@
       shell.append(links);
     }
     if (unit.status === "live") {
-      const check = el("button", `complete-button${completed.has(unit.id) ? " is-complete" : ""}`, completed.has(unit.id) ? "✓ Marked complete · click to undo" : "○ Mark this week complete");
+      const check = el("button", `complete-button${completed.has(unit.id) ? " is-complete" : ""}`, completed.has(unit.id) ? "✓ Marked complete · click to undo" : "○ Mark this lesson complete");
       check.type = "button";
       check.setAttribute("aria-pressed", String(completed.has(unit.id)));
       check.addEventListener("click", () => {
