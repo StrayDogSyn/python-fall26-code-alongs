@@ -44,6 +44,33 @@ def describe(name, average):
     return f"{name}: {average:.1f}"
 
 
+def make_turn_number():
+    """Show how nonlocal lets a closure change remembered state."""
+    turn = 0
+
+    def next_turn():
+        nonlocal turn
+        turn += 1
+        return turn
+
+    return next_turn
+
+
+def remember_first(func):
+    """Model a decorator that caches even a None result."""
+    used = False
+    saved = None
+
+    def wrapper(*args, **kwargs):
+        nonlocal used, saved
+        if not used:
+            saved = func(*args, **kwargs)
+            used = True
+        return saved
+
+    return wrapper
+
+
 if __name__ == "__main__":
     book = Gradebook()
     book.add_score("Maya", 82)
@@ -61,3 +88,25 @@ if __name__ == "__main__":
     print(f"Passing: {passing}")
 
     print(describe("Maya", averages["Maya"]))
+
+    # A dictionary comprehension keeps the latest value for duplicate keys.
+    score_rows = [("Maya", 82), ("Luis", 61), ("Maya", 74)]
+    latest = {name: score for name, score in score_rows}
+    print(f"Latest marks: {latest}")
+
+    # The end of a list can be the top of a stack. Peek without removing.
+    review_stack = ["class", "comprehension"]
+    review_stack.append("decorator")
+    print(f"Stack top: {review_stack[-1]}, size: {len(review_stack)}")
+    print(f"Popped: {review_stack.pop()}")
+
+    next_turn = make_turn_number()
+    print(f"Turns: {next_turn()}, {next_turn()}")
+
+    first_label = remember_first(lambda value: value.upper())
+    print(f"First label stays: {first_label('python')}, {first_label('later')}")
+
+    # A composed calculation applies the inner operation first.
+    add_three = lambda value: value + 3
+    double = lambda value: value * 2
+    print(f"Add then double: {double(add_three(4))}")
