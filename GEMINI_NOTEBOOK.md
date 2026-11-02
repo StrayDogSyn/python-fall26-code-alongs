@@ -1,4 +1,4 @@
-# Gemini Notebook studio: Weeks 01 and 02
+# Gemini Notebook studio: Weeks 01 to 05
 
 The [cohort notebook](https://notebook.google.com/notebook/2d456bd7-b94f-47d8-aa78-8bb958fa0de8) accompanies the [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/). These are the **actual** first two weekly sessions: Week 01 covers setup and the terminal; Week 02 covers Git, GitHub, and maintaining a fork. LP 01 and LP 02 Python topic labs live separately in [`lp01-intro-to-python`](lp01-intro-to-python/README.md) and [`lp02-data-structures`](lp02-data-structures/README.md).
 
@@ -70,3 +70,23 @@ Select all four sources and ask: “A student cannot run `hello.py` from their r
 Before sharing any Studio output, check every command against the source and the target operating system. Run any generated commands in a disposable practice folder or fork. Check quiz keys and distractors. If a format is unavailable for a learner's account, the source text, slide deck, and practice mission provide an equivalent route. Google documents current [feature and account differences](https://knowledge.workspace.google.com/admin/generative-ai/gemini-notebook/turn-gemini-notebook-on-or-off-for-users).
 
 The student reflection for both weeks is: “I predicted ___; the tool showed ___; that tells me ___; my next safe step is ___.”
+
+## Weeks 3 to 5 source set
+
+The Week 3 and 4 catch-up lessons and Week 5 live lesson use LP packets. Upload these Markdown files as separate sources if they are not already present in the cohort notebook. Confirm the source list before adding duplicates. A source upload and any Studio output remain unverified until the instructor checks them in the signed-in notebook.
+
+| Lesson | Source title | Repository file |
+| --- | --- | --- |
+| Week 3 / LP 01 | `LP 01 · Intro to Python` | [`lp01-intro-to-python/notebook-source.md`](lp01-intro-to-python/notebook-source.md) |
+| Week 4 / LP 02 | `LP 02 · Data Structures & Files` | [`lp02-data-structures/notebook-source.md`](lp02-data-structures/notebook-source.md) |
+| Week 5 / LP 03 | `LP 03 · More Python Skills` | [`lp03-more-python-skills/notebook-source.md`](lp03-more-python-skills/notebook-source.md) |
+
+Select one matching LP source for each artifact. Use these prompts in Gemini Notebook, then check every answer against the runnable packet and the source before sharing:
+
+1. **Week 3 quiz:** “Using only LP 01, write five questions: text versus integer, `=` versus `==`, the 70 boundary, the running total for `[2, 3, 4]`, and the empty-list case. Ask for a prediction before each answer. Cite the source section and explain each answer. Do not reveal the practice starter's solutions.”
+2. **Week 4 quiz:** “Using only LP 02, write five questions about list order, dictionary lookup, set uniqueness, tuple indexing, and the exact lines returned by `splitlines()`. Include one empty-input case. Cite the source section and explain each answer.”
+3. **Week 5 flashcards:** “Using only LP 03, make eight cards on class, instance, `self`, `__init__`, comprehension, decorator, closure, and what the returned checker remembers. At least half should ask for a code prediction. Cite each card.”
+4. **Week 5 quiz:** “Using only LP 03, make five questions: trace `self`, predict a comprehension, order decorator output, predict a closure value, and read the final traceback line. Cite the source section. Keep the independent practice answers hidden.”
+5. **Week 5 audio overview:** “Using only LP 03, explain the four ideas in about eight minutes. Pause for a prediction before revealing each worked example. End with a prompt to try `practice.py`, without providing its answers.”
+
+For a tutor chat, ask the learner what they tried, give one hint tied to the selected source, and wait for a new observation. The [Week 3 walkthrough](lp01-intro-to-python/week03-walkthrough.md), [Week 4 walkthrough](lp02-data-structures/week04-walkthrough.md), and [Week 5 slides](week05/week05-slides.html) provide text and practice routes even when Studio outputs are unavailable.

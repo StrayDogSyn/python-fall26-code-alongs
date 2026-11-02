@@ -15,13 +15,20 @@ def main():
     OUT.mkdir()
     shutil.copy2(ROOT / "index.html", OUT / "index.html")
     (OUT / "site").mkdir()
-    for name in ("style.css", "plan.js", "app.js"):
+    for name in ("style.css", "plan.js", "artifacts.js", "app.js"):
         shutil.copy2(ROOT / "site" / name, OUT / "site" / name)
     decks = sorted(ROOT.glob("week[0-9][0-9]/*-slides.html"))
     for deck in decks:
         target = OUT / deck.parent.name
         target.mkdir(exist_ok=True)
         shutil.copy2(deck, target / deck.name)
+    for folder in sorted(ROOT.glob("lp[0-9][0-9]-*")):
+        if not folder.is_dir():
+            continue
+        target = OUT / folder.name
+        target.mkdir(exist_ok=True)
+        for source in (*folder.glob("*.md"), *folder.glob("*.py")):
+            shutil.copy2(source, target / source.name)
     (OUT / ".nojekyll").touch()
     print(f"Built {OUT}: hub, assets, and {len(decks)} slide deck(s)")
 

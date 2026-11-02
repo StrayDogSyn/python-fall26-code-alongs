@@ -1,6 +1,6 @@
 # Slide Deck Sources
 
-The weekly slide decks in `week01/`, `week02/`, and later week folders are **built files**. Edit the sources in this folder, then rebuild. Students only ever need the built `.html` file: it is self-contained and works offline (Google Fonts is the one optional download).
+The weekly slide decks in `week01/` through `week05/` are **built files**. Edit the sources in this folder, then rebuild. Students only ever need the built `.html` file: it is self-contained and works offline (Google Fonts is the one optional download).
 
 [🏠 Back to the main README](../../README.md)
 
@@ -10,7 +10,7 @@ The weekly slide decks in `week01/`, `week02/`, and later week folders are **bui
 |------|-----|
 | `engine.html` | The shared design and every interactive piece: navigation, OS toggle, theme, speaker notes, glossary, quiz, matching game, jargon decoder, practice terminal, Git staging visualizer, Undo Guide |
 | `glossary.js` | Every "career companion" term, defined once for the whole course, using the docs' vocabulary tables |
-| `week01.js`, `week02.js` | One content file per week: slides, speaker notes, quiz questions, matching pairs |
+| `week01.js` through `week05.js` | One content file per week: slides, speaker notes, and quiz questions |
 | `build.py` | Stitches `engine.html` + `glossary.js` + a week file into `weekNN/weekNN-slides.html` |
 
 ## Rebuild after an edit
@@ -25,9 +25,9 @@ On macOS or Linux without an active virtual environment, use `python3`. The scri
 
 ## Add next week's deck
 
-1. Copy `week02.js` to `week03.js` and change the title and slides.
+1. Copy the latest `weekNN.js` to the next week number and change the title and slides.
 2. Add any new terms to `glossary.js`, then list them in the week's `terms.fresh`. Put every earlier term in `terms.review` so the glossary starts with them unlocked.
-3. Add `"week03.js": "week03/week03-slides.html"` to `DECKS` in `build.py`.
+3. Add the new source and output paths to `DECKS` in `build.py`.
 4. Rebuild, open the result in a browser, and click through every slide with both OS settings.
 
 ## Content rules

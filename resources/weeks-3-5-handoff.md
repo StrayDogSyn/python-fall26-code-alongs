@@ -1,16 +1,16 @@
 # Weeks 3 to 5: Handoff for Gemini and Codex
 
-Prepared Monday, November 2, 2026, for the Monday 8:00 PM Eastern session. This document is the working plan. It maps the missed weeks onto the existing roadmap, records what is verified, and gives each tool its section.
+Prepared Monday, November 2, 2026, for the Monday 8:00 PM Eastern session. This document maps the missed weeks onto the existing roadmap, records what is verified, and keeps the Gemini Notebook production prompts together.
 
 ## The mapping
 
 | Live week | Packet | Folder | Status |
 |-----------|--------|--------|--------|
-| Week 3 | LP 01 · Intro to Python | `lp01-intro-to-python/` | Packet exists. Code-along, solutions, and notebook source run clean. Needs a Week 3 slide deck or a plain walkthrough for remote students. |
-| Week 4 | LP 02 · Data Structures & Files | `lp02-data-structures/` | Packet exists. Code-along and solutions run clean, and the demo file is deleted after each run. Needs the same Week 4 walkthrough. |
-| Week 5 | LP 03 · More Python Skills | `lp03-more-python-skills/` | **New tonight.** README, notebook source, code-along, practice, and solutions. Code-along and solutions verified. Practice raises `NotImplementedError` at each TODO, as intended. |
+| Week 3 | LP 01 · Intro to Python | `lp01-intro-to-python/` | Packet, interactive deck, and text walkthrough are ready. |
+| Week 4 | LP 02 · Data Structures & Files | `lp02-data-structures/` | Packet, interactive deck, and text walkthrough are ready. |
+| Week 5 | LP 03 · More Python Skills | `lp03-more-python-skills/` | Packet, interactive deck, and timed session plan are ready. |
 
-Students see the roadmap, not week numbers, for LP packets. Keep the labels "Week 3 / 4 / 5" in the live session and in the hub's lesson entries so remote students can tell what to open.
+The hub pairs each LP with its week number so remote students can tell what to open.
 
 ## Verified today
 
@@ -20,7 +20,7 @@ Students see the roadmap, not week numbers, for LP packets. Keep the labels "Wee
 - `py_compile` on every packet file: pass.
 - `practice.py` for LP 03: stops at its first TODO with `NotImplementedError`, which is the intended starting state.
 
-Not yet verified: Windows PowerShell behavior (`python` versus `py`), the hub's rendering of the LP 03 entry, and anything in the Gemini Notebook.
+Windows PowerShell on the instructor's computer runs `python` (Python 3.13.15). The `py` launcher reported no installed Python. The local lesson check script passes all three reference solutions and confirms that every practice starter stops at a TODO. Gemini Notebook uploads and Studio outputs remain unverified.
 
 ## Gemini Notebook section
 
@@ -42,33 +42,17 @@ Prompts to run, in this order. Each one says to cite the source and to stop at e
 
 Before anything is shared, run every generated code snippet against the packet files. Replace any artifact that disagrees with the packet.
 
-## Codex section
+## Codex section completed locally
 
-Codex should work in this repository on a new branch. It should not push to `main` without Hunter's approval.
-
-1. **Run the Windows check.** In PowerShell from the repository root, run `python lp01-intro-to-python/code-along.py`, then `py` in place of `python` if `python` is not recognized. Report which command worked in each packet's README, and fix the README if the command differs. Do not change code behavior.
-2. **Add a lesson check script.** Create `scripts/check_lessons.py` that runs each packet's `solutions.py`, then confirms `practice.py` raises `NotImplementedError` before any TODO is replaced. Exit nonzero on failure. Keep it standard library only.
-3. **Week 3 and Week 4 walkthroughs.** Draft `lp01-intro-to-python/week03-walkthrough.md` and `lp02-data-structures/week04-walkthrough.md`: one page each, with the I Do, We Do, You Do steps, the predictions to ask for, and the exact commands. Keep the same wording and command style as the existing READMEs.
-4. **Site entries (for Devin's pass, not this one).** Note in the PR description that `site/plan.js` still marks LP 03 as `planned`. It should become `preview` when Hunter approves it for tonight.
-
-Output: one branch, one commit per numbered item, and a short summary listing anything that failed on Windows.
+Windows PowerShell runs `python` for all three code-alongs. This computer's `py` launcher does not find an installation. `scripts/check_lessons.py` runs the reference solutions and checks that each practice starter reaches a TODO. Weeks 3 and 4 have walkthroughs and decks; Week 5 has a deck and a timed plan. The hub labels each LP with its week and lists LP 03 as a preview until the live session has occurred. No change to `main` is part of this handoff.
 
 ## Tonight's run of show (8:00 PM ET)
 
-| Time | Block | Source |
-|------|-------|--------|
-| 8:00 | Welcome, and a quick look at the Week 5 goal | `lp03-more-python-skills/README.md` |
-| 8:05 | I Do: `Gradebook`, one comprehension, one decorator call | `code-along.py` |
-| 8:25 | We Do: add a `Tally` method, change the threshold | `code-along.py` |
-| 8:40 | You Do: implement `Tally` and `long_words` first | `practice.py` |
-| 8:55 | Check-in in chat: one passing assertion each | Chat |
-| 9:05 | Closures and `count_calls` (You Do part 2) | `practice.py` |
-| 9:20 | Compare with `solutions.py` after the honest attempt | `solutions.py` |
+Use [`lp03-more-python-skills/week05-run-of-show.md`](../lp03-more-python-skills/week05-run-of-show.md) for the timed presenter plan. The [practice site](https://straydogsyn.github.io/Python-Essentials-Bridge-The-Dream/) is pinned near the top of the main README.
 
-Recording goes to the instructor's YouTube channel. Pin the practice site in the README if it is not already pinned.
+## Current files
 
-## Open items
-
-- Hunter decides whether Week 3 and Week 4 need full slide decks, or whether the packets plus walkthroughs are enough.
-- Nothing has been committed or pushed. The working tree has the new LP 03 packet and this document.
-- The computer's Documents and Desktop folders were not attached this session, so no local files on that machine were read.
+- Weeks 3 and 4 each have an interactive deck and a text walkthrough.
+- Week 5 has an interactive deck and `lp03-more-python-skills/week05-run-of-show.md`.
+- `scripts/check_lessons.py` checks the reference solutions and starter TODO behavior.
+- Notebook source files are ready for Gemini Notebook import. The signed-in notebook source list and output sharing still need verification there.

@@ -24,6 +24,9 @@ ROOT = HERE.parent.parent
 DECKS = {
     "week01.js": "week01/week01-slides.html",
     "week02.js": "week02/week02-slides.html",
+    "week03.js": "week03/week03-slides.html",
+    "week04.js": "week04/week04-slides.html",
+    "week05.js": "week05/week05-slides.html",
 }
 
 
