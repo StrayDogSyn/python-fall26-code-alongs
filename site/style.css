@@ -50,3 +50,4 @@ body[data-view="lesson"] #lesson-view{display:block}
   .lesson-shell{border-radius:1rem}
   .lesson-step{padding-left:2.7rem}
 }
+.site-footer p a{color:#9fdac8;font-weight:700}

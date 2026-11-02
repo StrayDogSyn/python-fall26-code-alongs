@@ -27,13 +27,19 @@ def save_names(path, names):
 
 if __name__ == "__main__":
     assert unique_names(["Maya", "Luis", "Maya", "Ari"]) == ["Maya", "Luis", "Ari"]
+    assert unique_names(["delta", "alpha", "charlie", "bravo", "alpha", "delta", "echo"]) == [
+        "delta", "alpha", "charlie", "bravo", "echo"
+    ]  # A set alone would scramble this order.
     assert unique_names([]) == []
     assert highest_score({"Maya": 82, "Luis": 75, "Ari": 91}) == "Ari"
+    assert highest_score({"Maya": 82, "Luis": 82}) == "Maya"  # Ties keep the first name seen.
     assert highest_score({}) is None
     with TemporaryDirectory() as folder:
         path = Path(folder) / "names.txt"
         save_names(path, ["Maya", "Luis"])
         assert path.read_text(encoding="utf-8") == "Maya\nLuis\n"
+        save_names(path, ["José", "Zoë"])
+        assert path.read_bytes() == "José\nZoë\n".encode("utf-8")  # Bytes prove the file is UTF-8.
         save_names(path, [])
         assert path.read_text(encoding="utf-8") == ""
     print("LP 02 checks passed. Explain one collection choice in your own words.")

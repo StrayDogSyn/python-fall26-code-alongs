@@ -4,7 +4,7 @@
 def classify_score(score):
     if score >= 70:
         return "ready"
-    return "practice"
+    return "keep practicing"
 
 
 def count_passing(scores):
@@ -17,7 +17,7 @@ def count_passing(scores):
 
 if __name__ == "__main__":
     assert classify_score(70) == "ready"
-    assert classify_score(69) == "practice"
+    assert classify_score(69) == "keep practicing"
     assert count_passing([70, 62, 91, 69]) == 2
     assert count_passing([]) == 0
     print("LP 01 reference checks passed.")
