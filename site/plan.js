@@ -147,37 +147,39 @@ window.COURSE_PLAN = {
     },
     {
       id: "lp02", phase: "core", code: "W04 / LP 02", title: "Data Structures & Files", status: "live",
-      summary: "Week 4 catch-up: collections and a text-file round trip.",
-      topics: ["lists", "dictionaries", "tuples and sets", "file I/O"],
-      objective: "I can choose a collection for a task and save and read a small text file.",
-      teach: "Model a roster with ordered names and name-to-score lookup.",
-      together: "Add a participant, spot a duplicate, and predict the saved file's lines.",
-      solo: "Implement unique_names, highest_score, and save_names before comparison.",
+      summary: "Week 4 catch-up: collections, UTF-8 files, parsing, ranking, and grouping.",
+      topics: ["lists", "dictionaries", "tuples and sets", "file I/O", "sorting and parsing"],
+      objective: "I can choose a collection, read and write UTF-8, and solve eleven checked exercises.",
+      teach: "Model a roster, read it with open, then parse, rank, group, and format data.",
+      together: "Add a participant, spot a duplicate, and predict a ranking and the saved file's lines.",
+      solo: "Complete eleven exercises from warm-up to repair and build, checking each locally.",
       links: [
         { label: "Week 4 slides", href: "week04/week04-slides.html", kind: "primary" },
         { label: "Text walkthrough", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/week04-walkthrough.md" },
         { label: "Open topic lab", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/README.md", kind: "primary" },
-        { label: "Practice starter", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/practice.py" }
+        { label: "Practice starter", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/practice.py" },
+        { label: "Local check command", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/check.py" }
       ],
       lesson: {
-        estimate: "≈45–60 min",
+        estimate: "≈90–110 min",
         steps: [
           { key: "start", label: "Start here", text: "Open the lab README, then read the notebook source. Stop at each Predict prompt and write your answer before reading on.", links: [
             { label: "Week 4 walkthrough", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/week04-walkthrough.md" },
             { label: "Lab README", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/README.md", kind: "primary" },
             { label: "Notebook source", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/notebook-source.md" }
           ] },
-          { key: "watch", label: "Watch / observe", mode: "I DO", text: "Run the instructor's code-along: model a roster with ordered names and a name-to-score lookup, then predict the saved file's lines.", links: [
+          { key: "watch", label: "Watch / observe", mode: "I DO", text: "Run the code-along: model a roster, predict its file lines, then trace open, word counts, ranking, groups, and meeting text.", links: [
             { label: "Week 4 slides", href: "week04/week04-slides.html" },
             { label: "Code-along", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/code-along.py" }
           ] },
-          { key: "practice", label: "Practice together", mode: "WE DO", text: "Add Noor and a second Ari to a scratch roster, then predict the saved file and unique count.", links: [
+          { key: "practice", label: "Practice together", mode: "WE DO", text: "Add Noor and a second Ari, then predict the file, unique count, and ranking after a tied score.", links: [
             { label: "Week 4 walkthrough", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/week04-walkthrough.md" }
           ] },
-          { key: "try", label: "Try independently", mode: "YOU DO", text: "Implement unique_names, highest_score, and save_names in practice.py, running the file after each change.", links: [
-            { label: "Practice starter", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/practice.py" }
+          { key: "try", label: "Try independently", mode: "YOU DO", text: "Complete eleven functions in practice.py. From the repository root, run python lp02-data-structures/check.py after each change.", links: [
+            { label: "Practice starter", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/practice.py" },
+            { label: "Three-level hints", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/hints.md" }
           ] },
-          { key: "check", label: "Check understanding", text: "Compare with the reference only after your version runs. Exit check: name which collection fits a new task and why, then read your saved file back.", links: [
+          { key: "check", label: "Check understanding", text: "Aim for eleven PASS lines before opening the reference. Exit check: explain order, a sort tie, and a UTF-8 file read.", links: [
             { label: "Reference solutions", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp02-data-structures/solutions.py" }
           ] }
         ]

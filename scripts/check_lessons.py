@@ -50,10 +50,21 @@ def main() -> int:
                     print(f"PASS {packet}/code-along.py (scripted input retry)")
             except Exception as error:
                 failures.append(f"{packet} ask_age failed: {type(error).__name__}: {error}")
+        if packet == "lp02-data-structures":
+            demo = run(folder / "code-along.py")
+            if demo.returncode or "First sign-ins: ['Maya', 'Luis', 'Ari']" not in demo.stdout or "Meeting: 20:00" not in demo.stdout:
+                failures.append(f"{packet} code-along output changed:\n{demo.stdout}{demo.stderr}")
+            else:
+                print(f"PASS {packet}/code-along.py (roster and meeting)")
+        if packet in ("lp01-intro-to-python", "lp02-data-structures"):
             names = (
                 "classify_score", "count_passing", "parse_score", "average",
                 "lowest_and_highest", "countdown", "numbered_lines", "clean_name",
                 "grade_letter", "total_points",
+            ) if packet == "lp01-intro-to-python" else (
+                "unique_names", "highest_score", "save_names", "load_names",
+                "word_counts", "ranked", "group_by_length", "top_n",
+                "parse_roster", "meeting_text", "remove_short_words",
             )
             reference = run(folder / "check.py", "--solutions")
             expected_pass = [f"PASS {name}" for name in names]
