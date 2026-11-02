@@ -9,7 +9,7 @@ import unittest
 HERE = Path(__file__).resolve().parent
 EXERCISES = (
     "total_of_evens", "count_up_by", "repair_average", "repair_first_even",
-    "ask_until_valid", "linear_search", "binary_search", "selection_sort",
+    "ask_until_valid", "last_match_search", "binary_search", "selection_sort",
     "bubble_sort_passes", "duplicate_pair", "squares_of_odds",
 )
 
@@ -84,11 +84,11 @@ class LessonChecks(unittest.TestCase):
         self.expect("ask_until_valid", (bad_read, 10, 15, 0), None, "Zero attempts must not read.")
         self.assertEqual(len(calls), 3, f"input zero attempts; expected no extra read, got {len(calls)} total. Hint: Test the guard first.")
 
-    def test_06_linear_search(self):
-        self.expect("linear_search", ([5, 7, 5], 5), (0, 1), "Return the first match and count its comparison.")
-        self.expect("linear_search", ([5, 7, 9], 9), (2, 3), "Count each checked item.")
-        self.expect("linear_search", ([5, 7, 9], 4), (-1, 3), "Count unsuccessful comparisons too.")
-        self.expect("linear_search", ([], 4), (-1, 0), "An empty list makes no comparisons.")
+    def test_06_last_match_search(self):
+        self.expect("last_match_search", ([5, 7, 5], 5), (2, 1), "Start at the last index; the first check wins.")
+        self.expect("last_match_search", ([5, 7, 9], 5), (0, 3), "Count each checked item, right to left.")
+        self.expect("last_match_search", ([5, 7, 9], 4), (-1, 3), "Count unsuccessful comparisons too.")
+        self.expect("last_match_search", ([], 4), (-1, 0), "An empty list makes no comparisons.")
 
     def test_07_binary_search(self):
         self.expect("binary_search", ([1, 3, 5, 7, 9], 7), (3, 2), "Move low past mid when mid is too small.")

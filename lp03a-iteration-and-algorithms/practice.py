@@ -53,11 +53,12 @@ def ask_until_valid(read, low, high, max_attempts=5):
     raise NotImplementedError("TODO")
 
 
-def linear_search(items, target):
-    """[Build] Return (first matching index, comparisons), or (-1, count).
+def last_match_search(items, target):
+    """[Build] Scan from the right end. Return (last matching index, comparisons).
 
-    Example: [5, 7, 5], 5 gives (0, 1). Edge: [], 5 gives (-1, 0).
-    Compare values one by one; do not use .index() or membership testing.
+    Example: [5, 7, 5], 5 gives (2, 1). [5, 7, 9], 5 gives (0, 3).
+    Edge: absent target gives (-1, number of items checked); [] gives (-1, 0).
+    Compare values one at a time; do not use .index(), reversed(), or slicing.
     """
     raise NotImplementedError("TODO")
 

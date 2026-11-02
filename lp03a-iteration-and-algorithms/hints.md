@@ -32,11 +32,11 @@ Open one level at a time, then run `python lp03a-iteration-and-algorithms/check.
 <details><summary>Hint 2: plan</summary>Track how many attempts remain, and stop on an inclusive in-range value.</details>
 <details><summary>Hint 3: shape</summary>Use a bounded `while` condition, update the attempt count, then test both bounds.</details>
 
-## 6. linear_search
+## 6. last_match_search
 
-<details><summary>Hint 1: look</summary>How many values have been compared when the first match appears?</details>
-<details><summary>Hint 2: plan</summary>Visit values in order and return immediately on the first equality.</details>
-<details><summary>Hint 3: shape</summary>`enumerate` supplies indices; increase a comparison count for every visited item.</details>
+<details><summary>Hint 1: look</summary>How many values have been compared when the last match appears?</details>
+<details><summary>Hint 2: plan</summary>Visit indexes from the highest down to zero and return on the first equality you meet.</details>
+<details><summary>Hint 3: shape</summary>`range` can count downward with a step of -1; increase a comparison count for every visited item.</details>
 
 ## 7. binary_search
 

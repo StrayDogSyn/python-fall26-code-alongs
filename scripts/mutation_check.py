@@ -398,19 +398,18 @@ lp03a_mutants = {
         return None
     return None'''),
  ],
- 'linear_search': [
-  ('keeps last match', '''def linear_search(items, target):
-    found = -1
+ 'last_match_search': [
+  ('scans left to right', '''def last_match_search(items, target):
     for index, item in enumerate(items):
-        if item == target: found = index
-    return found, len(items)'''),
-  ('does not count winning check', '''def linear_search(items, target):
-    for index, item in enumerate(items):
-        if item == target: return index, index
+        if item == target: return index, index + 1
     return -1, len(items)'''),
-  ('always reports full scan cost', '''def linear_search(items, target):
-    for index, item in enumerate(items):
-        if item == target: return index, len(items)
+  ('does not count winning check', '''def last_match_search(items, target):
+    for index in range(len(items) - 1, -1, -1):
+        if items[index] == target: return index, len(items) - 1 - index
+    return -1, len(items)'''),
+  ('always reports full scan cost', '''def last_match_search(items, target):
+    for index in range(len(items) - 1, -1, -1):
+        if items[index] == target: return index, len(items)
     return -1, len(items)'''),
  ],
  'binary_search': [
