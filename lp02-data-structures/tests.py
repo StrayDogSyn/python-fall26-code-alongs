@@ -1,5 +1,6 @@
 """LP 02 checks shared by the local runner and future browser runner."""
 
+from itertools import permutations
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
@@ -35,6 +36,10 @@ class LessonChecks(unittest.TestCase):
         self.expect("unique_names", (["Maya", "Luis", "Maya", "Ari"],), ["Maya", "Luis", "Ari"], "Keep first appearance order.")
         self.expect("unique_names", (["Ari", "Luis", "Maya"],), ["Ari", "Luis", "Maya"], "A set alone cannot preserve both orders.")
         self.expect("unique_names", ([],), [], "Empty input stays empty.")
+        # A set can accidentally preserve a few input orders under one hash seed.
+        for order in permutations(["Maya", "Luis", "Ari", "Zoe", "Noor"]):
+            names = list(order)
+            self.expect("unique_names", (names,), names, "Keep first appearance order for any input order.")
 
     def test_02_highest_score(self):
         self.expect("highest_score", ({"Maya": 82, "Ari": 91},), "Ari", "Compare every score.")
