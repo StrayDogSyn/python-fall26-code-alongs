@@ -29,7 +29,7 @@ No packages are required. On macOS or Linux, use `python3` if `python` is not av
 | --- | --- | --- |
 | Warm-up | `total_of_evens`, `count_up_by`, `squares_of_odds` | Accumulation, `range`, loop versus comprehension |
 | Fix it | `repair_average`, `repair_first_even` | Reset and early-return bugs |
-| Build | `ask_until_valid`, `linear_search`, `binary_search`, `selection_sort`, `duplicate_pair` | Bounded `while`, comparisons, sorted windows, nested loops |
+| Build | `ask_until_valid`, `last_match_search`, `binary_search`, `selection_sort`, `duplicate_pair` | Bounded `while`, comparisons, sorted windows, nested loops |
 | Extend | `bubble_sort_passes` | Trace each pass and keep snapshots |
 
 Every exercise has an example and an edge case in its docstring. The search exercises count comparisons so you can compare a one-by-one scan with a sorted-list search. Binary search needs ascending input. The sorting exercises use new lists so the caller's input stays intact.

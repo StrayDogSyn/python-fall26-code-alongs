@@ -46,12 +46,12 @@ def ask_until_valid(read, low, high, max_attempts=5):
     return None
 
 
-def linear_search(items, target):
-    # Count each equality check, including the successful one.
+def last_match_search(items, target):
+    # Walk indexes from the right; count each equality check, including the winning one.
     comparisons = 0
-    for index, item in enumerate(items):
+    for index in range(len(items) - 1, -1, -1):
         comparisons += 1
-        if item == target:
+        if items[index] == target:
             return index, comparisons
     return -1, comparisons
 
