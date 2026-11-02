@@ -92,7 +92,7 @@ def main() -> int:
             "once", "Stack", "group_scores", "compose", "Gradebook",
         ) if packet == "lp03-more-python-skills" else (
             "total_of_evens", "count_up_by", "repair_average", "repair_first_even",
-            "ask_until_valid", "linear_search", "binary_search", "selection_sort",
+            "ask_until_valid", "last_match_search", "binary_search", "selection_sort",
             "bubble_sort_passes", "duplicate_pair", "squares_of_odds",
         )
         reference = run(folder / "check.py", "--solutions")

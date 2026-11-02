@@ -24,7 +24,7 @@ Write the value of each variable after each visit. A total that resets *inside* 
 
 ## 4. Search one by one
 
-**Linear search** compares each value in order. It can stop at the first match or keep going to collect every match. The packet's search exercise asks for the first index and the number of comparisons, so the cost is visible.
+**Linear search** compares each value in order. It can stop at the first match or keep going to collect every match. The packet's search exercise scans from the right for the last match and counts comparisons, so the cost is visible.
 
 **Predict:** Searching `[17, 24, 31, 42, 58]` for `42`, how many comparisons? Reveal: four, at index three. A missing value needs five comparisons. An empty list needs zero.
 

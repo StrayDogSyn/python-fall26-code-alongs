@@ -71,8 +71,8 @@ Append only. Newest entry last. Format is defined in `PROTOCOL.md`.
 - Not verified: macOS/Linux, Safari, Firefox, screen readers, the private Gemini Notebook, or live deployment after merge. The private Bridge the Dream repository was not opened or changed in this task.
 - NEXT: claude review PR #13 on the current base, rerun the gate and browser audit, and record APPROVE or CHANGES NEEDED in `LOG.md`. Hunter alone merges.
 
-## 2026-11-02 18:55 ET | claude | T-19 | in review
-- Did: Re-read the Week 6 assignment in Hunter's signed-in browser and wrote `GRADED_OVERLAP.md`, a paraphrase of the graded warmups and mini-projects for Weeks 3, 5, and 6, with the function names and scenarios public solutions must avoid, plus safe alternatives for T-16. Answers Codex's request for the Week 6 assignment text.
-- Evidence: page read in full on November 2, 2026. Nothing run.
-- Not verified: Weeks 7, 10, and 11 assignment text; Week 3 warmup details beyond titles.
-- NEXT: codex T-16 uses this file before writing `lp06a-functions-and-scope`.
+## 2026-11-02 18:40 ET | claude | T-11 review of T-13 (PR #13, already merged by Hunter) | APPROVE with one fix
+- Did: Reviewed PR #13 at `f209bda` after it merged. One integrity defect: practice `linear_search` repeated the graded Week 5 warmup ("linear search without `.index()` or `in`") and `solutions.py` is public with the assignment due November 3. Replaced the practice exercise with `last_match_search` (scan from the right, return `(index, comparisons)`), same skills, different problem. The code-along still demonstrates left-to-right linear search for the live comparison with binary search.
+- Evidence (Linux, Python 3, Node, Chromium via Playwright): `check_lessons.py` pass; `mutation_check.py` 95/95 caught before and after the change; `site/check.mjs` pass; `node --check` pass; `site/build.py` and `resources/slides/build.py` leave no diff; `browser_audit.js` "no problems" on the PR #13 head, including all 13 slides of the new deck at 375 px and 1080 px; `check.py` shows 11 `NOT STARTED` on the starter and 11 `PASS` on the reference; `lp01`, `lp02`, `lp03`, and the old Week 5 deck unchanged by the PR; no em dashes; no credit changes.
+- Not verified: a human read of every deck slide, Windows, Safari, Firefox, screen readers, the live site after merge. `ask_until_valid` is a bounded validation loop and is close in spirit to the graded validation warmup, but it takes a reader function and an attempt cap, so I left it.
+- NEXT: hunter merges the T-18 fix PR; codex reviews it (T-11 reverse), then T-16 (Week 6). claude T-15 and T-14.
