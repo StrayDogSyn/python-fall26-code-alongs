@@ -3,9 +3,13 @@
 Run from any directory: python scripts/check_lessons.py
 """
 
+from contextlib import redirect_stdout
+from io import StringIO
 from pathlib import Path
+import runpy
 import subprocess
 import sys
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -16,9 +20,9 @@ PACKETS = (
 )
 
 
-def run(path: Path) -> subprocess.CompletedProcess[str]:
+def run(path: Path, *args: str) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
-        [sys.executable, str(path)],
+        [sys.executable, str(path), *args],
         cwd=ROOT,
         capture_output=True,
         text=True,
@@ -30,6 +34,43 @@ def main() -> int:
     failures = []
     for packet in PACKETS:
         folder = ROOT / packet
+        if packet == "lp01-intro-to-python":
+            demo = run(folder / "code-along.py")
+            if demo.returncode or "Score status: ready" not in demo.stdout or "Final total: 9" not in demo.stdout:
+                failures.append(f"{packet} code-along output changed:\n{demo.stdout}{demo.stderr}")
+            else:
+                print(f"PASS {packet}/code-along.py (label and total)")
+            try:
+                ask_age = runpy.run_path(str(folder / "code-along.py"))["ask_age"]
+                with patch("builtins.input", side_effect=["oops", " 20 "]), redirect_stdout(StringIO()):
+                    age = ask_age()
+                if age != 20:
+                    failures.append(f"{packet} ask_age returned {age!r}, expected 20")
+                else:
+                    print(f"PASS {packet}/code-along.py (scripted input retry)")
+            except Exception as error:
+                failures.append(f"{packet} ask_age failed: {type(error).__name__}: {error}")
+            names = (
+                "classify_score", "count_passing", "parse_score", "average",
+                "lowest_and_highest", "countdown", "numbered_lines", "clean_name",
+                "grade_letter", "total_points",
+            )
+            reference = run(folder / "check.py", "--solutions")
+            expected_pass = [f"PASS {name}" for name in names]
+            if reference.returncode or reference.stdout.splitlines() != expected_pass:
+                failures.append(f"{packet} reference check failed:\n{reference.stdout}{reference.stderr}")
+            else:
+                print(f"PASS {packet}/solutions.py ({len(names)} exercises)")
+            starter = run(folder / "check.py")
+            lines = starter.stdout.splitlines()
+            if starter.returncode != 1 or len(lines) != len(names) or any(
+                not line.startswith(f"NOT STARTED {name}:")
+                for line, name in zip(lines, names)
+            ):
+                failures.append(f"{packet} starter check failed:\n{starter.stdout}{starter.stderr}")
+            else:
+                print(f"PASS {packet}/practice.py ({len(names)} expected TODOs)")
+            continue
         for name in ("solutions.py",):
             result = run(folder / name)
             if result.returncode:

@@ -107,37 +107,39 @@ window.COURSE_PLAN = {
     },
     {
       id: "lp01", phase: "core", code: "W03 / LP 01", title: "Intro to Python", status: "live",
-      summary: "Week 3 catch-up: values, variables, conditions, loops, functions, and debugging.",
-      topics: ["values and types", "control flow", "functions", "debugging"],
-      objective: "I can predict and change a short Python program, then explain its output.",
-      teach: "Trace a total loop and narrate why numeric text needs conversion.",
-      together: "Change a threshold, predict the branch, and run the changed program.",
-      solo: "Implement classify_score and count_passing before opening the reference solution.",
+      summary: "Week 3 catch-up: values, safe conversion, conditions, loops, functions, and strings.",
+      topics: ["values and types", "control flow", "functions", "exceptions", "strings"],
+      objective: "I can predict a Python program, then build and repair ten small functions.",
+      teach: "Trace a total loop, safe numeric conversion, a changing while condition, and string cleanup.",
+      together: "Change a threshold and guest list, predict the output, and run the changed program.",
+      solo: "Complete ten graded functions from warm-up to transfer, checking each one locally.",
       links: [
         { label: "Week 3 slides", href: "week03/week03-slides.html", kind: "primary" },
         { label: "Text walkthrough", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/week03-walkthrough.md" },
         { label: "Open topic lab", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/README.md", kind: "primary" },
-        { label: "Practice starter", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/practice.py" }
+        { label: "Practice starter", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/practice.py" },
+        { label: "Local check command", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/check.py" }
       ],
       lesson: {
-        estimate: "≈45–60 min",
+        estimate: "≈75–100 min",
         steps: [
           { key: "start", label: "Start here", text: "Open the lab README, then read the notebook source. Stop at each Predict prompt and write your answer before reading on.", links: [
             { label: "Week 3 walkthrough", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/week03-walkthrough.md" },
             { label: "Lab README", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/README.md", kind: "primary" },
             { label: "Notebook source", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/notebook-source.md" }
           ] },
-          { key: "watch", label: "Watch / observe", mode: "I DO", text: "Run the instructor's code-along and trace the total loop line by line, including why int('4') is needed.", links: [
+          { key: "watch", label: "Watch / observe", mode: "I DO", text: "Run the code-along. Trace the total loop, safe input pattern, numbered guests, range, mean, and string cleanup.", links: [
             { label: "Week 3 slides", href: "week03/week03-slides.html" },
             { label: "Code-along", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/code-along.py" }
           ] },
-          { key: "practice", label: "Practice together", mode: "WE DO", text: "Change the cutoff to 75 in a scratch copy. Predict the label for 72 before running.", links: [
+          { key: "practice", label: "Practice together", mode: "WE DO", text: "Change the cutoff to 75 and add a guest with extra spaces. Predict the label and cleaned name before running.", links: [
             { label: "Week 3 walkthrough", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/week03-walkthrough.md" }
           ] },
-          { key: "try", label: "Try independently", mode: "YOU DO", text: "Implement classify_score and count_passing in practice.py, running the file after each change.", links: [
-            { label: "Practice starter", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/practice.py" }
+          { key: "try", label: "Try independently", mode: "YOU DO", text: "Complete ten exercises in practice.py. From the repository root, run python lp01-intro-to-python/check.py after each change.", links: [
+            { label: "Practice starter", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/practice.py" },
+            { label: "Three-level hints", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/hints.md" }
           ] },
-          { key: "check", label: "Check understanding", text: "Compare with the reference only after your version runs. Exit check: explain = versus ==, predict a return value, and find the last line of a traceback.", links: [
+          { key: "check", label: "Check understanding", text: "Aim for ten PASS lines before opening the reference. Exit check: explain = versus ==, a while stopping condition, and one ValueError recovery.", links: [
             { label: "Reference solutions", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp01-intro-to-python/solutions.py" }
           ] }
         ]
@@ -214,7 +216,7 @@ window.COURSE_PLAN = {
             { label: "Week 5 quiz", href: "week05/week05-slides.html" },
             { label: "Reference solutions", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03-more-python-skills/solutions.py" }
           ] },
-          { key: "unstuck", label: "Get unstuck", text: "Read the last traceback line. NotImplementedError marks the next TODO. Ask for one hint about that function at a time.", links: [
+          { key: "unstuck", label: "Get unstuck", text: "Find the exercise's FAIL or NOT STARTED line in the local check output. Open one hint level for that function at a time.", links: [
             { label: "Text source", href: "https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/lp03-more-python-skills/notebook-source.md" }
           ] }
         ]
