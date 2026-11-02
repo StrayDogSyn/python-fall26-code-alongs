@@ -41,8 +41,8 @@ for point in [2, 3, 4]:
     },
     {
       title: "Shared change and independent practice",
-      html: `<h2>Change one rule together</h2><p>We Do: change the cutoff to 75 in a scratch copy. Predict what happens to score 72 before running.</p><h3>Your turn</h3><p>Implement <code>classify_score</code> and <code>count_passing</code> in <code>practice.py</code>. Replace one TODO at a time.</p><pre class="cmd"><code>python lp01-intro-to-python/practice.py</code></pre><p>Check 70, 69, and an empty list. The starter's <code>NotImplementedError</code> means you have reached a TODO.</p>`,
-      notes: { timing: "22 min", talking: "Give silent work time. Offer only the first hint: start the count at zero. Ask learners to explain a passing assertion.", question: "Why test 70? It is the boundary of the condition.", failure: "A student sees NotImplementedError after fixing one function. Direct them to the next TODO.", action: "Have learners state one prediction, the observed result, and the explaining line." }
+      html: `<h2>Change one rule together</h2><p>We Do: change the cutoff to 75 in a scratch copy. Predict what happens to score 72 before running.</p><h3>Your turn</h3><p>Start with <code>classify_score</code> and <code>count_passing</code>, then work through the eight new exercises in <code>practice.py</code>. Replace one TODO at a time.</p><pre class="cmd"><code>python lp01-intro-to-python/check.py</code></pre><p>The check prints one <code>PASS</code>, <code>FAIL</code>, or <code>NOT STARTED</code> line per exercise. Open one level in <a href="../lp01-intro-to-python/hints.md">hints.md</a> when stuck.</p>`,
+      notes: { timing: "22 min", talking: "Begin the ten-exercise ladder here and let students continue after class. Offer only the first hint: start the count at zero. Ask learners to explain a passing check.", question: "Why test 70? It is the boundary of the condition.", failure: "A student sees NOT STARTED after fixing one function. Point them to the next TODO and the matching hint section.", action: "Have learners state one prediction, the observed result, and the explaining line." }
     },
     {
       title: "Week 3 check",

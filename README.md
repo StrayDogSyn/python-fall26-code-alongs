@@ -226,6 +226,8 @@ The [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) is
 
 Each ready stop on the hub opens a step-by-step study route (start here, watch, practice together, try independently, check understanding, get unstuck, go deeper) with shareable links like `#/week01`. Each session uses **I Do → We Do → You Do**: watch and predict a worked example, change one thing together, then solve a fresh task independently. The [Gemini Notebook teaching kit](GEMINI_NOTEBOOK.md) gives source import steps and prompts for multiple study formats. The slides and Python files work without a Notebook account.
 
+For the ten LP 01 exercises, run `python lp01-intro-to-python/check.py` from the repository root after each change. It reports each exercise separately.
+
 ## How a Code-Along Works
 
 Good news: there is no secret trick. There is a loop, and the loop works.

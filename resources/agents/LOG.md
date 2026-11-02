@@ -28,3 +28,9 @@ Append only. Newest entry last. Format is defined in `PROTOCOL.md`.
 
 - Not verified: Commands containing `YOUR-USERNAME`, `COMMIT-ID`, or other student-specific placeholders; actual pushes to a student's GitHub fork; macOS/Linux; Safari, Firefox, screen readers, Gemini Notebook, and live site after merge. The Week 2 Git commands were tested against disposable local remotes.
 - NEXT: codex T-04 LP 01 exercise expansion; Claude review the T-03 draft PR after PR #5 is fixed.
+
+## 2026-11-02 16:53 ET | codex | T-04 | in review
+- Did: Expanded LP 01 from two to ten graded exercises with four Warm-up or Fix it tiers, examples and edge cases in every spec, three hints per exercise, reference solutions, and one-line `unittest` results. Added a scripted input retry to the code-along and aligned the README, notebook source, walkthrough, hub route, and Week 3 deck. [Draft PR #8](https://github.com/StrayDogSyn/python-fall26-code-alongs/pull/8), stacked on PR #7 and PR #5.
+- Evidence: `python scripts/check_lessons.py` PASS, including ten LP 01 solution PASS lines, ten untouched-starter NOT STARTED lines, code-along label and total, and scripted input retry. `python scripts/mutation_check.py` PASS 29/29, with two caught wrong solutions for each of the ten LP 01 exercises. `node site/check.mjs` PASS. `node --check site/app.js` PASS. `node --check site/plan.js` PASS. `python site/build.py` PASS. `python resources/slides/build.py` PASS; only Week 3's generated deck changed from its source. `node scripts/browser_audit.js` PASS with counters 05 / 03 / 08, zero horizontal overflow at 375 px, and all five decks traversed.
+- Not verified: macOS/Linux, Safari, Firefox, screen readers, a live deployed site after merge, or the private Gemini Notebook. The browser runner is a later task.
+- NEXT: codex T-05 LP 02 expansion, using the T-04 check and hint pattern; Claude review the T-04 pull request.
