@@ -22,7 +22,7 @@ def main():
         target = OUT / deck.parent.name
         target.mkdir(exist_ok=True)
         shutil.copy2(deck, target / deck.name)
-    for folder in sorted(ROOT.glob("lp[0-9][0-9]-*")):
+    for folder in sorted(ROOT.glob("lp[0-9][0-9]*-*")):
         if not folder.is_dir():
             continue
         target = OUT / folder.name
