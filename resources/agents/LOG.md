@@ -40,3 +40,9 @@ Append only. Newest entry last. Format is defined in `PROTOCOL.md`.
 - Evidence: queue and log edits only; no code changed.
 - Not verified: nothing run.
 - NEXT: codex T-13 (branch from this PR or `main` once merged). claude T-14 in progress.
+
+## 2026-11-02 17:46 ET | codex | T-13 Tier A | in progress
+- Did: Built the new additive Week 5 packet's live script, eleven-exercise starter, reference answers, local `unittest` check, packet README, and 90-minute run of show. Added two caught wrong solutions per exercise to the mutation check. PR #12 and PR #9 merged while work began; the still-unpushed branch was rebased onto their current `main`.
+- Evidence: `python scripts/check_lessons.py` PASS, including the code-along, 11 reference PASS lines, and 11 untouched-starter NOT STARTED lines. `python scripts/mutation_check.py` PASS 69/69. `node site/check.mjs` PASS. `node --check site/app.js` PASS. `node --check site/plan.js` PASS. `python site/build.py` PASS. `python resources/slides/build.py` PASS; `git status --short` shows only the intended new packet, two check scripts, queue, and log before the commit. `git diff origin/main -- lp01-intro-to-python lp02-data-structures lp03-more-python-skills week05/week05-slides.html` is empty. `python` worked in Windows PowerShell.
+- Not verified: browser audit, new deck and hub route, macOS/Linux, Safari, Firefox, screen readers, or Gemini Notebook. These are later tiers or review checks.
+- NEXT: codex push Tier A, open a draft PR, then build T-13 Tier B.

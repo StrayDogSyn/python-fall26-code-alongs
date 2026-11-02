@@ -17,6 +17,7 @@ PACKETS = (
     "lp01-intro-to-python",
     "lp02-data-structures",
     "lp03-more-python-skills",
+    "lp03a-iteration-and-algorithms",
 )
 
 
@@ -77,6 +78,36 @@ def main() -> int:
             if starter.returncode != 1 or len(lines) != len(names) or any(
                 not line.startswith(f"NOT STARTED {name}:")
                 for line, name in zip(lines, names)
+            ):
+                failures.append(f"{packet} starter check failed:\n{starter.stdout}{starter.stderr}")
+            else:
+                print(f"PASS {packet}/practice.py ({len(names)} expected TODOs)")
+            continue
+        if packet == "lp03a-iteration-and-algorithms":
+            demo = run(folder / "code-along.py")
+            expected_demo = (
+                "count=4, total=22", "range(2, 10, 3)=[2, 5, 8]",
+                "linear index=3, comparisons=4", "binary comparisons=2",
+                "loop=[7, 9], comprehension=[7, 9]",
+            )
+            if demo.returncode or any(piece not in demo.stdout for piece in expected_demo):
+                failures.append(f"{packet} code-along output changed:\n{demo.stdout}{demo.stderr}")
+            else:
+                print(f"PASS {packet}/code-along.py (loop and algorithm traces)")
+            names = (
+                "total_of_evens", "count_up_by", "repair_average", "repair_first_even",
+                "ask_until_valid", "linear_search", "binary_search", "selection_sort",
+                "bubble_sort_passes", "duplicate_pair", "squares_of_odds",
+            )
+            reference = run(folder / "check.py", "--solutions")
+            if reference.returncode or reference.stdout.splitlines() != [f"PASS {name}" for name in names]:
+                failures.append(f"{packet} reference check failed:\n{reference.stdout}{reference.stderr}")
+            else:
+                print(f"PASS {packet}/solutions.py ({len(names)} exercises)")
+            starter = run(folder / "check.py")
+            lines = starter.stdout.splitlines()
+            if starter.returncode != 1 or len(lines) != len(names) or any(
+                not line.startswith(f"NOT STARTED {name}:") for line, name in zip(lines, names)
             ):
                 failures.append(f"{packet} starter check failed:\n{starter.stdout}{starter.stderr}")
             else:

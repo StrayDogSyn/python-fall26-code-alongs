@@ -245,6 +245,161 @@ for d,muts in cases.items():
         if status=='CAUGHT': caught+=1
         else: escaped.append((d,name,status))
         print(f'{d:26} {name:48} {status}')
+
+# Week 5 kindred packet: two plausible wrong answers per exercise.
+lp03a_mutants = {
+ 'total_of_evens': [
+  ('adds every value', '''def total_of_evens(numbers):
+    return sum(numbers)'''),
+  ('ignores negative evens', '''def total_of_evens(numbers):
+    return sum(number for number in numbers if number > 0 and number % 2 == 0)'''),
+ ],
+ 'count_up_by': [
+  ('includes stop', '''def count_up_by(start, stop, step):
+    if step == 0: raise ValueError("step cannot be zero")
+    return list(range(start, stop + (1 if step > 0 else -1), step))'''),
+  ('forces positive step', '''def count_up_by(start, stop, step):
+    if step == 0: raise ValueError("step cannot be zero")
+    return list(range(start, stop, abs(step)))'''),
+ ],
+ 'repair_average': [
+  ('resets inside loop', '''def repair_average(numbers):
+    if not numbers: return 0.0
+    total = 0
+    for number in numbers:
+        total = 0
+        total += number
+    return round(total / len(numbers), 1)'''),
+  ('rounds to whole number', '''def repair_average(numbers):
+    return round(sum(numbers) / len(numbers)) if numbers else 0.0'''),
+ ],
+ 'repair_first_even': [
+  ('returns after first odd', '''def repair_first_even(numbers):
+    for number in numbers:
+        if number % 2 == 0: return number
+        return None
+    return None'''),
+  ('returns last even', '''def repair_first_even(numbers):
+    found = None
+    for number in numbers:
+        if number % 2 == 0: found = number
+    return found'''),
+ ],
+ 'ask_until_valid': [
+  ('excludes bounds', '''def ask_until_valid(read, low, high, max_attempts=5):
+    for _ in range(max_attempts):
+        value = read()
+        if low < value < high: return value
+    return None'''),
+  ('reads one extra time', '''def ask_until_valid(read, low, high, max_attempts=5):
+    for _ in range(max_attempts + 1):
+        value = read()
+        if low <= value <= high: return value
+    return None'''),
+ ],
+ 'linear_search': [
+  ('keeps last match', '''def linear_search(items, target):
+    found = -1
+    for index, item in enumerate(items):
+        if item == target: found = index
+    return found, len(items)'''),
+  ('does not count winning check', '''def linear_search(items, target):
+    for index, item in enumerate(items):
+        if item == target: return index, index
+    return -1, len(items)'''),
+ ],
+ 'binary_search': [
+  ('moves high in wrong direction', '''def binary_search(sorted_items, target):
+    low, high, checks = 0, len(sorted_items) - 1, 0
+    while low <= high:
+        mid = (low + high) // 2
+        checks += 1
+        if sorted_items[mid] == target: return mid, checks
+        if sorted_items[mid] < target: high = mid - 1
+        else: low = mid + 1
+    return -1, checks'''),
+  ('forgets unsuccessful comparisons', '''def binary_search(sorted_items, target):
+    low, high, checks = 0, len(sorted_items) - 1, 0
+    while low <= high:
+        mid = (low + high) // 2
+        checks += 1
+        if sorted_items[mid] == target: return mid, checks
+        if sorted_items[mid] < target: low = mid + 1
+        else: high = mid - 1
+    return -1, 0'''),
+ ],
+ 'selection_sort': [
+  ('selects largest first', '''def selection_sort(items):
+    result = list(items)
+    for left in range(len(result)):
+        chosen = left
+        for index in range(left + 1, len(result)):
+            if result[index] > result[chosen]: chosen = index
+        result[left], result[chosen] = result[chosen], result[left]
+    return result'''),
+  ('changes input list', '''def selection_sort(items):
+    result = items
+    for left in range(len(result)):
+        chosen = left
+        for index in range(left + 1, len(result)):
+            if result[index] < result[chosen]: chosen = index
+        result[left], result[chosen] = result[chosen], result[left]
+    return result'''),
+ ],
+ 'bubble_sort_passes': [
+  ('records only final pass', '''def bubble_sort_passes(items):
+    values = list(items)
+    for end in range(len(values) - 1, 0, -1):
+        for index in range(end):
+            if values[index] > values[index + 1]:
+                values[index], values[index + 1] = values[index + 1], values[index]
+    return [values] if len(values) > 1 else []'''),
+  ('reuses one snapshot list', '''def bubble_sort_passes(items):
+    values = list(items)
+    snapshots = []
+    for end in range(len(values) - 1, 0, -1):
+        for index in range(end):
+            if values[index] > values[index + 1]:
+                values[index], values[index + 1] = values[index + 1], values[index]
+        snapshots.append(values)
+    return snapshots'''),
+ ],
+ 'duplicate_pair': [
+  ('returns a boolean', '''def duplicate_pair(items):
+    for first in range(len(items)):
+        for second in range(first + 1, len(items)):
+            if items[first] == items[second]: return True
+    return None'''),
+  ('keeps last pair', '''def duplicate_pair(items):
+    found = None
+    for first in range(len(items)):
+        for second in range(first + 1, len(items)):
+            if items[first] == items[second]: found = (first, second)
+    return found'''),
+ ],
+ 'squares_of_odds': [
+  ('returns only one version', '''def squares_of_odds(numbers):
+    return [n * n for n in numbers if n % 2]'''),
+  ('includes even values', '''def squares_of_odds(numbers):
+    values = [n * n for n in numbers]
+    return values, values.copy()'''),
+ ],
+}
+lp03a_source = pathlib.Path('lp03a-iteration-and-algorithms/solutions.py').read_text(encoding='utf-8')
+for exercise, mutants in lp03a_mutants.items():
+    for label, replacement in mutants:
+        with tempfile.TemporaryDirectory() as folder:
+            path = pathlib.Path(folder) / 'wrong.py'
+            path.write_text(replace_function(lp03a_source, exercise, replacement), encoding='utf-8')
+            result = subprocess.run(
+                [sys.executable, 'lp03a-iteration-and-algorithms/check.py', '--module', str(path)],
+                capture_output=True, text=True,
+            )
+        total += 1
+        status = 'CAUGHT' if result.returncode == 1 and f'FAIL {exercise}:' in result.stdout else 'ESCAPED'
+        if status == 'CAUGHT': caught += 1
+        else: escaped.append(('lp03a-iteration-and-algorithms', exercise, label, result.stdout, result.stderr))
+        print(f'lp03a-iteration-and-algorithms {exercise}: {label:30} {status}')
 print(f'\nmutants caught by lesson checks: {caught}/{total}')
 for e in escaped: print('  NOT RELIABLY CAUGHT:',e)
 raise SystemExit(1 if escaped else 0)
