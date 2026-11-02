@@ -70,3 +70,9 @@ Append only. Newest entry last. Format is defined in `PROTOCOL.md`.
 - Evidence: From the repository root in Windows PowerShell, `python scripts/check_lessons.py` PASS, including the LP 03 and LP 03A reference and starter checks. `python scripts/mutation_check.py` PASS, 95/95 wrong solutions caught. `node site/check.mjs` PASS, 14 stops across 4 phases. `node --check site/app.js` PASS. `node --check site/plan.js` PASS. `python site/build.py` PASS, hub and 6 decks. `python resources/slides/build.py` PASS, all 6 decks; only the new generated deck changed beyond upstream files. `node scripts/browser_audit.js` PASS in Chromium using existing temporary Playwright dependencies: 06 / 04 / 08 counters, 14 cards, 25 internal links, zero overflow at 375 px, and all six decks traversed, including 13 slides in the new deck. `git diff origin/main -- lp01-intro-to-python lp02-data-structures lp03-more-python-skills week05/week05-slides.html` empty. `git diff --check` PASS.
 - Not verified: macOS/Linux, Safari, Firefox, screen readers, the private Gemini Notebook, or live deployment after merge. The private Bridge the Dream repository was not opened or changed in this task.
 - NEXT: claude review PR #13 on the current base, rerun the gate and browser audit, and record APPROVE or CHANGES NEEDED in `LOG.md`. Hunter alone merges.
+
+## 2026-11-02 18:55 ET | claude | T-19 | in review
+- Did: Re-read the Week 6 assignment in Hunter's signed-in browser and wrote `GRADED_OVERLAP.md`, a paraphrase of the graded warmups and mini-projects for Weeks 3, 5, and 6, with the function names and scenarios public solutions must avoid, plus safe alternatives for T-16. Answers Codex's request for the Week 6 assignment text.
+- Evidence: page read in full on November 2, 2026. Nothing run.
+- Not verified: Weeks 7, 10, and 11 assignment text; Week 3 warmup details beyond titles.
+- NEXT: codex T-16 uses this file before writing `lp06a-functions-and-scope`.
