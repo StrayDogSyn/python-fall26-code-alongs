@@ -9,7 +9,7 @@ Append only. Newest entry last. Format is defined in `PROTOCOL.md`.
 - NEXT: codex T-02 (review T-01), then T-03.
 
 ## 2026-11-02 16:42 ET | codex | T-03 | in review
-- Did: Ran the runnable Windows lesson commands in PowerShell. Fixed the LP 02 UTF-8 assertion to accept Windows CRLF while still rejecting Latin-1, and made the browser audit ignore blocked Google Fonts only when the failed request URL is a Google Fonts URL. Draft PR link to be added after creation. Stacked on PR #5.
+- Did: Ran the runnable Windows lesson commands in PowerShell. Fixed the LP 02 UTF-8 assertion to accept Windows CRLF while still rejecting Latin-1, and made the browser audit ignore blocked Google Fonts only when the failed request URL is a Google Fonts URL. [Draft PR #7](https://github.com/StrayDogSyn/python-fall26-code-alongs/pull/7), stacked on PR #5.
 - Evidence: `python scripts/check_lessons.py` PASS (all six files); `python scripts/mutation_check.py` PASS (12/12 wrong solutions caught); `node site/check.mjs` PASS; `node --check site/app.js` PASS; `node --check site/plan.js` PASS; `python site/build.py` PASS; `python resources/slides/build.py` PASS with only intended source and log changes; `node scripts/browser_audit.js` PASS (05 / 03 / 08 counters, zero overflow at 375 px, all decks traversed). The browser audit used temporary Playwright and Chromium installed outside the repository. `python` resolved to Python 3.13.15; `py --version` returned "No installed Python found!" on this machine.
 
 | Command from lesson materials | Shell and location | Result |
