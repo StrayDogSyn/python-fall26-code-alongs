@@ -224,7 +224,7 @@ The [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) is
 | Week 04 / LP 02: collections and files | [Slides](week04/week04-slides.html) · [walkthrough](lp02-data-structures/week04-walkthrough.md) · [topic lab](lp02-data-structures/README.md) | [LP 02 source](lp02-data-structures/notebook-source.md) | [Starter](lp02-data-structures/practice.py) |
 | Week 05 / LP 03: more Python skills | [Slides](week05/week05-slides.html) · [session plan](lp03-more-python-skills/week05-run-of-show.md) · [topic lab](lp03-more-python-skills/README.md) | [LP 03 source](lp03-more-python-skills/notebook-source.md) | [Starter](lp03-more-python-skills/practice.py) |
 
-Each ready stop on the hub opens a step-by-step study route — start here, watch, practice together, try independently, check understanding, get unstuck, go deeper — with shareable links like `#/week01`. Each session uses **I Do → We Do → You Do**: watch and predict a worked example, change one thing together, then solve a fresh task independently. The [Gemini Notebook teaching kit](GEMINI_NOTEBOOK.md) gives source import steps and prompts for multiple study formats. The slides and Python files work without a Notebook account.
+Each ready stop on the hub opens a step-by-step study route (start here, watch, practice together, try independently, check understanding, get unstuck, go deeper) with shareable links like `#/week01`. Each session uses **I Do → We Do → You Do**: watch and predict a worked example, change one thing together, then solve a fresh task independently. The [Gemini Notebook teaching kit](GEMINI_NOTEBOOK.md) gives source import steps and prompts for multiple study formats. The slides and Python files work without a Notebook account.
 
 ## How a Code-Along Works
 
@@ -379,6 +379,8 @@ The same steps in words:
 ## Credits
 
 These code-alongs build on the lesson sequence from [Python Essentials Bridge the Dream](https://github.com/StrayDogSyn/Python-Essentials-Bridge-The-Dream), the previous cohort's curriculum, which itself draws on lesson content from Code the Dream educators and lesson authors. Fall 26 is a fresh live run with new examples, new exercises, and a new batch of jokes nobody asked for.
+
+Built with help from AI collaborators: ChatGPT (OpenAI Codex), Gemini, and Claude. Hunter reviews every change before it ships, and [CONTRIBUTORS.md](CONTRIBUTORS.md) records who did what.
 
 Maintained by **Hunter (Eric Petross)** of [StrayDog Syndications LLC](https://www.straydog-syndications-llc.com/). Built for the students of [Code the Dream](https://codethedream.org/), a nonprofit providing free software development training to people from diverse and low-income backgrounds.
 

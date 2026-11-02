@@ -20,8 +20,17 @@
 
   document.getElementById("stop-count").textContent = String(plan.units.length);
   document.getElementById("week-count").textContent = String(liveUnits.length).padStart(2, "0");
-  document.getElementById("lab-count").textContent = String(plan.units.filter((unit) => unit.status === "preview").length).padStart(2, "0");
-  document.getElementById("packet-count").textContent = String(plan.units.filter((unit) => unit.code.startsWith("LP")).length).padStart(2, "0");
+  document.getElementById("lab-count").textContent = String(liveUnits.filter((unit) => unit.code.includes("LP")).length).padStart(2, "0");
+  document.getElementById("packet-count").textContent = String(plan.units.filter((unit) => unit.status === "planned").length).padStart(2, "0");
+
+  const currentWeek = liveUnits[liveUnits.length - 1];
+  const currentLink = document.getElementById("current-week");
+  const currentPrimary = currentWeek && currentWeek.links.find((link) => link.kind === "primary");
+  const currentNumber = currentWeek && /^W(\d+)/.exec(currentWeek.code);
+  if (currentLink && currentPrimary && currentNumber) {
+    currentLink.setAttribute("href", currentPrimary.href);
+    currentLink.firstChild.textContent = `Open Week ${currentNumber[1]} `;
+  }
 
   function el(tag, className, content) {
     const node = document.createElement(tag);

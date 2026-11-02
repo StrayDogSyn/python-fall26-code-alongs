@@ -106,7 +106,7 @@ window.COURSE_PLAN = {
       }
     },
     {
-      id: "lp01", phase: "core", code: "W03 / LP 01", title: "Intro to Python", status: "preview",
+      id: "lp01", phase: "core", code: "W03 / LP 01", title: "Intro to Python", status: "live",
       summary: "Week 3 catch-up: values, variables, conditions, loops, functions, and debugging.",
       topics: ["values and types", "control flow", "functions", "debugging"],
       objective: "I can predict and change a short Python program, then explain its output.",
@@ -144,7 +144,7 @@ window.COURSE_PLAN = {
       }
     },
     {
-      id: "lp02", phase: "core", code: "W04 / LP 02", title: "Data Structures & Files", status: "preview",
+      id: "lp02", phase: "core", code: "W04 / LP 02", title: "Data Structures & Files", status: "live",
       summary: "Week 4 catch-up: collections and a text-file round trip.",
       topics: ["lists", "dictionaries", "tuples and sets", "file I/O"],
       objective: "I can choose a collection for a task and save and read a small text file.",
@@ -182,7 +182,7 @@ window.COURSE_PLAN = {
       }
     },
     {
-      id: "lp03", phase: "core", code: "W05 / LP 03", title: "More Python Skills", status: "preview",
+      id: "lp03", phase: "core", code: "W05 / LP 03", title: "More Python Skills", status: "live",
       summary: "Week 5: classes, comprehensions, decorators, and closures.",
       topics: ["classes", "comprehensions", "decorators", "closures"],
       objective: "I can explain how a class owns data, how a comprehension builds values, and what decorators and closures retain.",
