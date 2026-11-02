@@ -121,6 +121,7 @@ flowchart TB
 | 01 | Intro to Python | Variables, data types, control flow, functions, debugging |
 | 02 | Data Structures & File Handling | Lists, dictionaries, tuples, sets, reading and writing files |
 | 03 | More Python Skills | Classes, comprehensions, decorators, closures |
+| 03A | [Iteration & Algorithms](lp03a-iteration-and-algorithms/README.md) | Loops, search, sorting, debugging loops; kindred packet for Python Intro 26.4 Week 5 and Bridge the Dream |
 | 04 | Intro to Data Engineering | Pandas basics, Series, DataFrames |
 | 05 | Data Cleaning & Validation | Fixing messy data before it fixes you |
 | 06 | Data Wrangling & Aggregation | Grouping, merging, summarizing |
@@ -223,6 +224,9 @@ The [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) is
 | Week 03 / LP 01: Python fundamentals | [Slides](week03/week03-slides.html) · [walkthrough](lp01-intro-to-python/week03-walkthrough.md) · [topic lab](lp01-intro-to-python/README.md) | [LP 01 source](lp01-intro-to-python/notebook-source.md) | [Starter](lp01-intro-to-python/practice.py) |
 | Week 04 / LP 02: collections and files | [Slides](week04/week04-slides.html) · [walkthrough](lp02-data-structures/week04-walkthrough.md) · [topic lab](lp02-data-structures/README.md) | [LP 02 source](lp02-data-structures/notebook-source.md) | [Starter](lp02-data-structures/practice.py) |
 | Week 05 / LP 03: more Python skills | [Slides](week05/week05-slides.html) · [session plan](lp03-more-python-skills/week05-run-of-show.md) · [topic lab](lp03-more-python-skills/README.md) | [LP 03 source](lp03-more-python-skills/notebook-source.md) | [Starter](lp03-more-python-skills/practice.py) · [check](lp03-more-python-skills/check.py) |
+| Week 05 / LP 03A: iteration and algorithms | [New slides](week05/week05-iteration-slides.html) · [walkthrough](lp03a-iteration-and-algorithms/week05-walkthrough.md) · [kindred packet](lp03a-iteration-and-algorithms/README.md) | [LP 03A source](lp03a-iteration-and-algorithms/notebook-source.md) | [Starter](lp03a-iteration-and-algorithms/practice.py) · [check](lp03a-iteration-and-algorithms/check.py) |
+
+LP 03A is the Python Intro 26.4 Week 5 lesson. The existing LP 03 packet remains available as an extension.
 
 Each ready stop on the hub opens a step-by-step study route (start here, watch, practice together, try independently, check understanding, get unstuck, go deeper) with shareable links like `#/week01`. Each session uses **I Do → We Do → You Do**: watch and predict a worked example, change one thing together, then solve a fresh task independently. The [Gemini Notebook teaching kit](GEMINI_NOTEBOOK.md) gives source import steps and prompts for multiple study formats. The slides and Python files work without a Notebook account.
 

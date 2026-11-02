@@ -76,9 +76,10 @@ const report = {};
     await ctx.close();
   }
 
-  const decks = fs.readdirSync(root).filter((d) => /^week\d\d$/.test(d)).sort();
-  for (const wk of decks) {
-    const rel = `${wk}/${wk}-slides.html`;
+  const decks = fs.readdirSync(root).filter((d) => /^week\d\d$/.test(d)).sort()
+    .map((wk) => ({ wk, rel: `${wk}/${wk}-slides.html` }));
+  decks.push({ wk: "week05b", rel: "week05/week05-iteration-slides.html" });
+  for (const { wk, rel } of decks) {
     if (!fs.existsSync(path.join(root, rel))) continue;
     const { ctx, page, errs } = await open(rel, { width: 1920, height: 1080 });
     const n = await page.evaluate(() => document.querySelectorAll(".slide").length);

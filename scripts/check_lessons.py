@@ -17,6 +17,7 @@ PACKETS = (
     "lp01-intro-to-python",
     "lp02-data-structures",
     "lp03-more-python-skills",
+    "lp03a-iteration-and-algorithms",
 )
 
 
@@ -67,6 +68,17 @@ def main() -> int:
                 failures.append(f"{packet} code-along output changed:\n{demo.stdout}{demo.stderr}")
             else:
                 print(f"PASS {packet}/code-along.py (classes, comprehensions, wrappers, closures)")
+        if packet == "lp03a-iteration-and-algorithms":
+            demo = run(folder / "code-along.py")
+            expected = (
+                "count=4, total=22", "range(2, 10, 3)=[2, 5, 8]",
+                "linear index=3, comparisons=4", "binary comparisons=2",
+                "loop=[7, 9], comprehension=[7, 9]",
+            )
+            if demo.returncode or any(piece not in demo.stdout for piece in expected):
+                failures.append(f"{packet} code-along output changed:\n{demo.stdout}{demo.stderr}")
+            else:
+                print(f"PASS {packet}/code-along.py (loop and algorithm traces)")
         names = (
                 "classify_score", "count_passing", "parse_score", "average",
                 "lowest_and_highest", "countdown", "numbered_lines", "clean_name",
@@ -78,6 +90,10 @@ def main() -> int:
         ) if packet == "lp02-data-structures" else (
             "Tally", "long_words", "make_multiplier", "count_calls", "make_counter",
             "once", "Stack", "group_scores", "compose", "Gradebook",
+        ) if packet == "lp03-more-python-skills" else (
+            "total_of_evens", "count_up_by", "repair_average", "repair_first_even",
+            "ask_until_valid", "linear_search", "binary_search", "selection_sort",
+            "bubble_sort_passes", "duplicate_pair", "squares_of_odds",
         )
         reference = run(folder / "check.py", "--solutions")
         expected_pass = [f"PASS {name}" for name in names]

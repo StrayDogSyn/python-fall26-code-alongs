@@ -103,3 +103,20 @@ window.GLOSSARY = [
     { id: "property", term: "Property", say: "PROP-er-tee", meaning: "A method read like an attribute through the @property decorator.", usage: "Read book.student_count without calling it." },
     { id: "stack", term: "Stack", say: "stack", meaning: "A collection where the last item added is the first one removed.", usage: "Push a topic, then pop the most recent topic." }
 ];
+/* WEEK05B_ONLY_GLOSSARY */
+window.WEEK05B_GLOSSARY = [
+    { id: "iterate", term: "Iterate", say: "IT-uh-rayt", meaning: "Visit values one at a time or repeat a step.", usage: "Iterate over the waits and count each visit." },
+    { id: "accumulator", term: "Accumulator", say: "uh-KYOO-myuh-lay-ter", meaning: "A variable that keeps a running result across loop visits.", usage: "Keep the total outside the loop and add each value." },
+    { id: "sentinel", term: "Sentinel", say: "SEN-tuh-nul", meaning: "A special value that tells a loop when to stop.", usage: "The go signal is the sentinel for the reading loop." },
+    { id: "linear_search", term: "Linear search", say: "LIN-ee-er serch", meaning: "Check values in order until a match is found or the list ends.", usage: "Count each room code compared during linear search." },
+    { id: "binary_search", term: "Binary search", say: "BY-nuh-ree serch", meaning: "Search sorted values by checking the middle and discarding half of the remaining window.", usage: "Binary search the sorted room codes for 42." },
+    { id: "comparison", term: "Comparison", say: "kum-PAIR-uh-sun", meaning: "A check between values that can guide a decision.", usage: "Count how many comparisons the search makes." },
+    { id: "pass", term: "Sorting pass", say: "pass", meaning: "One sweep through the active part of a list during a sorting algorithm.", usage: "Trace the list after one bubble pass." },
+    { id: "swap", term: "Swap", say: "swop", meaning: "Exchange the positions of two values.", usage: "Swap neighboring values when they are out of order." },
+    { id: "range", term: "range", say: "raynj", meaning: "A sequence of integers from a start toward an excluded stop, moving by a step.", usage: "range(2, 10, 3) visits 2, 5, and 8." },
+    { id: "enumerate", term: "enumerate", say: "ih-NOO-muh-rayt", meaning: "Pair each visited value with its position in a loop.", usage: "Use enumerate to get both index and room code." },
+    { id: "while", term: "while loop", say: "while loop", meaning: "Repeat while a condition remains true.", usage: "Bound the while loop with an attempt count." },
+    { id: "nested_loop", term: "Nested loop", say: "NES-tid loop", meaning: "A loop inside another loop, often used to visit pairs of values.", usage: "Check each earlier item against later items." },
+    { id: "bubble_sort", term: "Bubble sort", say: "BUH-bul sort", meaning: "Repeatedly compare neighboring values and swap those out of order.", usage: "Trace the list after each bubble pass." },
+    { id: "selection_sort", term: "Selection sort", say: "suh-LEK-shun sort", meaning: "Choose the smallest remaining value and place it in the next open position.", usage: "Select the smallest item for the first position." }
+];
