@@ -10,7 +10,7 @@ Decisions already made by Hunter (November 2, 2026): mark Weeks 3 to 5 live; cre
 | T-02 | codex | ready | Review T-01: check out `claude/wave0-fixes`, run the gate and `scripts/browser_audit.js`, test the hub on a narrow window, and log `APPROVE` or `CHANGES NEEDED` | T-01 | Review in `LOG.md`; every claim in the T-01 pull request confirmed or corrected |
 | T-03 | codex | in review | Windows check: run every lesson command from READMEs, decks, and walkthroughs in PowerShell; fix any command that fails; record `python` versus `py` | T-01 | A table in `LOG.md` of command, shell, result; fixes in a separate small pull request |
 | T-04 | codex | in review | Expand LP 01 to at least 8 graded exercises (see Brief section 3) | T-01 | See Brief; mutation check extended with at least 2 new wrong solutions per new exercise |
-| T-05 | codex | ready | Expand LP 02 to at least 8 graded exercises | T-04 pattern settled | Same |
+| T-05 | codex | in review | Expand LP 02 to at least 8 graded exercises | T-04 pattern settled | Same |
 | T-06 | codex | ready | Expand LP 03 to at least 6 graded exercises plus one small project; replace the Week 5 quiz question about call counts; remove the slide 6 assertion leak | T-04 pattern settled | Same |
 | T-07 | codex | ready | Upgrade the Week 3, 4, and 5 decks to the new exercises: at least 5 quiz questions each, a predict-then-reveal for every concept, links to the check command | T-04, T-05, T-06 | Decks rebuild with no stray diff; every slide keeps five speaker notes |
 | T-08 | codex | ready | In-browser Python runner (see Brief section 4) | T-04, T-05, T-06 merged | Design note first in a draft pull request; implementation second |

@@ -102,13 +102,106 @@ lp01_mutants = {
     return len(points)'''),
  ],
 }
-cases={
- 'lp02-data-structures':[
-  ('unique_names = list(set(names)) (unordered)',lambda s:re.sub(r'def unique_names\(names\):.*?return result','def unique_names(names):\n    return list(set(names))',s,flags=re.S)),
-  ('highest_score >= (last tied wins)',lambda s:s.replace('score > best_score','score >= best_score')),
-  ('save_names no final newline',lambda s:s.replace('        text = text + "\\n"\n','        pass\n')),
-  ('save_names writes ascii/latin-1 default encoding',lambda s:s.replace('encoding="utf-8")','encoding="latin-1")')),
+lp02_mutants = {
+ 'unique_names': [
+  ('uses an unordered set', '''def unique_names(names):
+    return list(set(names))'''),
+  ('sorts away first appearance', '''def unique_names(names):
+    return sorted(set(names))'''),
  ],
+ 'highest_score': [
+  ('last tied name wins', '''def highest_score(scores):
+    best_name = None
+    best_score = None
+    for name, score in scores.items():
+        if best_score is None or score >= best_score:
+            best_name, best_score = name, score
+    return best_name'''),
+  ('chooses the lowest score', '''def highest_score(scores):
+    return min(scores, key=scores.get) if scores else None'''),
+ ],
+ 'save_names': [
+  ('omits final newline', '''def save_names(path, names):
+    path.write_text("\\n".join(names), encoding="utf-8")'''),
+  ('writes Latin-1', '''def save_names(path, names):
+    path.write_text("\\n".join(names) + ("\\n" if names else ""), encoding="latin-1")'''),
+ ],
+ 'load_names': [
+  ('keeps raw line endings', '''def load_names(path):
+    try:
+        with open(path, encoding="utf-8") as source:
+            return list(source)
+    except FileNotFoundError:
+        return []'''),
+  ('fails when file is missing', '''def load_names(path):
+    with open(path, encoding="utf-8") as source:
+        return [line.strip() for line in source if line.strip()]'''),
+ ],
+ 'word_counts': [
+  ('keeps mixed case', '''def word_counts(text):
+    counts = {}
+    for word in text.split():
+        counts[word] = counts.get(word, 0) + 1
+    return counts'''),
+  ('counts only unique words', '''def word_counts(text):
+    return {word.lower(): 1 for word in text.split()}'''),
+ ],
+ 'ranked': [
+  ('sorts scores low first', '''def ranked(scores):
+    return sorted(scores.items(), key=lambda pair: (pair[1], pair[0]))'''),
+  ('keeps insertion order on ties', '''def ranked(scores):
+    return sorted(scores.items(), key=lambda pair: -pair[1])'''),
+ ],
+ 'group_by_length': [
+  ('keeps only last word per length', '''def group_by_length(words):
+    return {len(word): [word] for word in words}'''),
+  ('uses length minus one', '''def group_by_length(words):
+    groups = {}
+    for word in words:
+        groups.setdefault(len(word) - 1, []).append(word)
+    return groups'''),
+ ],
+ 'top_n': [
+  ('takes smallest scores', '''def top_n(scores, n):
+    return sorted(scores)[:n]'''),
+  ('takes first input scores', '''def top_n(scores, n):
+    return scores[:n]'''),
+ ],
+ 'parse_roster': [
+  ('does not strip names', '''def parse_roster(lines):
+    roster = {}
+    for line in lines:
+        if line.strip():
+            name, score = line.split(",", 1)
+            roster[name] = int(score)
+    return roster'''),
+  ('keeps score as text', '''def parse_roster(lines):
+    roster = {}
+    for line in lines:
+        if line.strip():
+            name, score = line.split(",", 1)
+            roster[name.strip()] = score.strip()
+    return roster'''),
+ ],
+ 'meeting_text': [
+  ('does not pad the minute', '''def meeting_text(time_tuple):
+    hour, minute = time_tuple
+    return f"{hour}:{minute}"'''),
+  ('uses a 12-hour clock', '''def meeting_text(time_tuple):
+    hour, minute = time_tuple
+    return f"{hour % 12:02d}:{minute:02d}"'''),
+ ],
+ 'remove_short_words': [
+  ('removes while looping', '''def remove_short_words(words, min_length):
+    for word in words:
+        if len(word) < min_length:
+            words.remove(word)
+    return words'''),
+  ('excludes boundary length', '''def remove_short_words(words, min_length):
+    return [word for word in words if len(word) > min_length]'''),
+ ],
+}
+cases={
  'lp03-more-python-skills':[
   ('Tally.count KeyError on unseen',lambda s:s.replace('return self.counts.get(label, 0)\n\n\ndef long','return self.counts[label]\n\n\ndef long')),
   ('long_words uses >',lambda s:s.replace('len(word) >= min_length','len(word) > min_length')),
@@ -117,21 +210,25 @@ cases={
   ('make_multiplier adds instead of multiplies',lambda s:s.replace('value * factor','value + factor')),
  ]}
 total=0; caught=0; escaped=[]
-lp01_source = pathlib.Path('lp01-intro-to-python/solutions.py').read_text(encoding='utf-8')
-for exercise, mutants in lp01_mutants.items():
-    for label, replacement in mutants:
-        with tempfile.TemporaryDirectory() as folder:
-            path = pathlib.Path(folder) / 'wrong.py'
-            path.write_text(replace_function(lp01_source, exercise, replacement), encoding='utf-8')
-            result = subprocess.run(
-                [sys.executable, 'lp01-intro-to-python/check.py', '--module', str(path)],
-                capture_output=True, text=True,
-            )
-        total += 1
-        status = 'CAUGHT' if result.returncode == 1 and f'FAIL {exercise}:' in result.stdout else 'ESCAPED'
-        if status == 'CAUGHT': caught += 1
-        else: escaped.append(('lp01-intro-to-python', exercise, label, result.stdout, result.stderr))
-        print(f'lp01-intro-to-python       {exercise}: {label:38} {status}')
+for packet, mutations in (
+    ('lp01-intro-to-python', lp01_mutants),
+    ('lp02-data-structures', lp02_mutants),
+):
+    source = pathlib.Path(packet, 'solutions.py').read_text(encoding='utf-8')
+    for exercise, mutants in mutations.items():
+        for label, replacement in mutants:
+            with tempfile.TemporaryDirectory() as folder:
+                path = pathlib.Path(folder) / 'wrong.py'
+                path.write_text(replace_function(source, exercise, replacement), encoding='utf-8')
+                result = subprocess.run(
+                    [sys.executable, f'{packet}/check.py', '--module', str(path)],
+                    capture_output=True, text=True,
+                )
+            total += 1
+            status = 'CAUGHT' if result.returncode == 1 and f'FAIL {exercise}:' in result.stdout else 'ESCAPED'
+            if status == 'CAUGHT': caught += 1
+            else: escaped.append((packet, exercise, label, result.stdout, result.stderr))
+            print(f'{packet:26} {exercise}: {label:38} {status}')
 for d,muts in cases.items():
     sol,_=split(f'{d}/solutions.py'); _,pmain=split(f'{d}/practice.py')
     # decorated shout in practice main is wrapped manually; emulate for lp03
