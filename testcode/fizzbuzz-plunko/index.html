@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#170d30">
+  <meta name="description" content="Drop your own numbers through a playful FizzBuzz PlunkO board.">
+  <title>FizzBuzz PlunkO | StrayDog Arcade</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="../../index.html" aria-label="Back to the Python Fall 26 learning hub">
+        <span class="brand-mark" aria-hidden="true">✳</span>
+        <span><strong>STRAYDOG</strong><small>LAB ARCADE</small></span>
+      </a>
+      <span class="topbar-tag">AN INTERACTIVE NUMBER EXPERIMENT</span>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> THE BOARD IS OPEN</p>
+          <h1 id="page-title"><span>FizzBuzz</span> <em>PlunkO!</em></h1>
+          <p class="hero-lead">Pick your numbers. Watch them bounce. See where each one lands.</p>
+          <p class="hero-note">Fizz for multiples of 3. Buzz for multiples of 5. Both for the jackpot. Every other number gets its own spotlight.</p>
+        </div>
+        <div class="hero-ticket" aria-hidden="true"><span>ADMIT ONE</span><strong>★ ★ ★</strong><small>GOOD LUCK, NUMBER</small></div>
+      </section>
+
+      <div class="play-layout">
+        <section class="control-card" aria-labelledby="input-title">
+          <div class="card-heading"><span class="step-number">01</span><div><p class="section-kicker">LOAD THE CHUTE</p><h2 id="input-title">Your numbers, please.</h2></div></div>
+          <form id="number-form" novalidate>
+            <label for="numbers-input">Enter positive whole numbers</label>
+            <textarea id="numbers-input" rows="6" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="3, 5, 15, 22, 30, 7"></textarea>
+            <p class="input-help">Separate entries with commas, semicolons, spaces, or new lines. Large numbers are welcome.</p>
+            <p class="input-meta" id="input-meta">The chute is empty. Add a number to begin.</p>
+            <div class="button-row">
+              <button class="button button-primary" id="drop-button" type="submit"><span aria-hidden="true">●</span> Drop the numbers</button>
+              <button class="button button-clean" id="clean-button" type="button" disabled>Clean my input</button>
+            </div>
+            <div class="secondary-row">
+              <button class="text-button" id="sample-button" type="button">Try a surprise mix</button>
+              <label class="speed-control" for="speed-select">Drop speed
+                <select id="speed-select"><option value="showtime">Showtime</option><option value="turbo">Turbo</option></select>
+              </label>
+            </div>
+          </form>
+
+          <div class="validation" id="validation" hidden>
+            <div class="validation-icon" aria-hidden="true">!</div>
+            <div>
+              <h3 id="validation-title">Some entries need a second look.</h3>
+              <p id="validation-summary" role="alert"></p>
+              <ol id="invalid-list" class="invalid-list"></ol>
+              <p class="validation-choice"><strong>A.</strong> Use <b>Clean my input</b> to keep digits and remove incompatible characters, then review the result.</p>
+              <p class="validation-choice"><strong>B.</strong> Enter only valid whole numbers from <b>1 to infinity... and Beyond!</b></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="stage-card" aria-labelledby="stage-title">
+          <div class="stage-heading"><div><p class="section-kicker">THE MAIN EVENT</p><h2 id="stage-title">Let the numbers fall.</h2></div><div class="stage-lights" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div></div>
+          <div class="board-frame">
+            <div class="board-top" aria-hidden="true"><span>★</span><strong>PLUNK-O</strong><span>★</span></div>
+            <div class="board" id="board" aria-hidden="true">
+              <div class="peg-field" id="peg-field"></div>
+              <div class="ball-layer" id="ball-layer"></div>
+              <div class="buckets">
+                <div class="bucket bucket-fizzbuzz" id="bucket-fizzbuzz"><span class="bucket-star">★</span><strong>FIZZBUZZ</strong><span class="bucket-count" id="bucket-count-fizzbuzz">0</span><div class="bucket-results" id="bucket-results-fizzbuzz"></div></div>
+                <div class="bucket bucket-fizz" id="bucket-fizz"><span class="bucket-star">✦</span><strong>FIZZ</strong><span class="bucket-count" id="bucket-count-fizz">0</span><div class="bucket-results" id="bucket-results-fizz"></div></div>
+                <div class="bucket bucket-buzz" id="bucket-buzz"><span class="bucket-star">✦</span><strong>BUZZ</strong><span class="bucket-count" id="bucket-count-buzz">0</span><div class="bucket-results" id="bucket-results-buzz"></div></div>
+                <div class="bucket bucket-number" id="bucket-number"><span class="bucket-star">●</span><strong>NUMBER</strong><span class="bucket-count" id="bucket-count-number">0</span><div class="bucket-results" id="bucket-results-number"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="stage-controls"><p class="stage-status" id="stage-status" role="status" aria-live="polite">The board is waiting for its first contestant.</p><div><button class="text-button" id="skip-button" type="button" disabled>Skip animation</button><button class="text-button" id="reset-button" type="button">Reset board</button></div></div>
+        </section>
+      </div>
+
+      <section class="results-card" aria-labelledby="results-title">
+        <div class="results-heading"><div><p class="section-kicker">THE SCOREBOARD</p><h2 id="results-title">Where they landed</h2></div><span class="total-count"><strong id="total-count">0</strong> DROPS</span></div>
+        <p class="results-empty" id="results-empty">No numbers have landed yet. The pegs are getting impatient.</p>
+        <ol class="result-list" id="result-list" aria-label="FizzBuzz results"></ol>
+      </section>
+    </main>
+
+    <footer><span>Made for curious minds and brave numbers.</span><span>Every entry is checked before it drops.</span></footer>
+  </div>
+  <noscript><p class="no-script">JavaScript is needed to run the board. Turn it on, then reload this page.</p></noscript>
+</body>
+</html>
