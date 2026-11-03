@@ -64,7 +64,7 @@ function refreshInputState() {
   const count = report.tokens.length;
   ui.meta.textContent = count === 0
     ? "The chute is empty. Add a number to begin."
-    : `${count} ${count === 1 ? "entry" : "entries"} in the chute. ${report.invalid.length ? `${report.invalid.length} need a second look.` : "Ready to drop!"}`;
+    : `${count} ${count === 1 ? "entry" : "entries"} in the chute. ${report.invalid.length ? "Check the entries before dropping." : "Ready to drop!"}`;
   ui.clean.disabled = running || count === 0 || report.invalid.length === 0;
   return report;
 }
@@ -89,6 +89,7 @@ function showWarning(invalid) {
   const count = invalid.length;
   ui.validationSummary.textContent = `${count} ${count === 1 ? "entry is" : "entries are"} invalid. Every rejected entry is listed below; no numbers have been dropped.`;
   ui.validation.hidden = false;
+  ui.status.textContent = "The board is waiting while you fix the highlighted entries.";
   ui.input.setAttribute("aria-invalid", "true");
   ui.input.setAttribute("aria-describedby", "validation-summary");
   ui.validation.scrollIntoView({ behavior: reducedMotion.matches ? "instant" : "smooth", block: "nearest" });
@@ -122,7 +123,7 @@ function makePegs() {
       const peg = document.createElement("span");
       peg.className = "peg";
       peg.style.left = `${8 + column * 10.5 + (row % 2 ? 5.25 : 0)}%`;
-      peg.style.top = `${12 + row * 9}%`;
+      peg.style.top = `${9 + row * 7.4}%`;
       fragment.append(peg);
     }
   }
@@ -137,6 +138,7 @@ function clearBoard() {
   for (const key of Object.keys(counts)) {
     counts[key] = 0;
     $(`bucket-count-${key}`).textContent = "0";
+    $(`bucket-results-${key}`).replaceChildren();
   }
 }
 
@@ -153,6 +155,14 @@ function setRunning(value) {
 function addResult(value, key) {
   counts[key] += 1;
   $(`bucket-count-${key}`).textContent = String(counts[key]);
+  const boardValue = document.createElement("span");
+  boardValue.className = "bucket-value";
+  const fullValue = value.toString();
+  boardValue.textContent = fullValue.length > 8 ? `${fullValue.slice(0, 4)}…${fullValue.slice(-2)}` : fullValue;
+  boardValue.title = fullValue;
+  const bucketResults = $(`bucket-results-${key}`);
+  bucketResults.append(boardValue);
+  bucketResults.scrollTop = bucketResults.scrollHeight;
   const number = ui.results.children.length + 1;
   ui.total.textContent = String(number);
   ui.empty.hidden = true;
@@ -254,9 +264,10 @@ ui.form.addEventListener("submit", (event) => {
 });
 ui.clean.addEventListener("click", cleanInput);
 ui.sample.addEventListener("click", () => {
-  ui.input.value = "3, 5, 15, 22, banana, -4, 0";
+  ui.input.value = "3, 5, 15, 22, 30, 7, 9, 10";
   refreshInputState();
-  showWarning(inspectInput(ui.input.value).invalid);
+  hideWarning();
+  ui.status.textContent = "Surprise mix loaded. Drop the numbers to see where they land.";
   ui.input.focus();
 });
 ui.skip.addEventListener("click", () => {

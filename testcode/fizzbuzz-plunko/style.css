@@ -118,10 +118,12 @@ select { color: var(--ink); background: #170e2d; border: 1px solid var(--line); 
 .ball-fizz { background: var(--pink); }
 .ball-buzz { background: var(--mint); }
 .ball-number { background: var(--blue); }
-.buckets { position: absolute; left: .4rem; right: .4rem; bottom: .4rem; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .35rem; height: 84px; }
-.bucket { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: .16rem; border: 1px solid rgba(255, 255, 255, .27); border-top: 4px solid currentColor; border-radius: .5rem; background: rgba(8, 6, 21, .82); text-align: center; font-size: clamp(.52rem, 1.1vw, .74rem); letter-spacing: .08em; overflow: hidden; }
+.buckets { position: absolute; left: .4rem; right: .4rem; bottom: .4rem; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .35rem; height: 132px; }
+.bucket { display: flex; flex-direction: column; align-items: center; gap: .16rem; min-width: 0; padding: .2rem; border: 1px solid rgba(255, 255, 255, .27); border-top: 4px solid currentColor; border-radius: .5rem; background: rgba(8, 6, 21, .82); text-align: center; font-size: clamp(.52rem, 1.1vw, .74rem); letter-spacing: .08em; overflow: hidden; }
 .bucket-star { font-size: .95rem; line-height: 1; }
 .bucket-count { display: block; min-width: 1.4rem; padding: .08rem .3rem; border-radius: 1rem; background: rgba(255, 255, 255, .15); color: inherit; font-size: .72rem; font-weight: 900; letter-spacing: 0; }
+.bucket-results { display: flex; flex-wrap: wrap; align-content: flex-start; justify-content: center; gap: .16rem; width: 100%; min-height: 2rem; overflow: auto; scrollbar-width: thin; }
+.bucket-value { max-width: 100%; padding: .13rem .3rem; border-radius: .35rem; background: rgba(255, 255, 255, .15); color: white; font-family: Consolas, monospace; font-size: .66rem; font-weight: 900; letter-spacing: 0; overflow-wrap: anywhere; }
 .bucket-fizzbuzz { color: var(--yellow); }
 .bucket-fizz { color: var(--pink); }
 .bucket-buzz { color: var(--mint); }
@@ -166,9 +168,10 @@ footer { display: flex; justify-content: space-between; gap: 1rem; padding: 1.2r
   .stage-lights i { width: .4rem; height: .4rem; }
   .board-frame { margin: 0 .6rem; }
   .board { height: 390px; }
-  .buckets { gap: .18rem; height: 80px; }
+  .buckets { gap: .18rem; height: 132px; }
   .bucket { font-size: .55rem; letter-spacing: 0; }
   .bucket-count { font-size: .62rem; }
+  .bucket-value { font-size: .6rem; }
   footer { flex-direction: column; }
 }
 @media (prefers-reduced-motion: reduce) {

@@ -35,7 +35,7 @@
           <div class="card-heading"><span class="step-number">01</span><div><p class="section-kicker">LOAD THE CHUTE</p><h2 id="input-title">Your numbers, please.</h2></div></div>
           <form id="number-form" novalidate>
             <label for="numbers-input">Enter positive whole numbers</label>
-            <textarea id="numbers-input" rows="6" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="3, 5, 15, 22, banana, -4"></textarea>
+            <textarea id="numbers-input" rows="6" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="3, 5, 15, 22, 30, 7"></textarea>
             <p class="input-help">Separate entries with commas, semicolons, spaces, or new lines. Large numbers are welcome.</p>
             <p class="input-meta" id="input-meta">The chute is empty. Add a number to begin.</p>
             <div class="button-row">
@@ -70,10 +70,10 @@
               <div class="peg-field" id="peg-field"></div>
               <div class="ball-layer" id="ball-layer"></div>
               <div class="buckets">
-                <div class="bucket bucket-fizzbuzz" id="bucket-fizzbuzz"><span class="bucket-star">★</span><strong>FIZZBUZZ</strong><span class="bucket-count" id="bucket-count-fizzbuzz">0</span></div>
-                <div class="bucket bucket-fizz" id="bucket-fizz"><span class="bucket-star">✦</span><strong>FIZZ</strong><span class="bucket-count" id="bucket-count-fizz">0</span></div>
-                <div class="bucket bucket-buzz" id="bucket-buzz"><span class="bucket-star">✦</span><strong>BUZZ</strong><span class="bucket-count" id="bucket-count-buzz">0</span></div>
-                <div class="bucket bucket-number" id="bucket-number"><span class="bucket-star">●</span><strong>NUMBER</strong><span class="bucket-count" id="bucket-count-number">0</span></div>
+                <div class="bucket bucket-fizzbuzz" id="bucket-fizzbuzz"><span class="bucket-star">★</span><strong>FIZZBUZZ</strong><span class="bucket-count" id="bucket-count-fizzbuzz">0</span><div class="bucket-results" id="bucket-results-fizzbuzz"></div></div>
+                <div class="bucket bucket-fizz" id="bucket-fizz"><span class="bucket-star">✦</span><strong>FIZZ</strong><span class="bucket-count" id="bucket-count-fizz">0</span><div class="bucket-results" id="bucket-results-fizz"></div></div>
+                <div class="bucket bucket-buzz" id="bucket-buzz"><span class="bucket-star">✦</span><strong>BUZZ</strong><span class="bucket-count" id="bucket-count-buzz">0</span><div class="bucket-results" id="bucket-results-buzz"></div></div>
+                <div class="bucket bucket-number" id="bucket-number"><span class="bucket-star">●</span><strong>NUMBER</strong><span class="bucket-count" id="bucket-count-number">0</span><div class="bucket-results" id="bucket-results-number"></div></div>
               </div>
             </div>
           </div>
