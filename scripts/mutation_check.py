@@ -627,6 +627,165 @@ for exercise, mutants in lp06a_mutants.items():
         if status == 'CAUGHT': caught += 1
         else: escaped.append(('lp06a-functions-and-scope', exercise, label, result.stdout, result.stderr))
         print(f'lp06a-functions-and-scope {exercise}: {label:30} {status}')
+lp07a_mutants = {
+ 'read_clean_lines': [
+  ('keeps comment lines', """def read_clean_lines(path):
+    with open(path, encoding="utf-8") as handle:
+        return [raw.strip() for raw in handle if raw.strip()]"""),
+  ('keeps the newline', """def read_clean_lines(path):
+    with open(path, encoding="utf-8") as handle:
+        return [raw for raw in handle if raw.strip() and not raw.strip().startswith("#")]"""),
+ ],
+ 'longest_line': [
+  ('prefers the last tie', """def longest_line(path):
+    best = ""
+    with open(path, encoding="utf-8") as handle:
+        for raw in handle:
+            line = raw.strip()
+            if line and len(line) >= len(best):
+                best = line
+    return best"""),
+  ('returns the raw line', """def longest_line(path):
+    best = ""
+    with open(path, encoding="utf-8") as handle:
+        for raw in handle:
+            if len(raw.strip()) > len(best.strip()):
+                best = raw
+    return best"""),
+ ],
+ 'append_note': [
+  ('overwrites with w', """def append_note(path, text):
+    with open(path, "w", encoding="utf-8") as handle:
+        handle.write(text + "\\n")"""),
+  ('forgets the newline', """def append_note(path, text):
+    with open(path, "a", encoding="utf-8") as handle:
+        handle.write(text)"""),
+ ],
+ 'repair_total_qty': [
+  ('crashes on blank qty', """def repair_total_qty(path):
+    total = 0
+    with open(path, newline="", encoding="utf-8") as handle:
+        for row in csv.DictReader(handle):
+            total += int(row["qty"])
+    return total"""),
+  ('counts rows', """def repair_total_qty(path):
+    total = 0
+    with open(path, newline="", encoding="utf-8") as handle:
+        for row in csv.DictReader(handle):
+            total += 1
+    return total"""),
+ ],
+ 'repair_save_lines': [
+  ('appends instead of replacing', """def repair_save_lines(path, lines):
+    with open(path, "a", encoding="utf-8") as handle:
+        for line in lines:
+            handle.write(line + "\\n")
+    return len(lines)"""),
+  ('forgets newlines', """def repair_save_lines(path, lines):
+    with open(path, "w", encoding="utf-8") as handle:
+        for line in lines:
+            handle.write(line)
+    return len(lines)"""),
+ ],
+ 'load_prep': [
+  ('keeps qty as text', """def load_prep(path):
+    with open(path, newline="", encoding="utf-8") as handle:
+        return [dict(row) for row in csv.DictReader(handle)]"""),
+  ('does not strip text', """def load_prep(path):
+    rows = []
+    with open(path, newline="", encoding="utf-8") as handle:
+        for row in csv.DictReader(handle):
+            rows.append({"station": row["station"], "item": row["item"], "qty": int(row["qty"] or 0), "unit": row["unit"]})
+    return rows"""),
+ ],
+ 'totals_by_station': [
+  ('overwrites instead of adding', """def totals_by_station(rows):
+    totals = {}
+    for row in rows:
+        totals[row["station"]] = row["qty"]
+    return totals"""),
+  ('sorts the stations', """def totals_by_station(rows):
+    totals = {}
+    for row in rows:
+        totals[row["station"]] = totals.get(row["station"], 0) + row["qty"]
+    return dict(sorted(totals.items()))"""),
+ ],
+ 'write_prep_report': [
+  ('keeps first-seen order', """def write_prep_report(rows, path):
+    summary = {}
+    for row in rows:
+        entry = summary.setdefault(row["station"], {"items": 0, "total_qty": 0})
+        entry["items"] += 1
+        entry["total_qty"] += row["qty"]
+    with open(path, "w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["station", "items", "total_qty"])
+        writer.writeheader()
+        for station in summary:
+            writer.writerow({"station": station, **summary[station]})
+    return len(summary)"""),
+  ('items repeats the total', """def write_prep_report(rows, path):
+    summary = {}
+    for row in rows:
+        entry = summary.setdefault(row["station"], {"items": 0, "total_qty": 0})
+        entry["items"] += row["qty"]
+        entry["total_qty"] += row["qty"]
+    with open(path, "w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["station", "items", "total_qty"])
+        writer.writeheader()
+        for station in sorted(summary):
+            writer.writerow({"station": station, **summary[station]})
+    return len(summary)"""),
+ ],
+ 'parse_ticket_line': [
+  ('keeps price as text', """def parse_ticket_line(line):
+    parts = [part.strip() for part in line.split("|")]
+    if len(parts) != 5:
+        return None
+    return {"ticket": int(parts[0]), "table": int(parts[1]), "dish": parts[2], "qty": int(parts[3]), "price": parts[4]}"""),
+  ('splits on commas', """def parse_ticket_line(line):
+    parts = [part.strip() for part in line.split(",")]
+    if len(parts) != 5:
+        return None
+    return {"ticket": int(parts[0]), "table": int(parts[1]), "dish": parts[2], "qty": int(parts[3]), "price": float(parts[4])}"""),
+ ],
+ 'first_existing': [
+  ('returns the bare name', """def first_existing(folder, names):
+    for name in names:
+        if os.path.exists(os.path.join(folder, name)):
+            return name
+    return None"""),
+  ('returns the last match', """def first_existing(folder, names):
+    found = None
+    for name in names:
+        candidate = os.path.join(folder, name)
+        if os.path.exists(candidate):
+            found = candidate
+    return found"""),
+ ],
+ 'shift_dates': [
+  ('adds an extra day', """def shift_dates(start_iso, days):
+    start = datetime.strptime(start_iso, "%Y-%m-%d")
+    return [(start + timedelta(days=offset)).strftime("%Y-%m-%d") for offset in range(days + 1)]"""),
+  ('never rolls over', """def shift_dates(start_iso, days):
+    year, month, day = start_iso.split("-")
+    return [f"{year}-{month}-{int(day) + offset:02d}" for offset in range(days)]"""),
+ ],
+}
+lp07a_source = pathlib.Path('lp07a-text-data-and-modules/solutions.py').read_text(encoding='utf-8')
+for exercise, mutants in lp07a_mutants.items():
+    for label, replacement in mutants:
+        with tempfile.TemporaryDirectory() as folder:
+            path = pathlib.Path(folder) / 'wrong.py'
+            path.write_text(replace_function(lp07a_source, exercise, replacement), encoding='utf-8')
+            result = subprocess.run(
+                [sys.executable, 'lp07a-text-data-and-modules/check.py', '--module', str(path)],
+                capture_output=True, text=True,
+            )
+        total += 1
+        status = 'CAUGHT' if result.returncode == 1 and f'FAIL {exercise}:' in result.stdout else 'ESCAPED'
+        if status == 'CAUGHT': caught += 1
+        else: escaped.append(('lp07a-text-data-and-modules', exercise, label, result.stdout, result.stderr))
+        print(f'lp07a-text-data-and-modules {exercise}: {label:30} {status}')
 print(f'\nmutants caught by lesson checks: {caught}/{total}')
 for e in escaped: print('  NOT RELIABLY CAUGHT:',e)
 raise SystemExit(1 if escaped else 0)

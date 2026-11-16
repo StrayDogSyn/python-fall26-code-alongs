@@ -29,6 +29,7 @@ DECKS = {
     "week05.js": "week05/week05-slides.html",
     "week05b.js": "week05/week05-iteration-slides.html",
     "week06.js": "week06/week06-slides.html",
+    "week07.js": "week07/week07-slides.html",
 }
 
 
@@ -55,6 +56,7 @@ def main() -> int:
     errors = check(glossary, "glossary.js")
     legacy_glossary = glossary.split("/* WEEK05B_ONLY_GLOSSARY */", 1)[0]
     week05b_glossary = glossary.split("/* WEEK06_ONLY_GLOSSARY */", 1)[0]
+    week06_glossary = glossary.split("/* WEEK07_ONLY_GLOSSARY */", 1)[0]
     for src_name, out_rel in DECKS.items():
         src = HERE / src_name
         if not src.exists():
@@ -63,7 +65,8 @@ def main() -> int:
         content = src.read_text(encoding="utf-8")
         errors += check(content, src_name)
         deck_glossary = (
-            glossary if src_name == "week06.js" else
+            glossary if src_name == "week07.js" else
+            week06_glossary if src_name == "week06.js" else
             week05b_glossary if src_name == "week05b.js" else
             legacy_glossary
         )

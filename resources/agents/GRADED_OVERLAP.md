@@ -46,11 +46,45 @@ Safe Week 6 ideas that teach the same skills with different problems:
 | Refactoring | A given 25 line script about a library fine or parking fee, split into three named functions with the same output; the check runs both versions on the same inputs |
 | Docstrings | Write the docstring for a given function; the check reads `__doc__` for a first-line summary |
 
-## Weeks 7 to 9, titles only (read before building)
+## Week 7, Text Data and Modules (graded, due November 17)
+
+Paraphrased on November 16, 2026 from the course page text Hunter supplied. Four warmups, each a separate file, using sample data files in a `data` folder next to the assignment folder:
+
+1. **Numbered lines.** Open `notes.txt` with a `with` block, read it line by line, strip the newline, and print each line with a line number.
+2. **DictReader.** Read `students.csv` (name, subject, score) with `csv.DictReader` and print each student's name and score on one line.
+3. **The os module.** One script that prints the working directory, reports whether `expenses.csv` exists, and builds the path to it from its parts with `os.path.join`.
+4. **datetime.** Print today's date as a sentence with the month spelled out, using `datetime.now()` and `strftime`.
+
+Mini-project: **Expense Report Generator.** Check that `expenses.csv` exists before opening it, and stop with a message if it does not. Read it with `DictReader` (columns date, category, description, amount), convert `amount` to float, keep only the rows whose category is Food, total them, and write `food_report.txt`: a heading line that includes the generated date, one line per expense showing its date and amount, and a last line with the total to two decimals. Optional: make the category a variable and write a report for any category.
+
+Avoid in public solutions:
+
+- A script or function that reads a notes file and prints numbered lines, or that reads a student file and prints name and score.
+- An exists check plus `os.path.join` on a file named `expenses.csv`, or any script whose only job is to print the working directory, an exists message, and a joined path.
+- A "Today is Month DD, YYYY" sentence built from `datetime.now()`.
+- Any category-filtered expense report with a generated-date heading, a date and amount line per row, and a Total line, and any generalization of it to another category.
+- The file names `notes.txt`, `students.csv`, `expenses.csv`, `food_report.txt` and the column names date, category, description, amount used together.
+
+Safe Week 7 ideas that teach the same skills with different problems (the shipped packet `lp07a-text-data-and-modules` uses these):
+
+| Skill | Different problem | Packet exercise |
+| --- | --- | --- |
+| `with` and line-by-line reading | Return the non-blank, non-comment lines of a shift log | `read_clean_lines`, `longest_line` |
+| Modes `a` and `w` | Append a note; repair a loop that wipes its file | `append_note`, `repair_save_lines` |
+| `DictReader` and types | Sum a prep list's quantity column; load rows into dicts | `repair_total_qty`, `load_prep` |
+| Grouping a list of dicts | Total quantity per kitchen station | `totals_by_station` |
+| `DictWriter` | Write a station summary CSV | `write_prep_report` |
+| Parsing a line | Split a pipe-separated order ticket into a dict | `parse_ticket_line` |
+| `os` and `os.path` | Return the first existing path from a list of names | `first_existing` |
+| `datetime` | List consecutive ISO dates with `timedelta` | `shift_dates` |
+
+Checked on November 16, 2026: none of the packet's function names, signatures, data files, or scenarios match the graded list above. The packet's date exercise uses ISO dates and `timedelta`, not a month-name sentence from `now()`. The packet's CSV files are `prep.csv` and `tickets.csv`, not the graded file names.
+
+## Weeks 8 to 9, titles only (read before building)
 
 - Week 8 warmup: validating numeric input (the other warmups were not fully read).
 - Week 9 warmups: a first API request, picking specific JSON fields, looping a JSON list, handling request errors. Mini-project: a country explorer command line tool.
-- Weeks 7, 10, 11: assignment text not read. Read it before building any packet.
+- Weeks 10 and 11: assignment text not read. Read it before building any packet.
 
 ## Process
 
