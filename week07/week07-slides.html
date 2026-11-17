@@ -607,6 +607,11 @@ print(later.strftime("%Y-%m-%d"))</code></pre><p><code>strptime</code> parses te
       notes: { timing: "8 min", talking: "Mirror the reader. Write, then read the result back to prove it. Mention the w danger again.", question: "What does writeheader do? It writes the column names as the first row.", failure: "If learners see doubled line breaks, add newline and rerun.", action: "Ask learners to add a third column and update the dictionary keys." }
     },
     {
+      title: "Match the vocabulary",
+      html: `<h2>Match the vocabulary</h2><p>Pair each term with its meaning before you run the check.</p><div data-match="w7"></div>`,
+      notes: { timing: "4 min", talking: "Let learners work in pairs, then read one pairing aloud with an example from today.", question: "Which pairing was hardest to decide? Return to the slide where that term appeared.", failure: "If two terms blur, trace one example of each side by side.", action: "Ask each learner to use one term in a sentence." }
+    },
+    {
       title: "Run the local check",
       html: `<h2>Run the local check</h2><p>From the repository root, replace one TODO, then run:</p><pre class="cmd"><code>python lp07a-text-data-and-modules/check.py</code></pre><p>Each of eleven exercises gets <code>PASS</code>, <code>FAIL</code> with an input and nudge, or <code>NOT STARTED</code>. Open <a href="../lp07a-text-data-and-modules/hints.md">hints.md</a> one level at a time.</p><details class="reveal"><summary>Predict the untouched starter result</summary><div>Eleven <code>NOT STARTED</code> lines. Choose a Warm-up or Fix it before a Build exercise.</div></details>`,
       notes: { timing: "8 min", talking: "You Do: let students choose one kitchen file task and run its check. Remind them the check builds its own temporary files, so nothing real is touched.", question: "What does NOT STARTED mean? The function still raises its TODO.", failure: "If the command cannot find check.py, return to the repository root.", action: "Ask each student to explain one test input before editing." }
@@ -633,6 +638,13 @@ banned = ["fries"]</code></pre><p>Solve it by hand first with a character loop a
     { q: "Which datetime function parses text into a date?", options: [{ text: "strptime", correct: true }, { text: "strftime" }, { text: "timedelta" }], why: "p is for parse, f is for format, and timedelta is a span of time." },
     { q: "Which is a good check before installing an outside package?", options: [{ text: "Whether it is maintained and already in the standard library", correct: true }, { text: "Whether its name is short" }, { text: "Whether it has a logo" }], why: "Check the standard library first, then maintenance, usage, license, documentation, and the exact package name." },
     { q: "When is writing your own code the better call?", options: [{ text: "When the task is tiny or you are learning how the tool works", correct: true }, { text: "Never" }, { text: "Whenever a module exists" }], why: "Import for solved, edge-case-heavy problems; write your own to learn or for tiny special cases." }
+  ] },
+  matches: { w7: [
+      { term: "Context manager", meaning: "A with block that closes the file for you" },
+      { term: "CSV", meaning: "Rows of text with values separated by commas" },
+      { term: "Module", meaning: "A file of code you import and reuse" },
+      { term: "datetime", meaning: "Standard library tools for dates and time" },
+      { term: "Counter", meaning: "A dictionary that counts how often items appear" }
   ] }
 };
 

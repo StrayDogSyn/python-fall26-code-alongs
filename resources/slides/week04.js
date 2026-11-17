@@ -107,7 +107,7 @@ with open("roster.txt", "w", encoding="utf-8") as file:
     { q: "What does file mode <code>\"a\"</code> do?", options: [{ text: "Adds to the end of the file", correct: true }, { text: "Erases the file first" }, { text: "Only reads the file" }], why: "Append mode keeps existing text and writes after it." },
     { q: "What does <code>scores.get('Noor')</code> return when Noor is not a key?", options: [{ text: "None", correct: true }, { text: "0" }, { text: "An error" }], why: "get() returns None for a missing key unless you give a default." },
     { q: "Which collection cannot change after it is created?", options: [{ text: "Tuple", correct: true }, { text: "List" }, { text: "Dictionary" }], why: "A tuple is fixed once made, which suits a pair like a meeting time." }
-  ],
+  ] },
   matches: { w4: [
       { term: "List", meaning: "An ordered collection that can change" },
       { term: "Dictionary", meaning: "Keys that look up values" },

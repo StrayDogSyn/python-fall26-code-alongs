@@ -4,6 +4,8 @@ This kindred packet serves the Python Intro 26.4 Week 5 session and Python Essen
 
 These practice problems teach the tools, so you can assemble your own answer to your graded assignment. They are different problems, and the reference file is for this packet only.
 
+**Optional warm-up:** [LeetCode 704 Binary Search](leetcode-binary-search.md), solved together in class.
+
 ## Start here
 
 From the repository root, with Python installed:

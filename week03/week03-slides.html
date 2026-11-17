@@ -546,7 +546,7 @@ if score_text &gt;= 70:
     { q: "What error does <code>\"72\" &gt;= 70</code> raise?", options: [{ text: "TypeError", correct: true }, { text: "ValueError" }, { text: "It returns False" }], why: "Text and a number cannot be ordered, so Python raises TypeError." },
     { q: "What does <code>int(\"abc\")</code> raise?", options: [{ text: "ValueError", correct: true }, { text: "TypeError" }, { text: "It returns 0" }], why: "The text is a string, but it cannot become an integer." },
     { q: "What number does <code>enumerate(names, 1)</code> give the first item?", options: [{ text: "1", correct: true }, { text: "0" }, { text: "The item's length" }], why: "The second argument sets the starting count." }
-  ],
+  ] },
   matches: { w3: [
       { term: "Variable", meaning: "A name that refers to a value" },
       { term: "Type", meaning: "The kind of value, such as str or int" },

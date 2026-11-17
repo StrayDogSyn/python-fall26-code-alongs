@@ -978,7 +978,28 @@ __pycache__/
           { text: "<code>git commit --amend</code>" },
           { text: "<code>git reset --hard</code>" }
         ],
-        why: "revert adds a new commit that reverses the old one. History stays honest, and nobody else's copy breaks." }
+        why: "revert adds a new commit that reverses the old one. History stays honest, and nobody else's copy breaks." },
+      { q: "You ran <code>git add</code> and nothing printed. What does that tell you?",
+        options: [
+          { text: "It worked. Git add stays quiet on success, so check <code>git status</code>.", correct: true },
+          { text: "It failed silently." },
+          { text: "Your changes were pushed." }
+        ],
+        why: "Silence is normal for git add. git status shows what is now staged." },
+      { q: "What is <code>origin</code> in a forked class repository?",
+        options: [
+          { text: "Your fork on GitHub.", correct: true },
+          { text: "The instructor's original repository." },
+          { text: "A folder on your computer." }
+        ],
+        why: "Origin is your remote copy. Upstream names the original repository you forked from." },
+      { q: "Which sequence saves your edit to your fork?",
+        options: [
+          { text: "<code>git status</code>, <code>git add .</code>, <code>git commit -m</code>, <code>git push</code>", correct: true },
+          { text: "<code>git push</code>, then <code>git commit</code>" },
+          { text: "<code>git pull upstream main</code> only" }
+        ],
+        why: "Check, stage, commit locally, then push the commit to your fork." }
     ]
   },
 

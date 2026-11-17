@@ -6,6 +6,8 @@
 
 **For mentors:** the timed [run of show](run-of-show.md) and the [Bridge the Dream topic map](bridge-the-dream-map.md) (unverified cells read `TBD (Hunter)`).
 
+**Optional warm-up:** [LeetCode 1 Two Sum](leetcode-two-sum.md), solved together in class.
+
 ## Start here
 
 1. Read [the Gemini Notebook source](notebook-source.md). Predict before revealing each worked result.
