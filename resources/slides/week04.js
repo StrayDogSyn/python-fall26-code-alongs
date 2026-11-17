@@ -63,6 +63,20 @@ for word in words:
       notes: { timing: "5 min", talking: "Trace indices after a removal. The two neighboring short words expose the skipped-item bug.", question: "Why does b remain? Removing a shifts b left past the loop's next position.", failure: "If learners expect both short words removed, trace the list indices after removing a.", action: "Have learners describe a safe filtering plan." }
     },
     {
+      title: "Repair a file write",
+      companions: ["encoding"],
+      html: `<h2>Repair a file write</h2><pre class="cmd"><code>with open("roster.txt", "w", encoding="utf-8") as file:
+    file.write("Maya\\n")
+with open("roster.txt", "w", encoding="utf-8") as file:
+    file.write("Luis\\n")</code></pre><p>Mode <code>"w"</code> starts the file over each time it opens. Predict the saved text before reading it back.</p><details class="reveal"><summary>Predict the file contents</summary><div>Only <code>Luis</code>. The second open erased Maya. Use mode <code>"a"</code> for the second write, or write both lines inside one <code>with</code> block.</div></details>`,
+      notes: { timing: "6 min", talking: "Trace each open: w clears, then writes. Compare with a, which keeps the old text and adds to the end.", question: "Which line erased Maya? The second open with mode w.", failure: "If learners think the file grows, ask what w stands for and trace the first line after it opens.", action: "Have learners state the fixed mode and the final two lines." }
+    },
+    {
+      title: "Match the vocabulary",
+      html: `<h2>Match the vocabulary</h2><p>Pair each term with its meaning before the practice block.</p><div data-match="w4"></div>`,
+      notes: { timing: "4 min", talking: "Let learners work in pairs, then read one pairing aloud with an example from today.", question: "Which collection stores unique values only? A set.", failure: "If list and tuple blur, ask which one can change after it is made.", action: "Ask each learner to say one term in a sentence." }
+    },
+    {
       title: "Shared change and independent practice",
       html: `<h2>Change the roster together</h2><p>We Do: add Noor to the list and dictionary. Predict the new last file line. Add a second Ari and predict the unique count.</p><h3>Your turn</h3><p>Start with <code>unique_names</code>, <code>highest_score</code>, and <code>save_names</code>, then continue through eight new exercises in <code>practice.py</code>.</p><p>Open one level in <a href="../lp02-data-structures/hints.md">hints.md</a> when stuck.</p>`,
       notes: { timing: "23 min", talking: "Begin the eleven-exercise ladder here and let students continue after class. Offer one hint at a time: a result list plus a seen set preserves first appearance.", question: "What should highest_score return for an empty dictionary? None, as the starter specifies.", failure: "NOT STARTED identifies the next unfinished TODO. An unexpected file value calls for reading the exact text.", action: "Ask for a collection choice and one passing check from each learner." }
@@ -76,6 +90,11 @@ for word in words:
       title: "Week 4 check",
       html: `<h2>Week 4 check</h2><div data-quiz="w4"></div><p>After your own attempt, compare with <a href="../lp02-data-structures/solutions.py">solutions.py</a>. The <a href="../lp02-data-structures/notebook-source.md">text source</a> covers the same task.</p>`,
       notes: { timing: "8 min", talking: "Ask why each answer fits. End with the exact saved text, not only the printed list.", question: "What does splitlines() remove? The line endings from the returned strings.", failure: "If quiz interaction fails, use the questions aloud.", action: "Say list, dictionary, set, and tuple once more." }
+    },
+    {
+      title: "Before next Monday",
+      html: `<h2>Before next Monday</h2><ol><li>Run <code>python lp02-data-structures/check.py</code> and note your first <code>NOT STARTED</code> line.</li><li>Replace one TODO, run the check again, and read the line before opening a hint.</li><li>Pick a collection for a new task of your own and write one sentence explaining why.</li></ol><p>Stuck? Open one level in <a href="../lp02-data-structures/hints.md">hints.md</a>, then bring the exact check line to Monday.</p>`,
+      notes: { timing: "3 min", talking: "Name the three steps and point to the hints file. Keep graded work out of this packet.", question: "What do you bring if stuck? The exact check line.", failure: "If learners cannot run the check, confirm the working directory is the repository root.", action: "Ask each learner to pick their first exercise for the week." }
     }
   ],
   quizzes: { w4: [
@@ -84,6 +103,16 @@ for word in words:
     { q: "What does <code>'Maya\\nLuis\\n'.splitlines()</code> return?", options: [{ text: "['Maya', 'Luis']", correct: true }, { text: "['Maya\\n', 'Luis\\n']" }, { text: "'Maya Luis'" }], why: "splitlines() gives a list of lines without newline characters." },
     { q: "For tied scores, which name comes first in the ranked result?", options: [{ text: "The alphabetically earlier name", correct: true }, { text: "The last inserted name" }, { text: "A random name" }], why: "The sort key uses the name after the score to break ties." },
     { q: "What does <code>ranked[:2]</code> keep?", options: [{ text: "The first two rows", correct: true }, { text: "Only row at index two" }, { text: "Every row after two" }], why: "A slice ending at 2 excludes index 2." },
-    { q: "Why specify <code>encoding='utf-8'</code> when opening a text file?", options: [{ text: "To decode text consistently", correct: true }, { text: "To sort its lines" }, { text: "To remove blank lines" }], why: "An explicit UTF-8 encoding handles the same text across systems." }
+    { q: "Why specify <code>encoding='utf-8'</code> when opening a text file?", options: [{ text: "To decode text consistently", correct: true }, { text: "To sort its lines" }, { text: "To remove blank lines" }], why: "An explicit UTF-8 encoding handles the same text across systems." },
+    { q: "What does file mode <code>\"a\"</code> do?", options: [{ text: "Adds to the end of the file", correct: true }, { text: "Erases the file first" }, { text: "Only reads the file" }], why: "Append mode keeps existing text and writes after it." },
+    { q: "What does <code>scores.get('Noor')</code> return when Noor is not a key?", options: [{ text: "None", correct: true }, { text: "0" }, { text: "An error" }], why: "get() returns None for a missing key unless you give a default." },
+    { q: "Which collection cannot change after it is created?", options: [{ text: "Tuple", correct: true }, { text: "List" }, { text: "Dictionary" }], why: "A tuple is fixed once made, which suits a pair like a meeting time." }
+  ],
+  matches: { w4: [
+      { term: "List", meaning: "An ordered collection that can change" },
+      { term: "Dictionary", meaning: "Keys that look up values" },
+      { term: "Set", meaning: "Unique values with no repeats" },
+      { term: "Tuple", meaning: "An ordered collection that stays fixed" },
+      { term: "Slice", meaning: "A range of items, such as the first two rows" }
   ] }
 };

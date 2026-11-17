@@ -72,6 +72,19 @@ labels = [f"{number}. {name}" for number, name in enumerate(["Maya", "Ari"], 1)]
       notes: { timing: "6 min", talking: "Trace the first iteration and stop at return. Connect this to the Fix it exercise without opening its solution.", question: "Does the loop visit 3 after return? No, the function has ended.", failure: "If indentation is hard to see, count spaces before return and for.", action: "Ask where return belongs for a total of all points." }
     },
     {
+      title: "Repair a type bug",
+      companions: ["type", "exception"],
+      html: `<h2>Repair a type bug</h2><pre class="cmd"><code>score_text = "72"
+if score_text &gt;= 70:
+    print("ready")</code></pre><p>Read the last line of the traceback first. It names the error and the two types that cannot be compared.</p><details class="reveal"><summary>Predict the error</summary><div><code>TypeError</code>. Text and a number cannot be ordered. Convert first with <code>int(score_text)</code>, then compare.</div></details>`,
+      notes: { timing: "6 min", talking: "Run the broken lines, read only the last traceback line aloud, then ask what type each side has.", question: "Which side is text? score_text, because of the quotes.", failure: "If learners add quotes around 70, ask what type that makes it.", action: "Have learners write the fixed condition and predict ready." }
+    },
+    {
+      title: "Match the vocabulary",
+      html: `<h2>Match the vocabulary</h2><p>Pair each term with its meaning before the practice block.</p><div data-match="w3"></div>`,
+      notes: { timing: "4 min", talking: "Let learners work in pairs, then read one pairing aloud with an example from today.", question: "Which term describes classify_score? A function.", failure: "If two terms blur, return to the slide where each appeared.", action: "Ask each learner to say one term in a sentence." }
+    },
+    {
       title: "Shared change and independent practice",
       html: `<h2>Change one rule together</h2><p>We Do: change the cutoff to 75 in a scratch copy. Predict what happens to score 72 before running.</p><h3>Your turn</h3><p>Start with <code>classify_score</code> and <code>count_passing</code>, then work through the eight new exercises in <code>practice.py</code>. Replace one TODO at a time.</p><p>Open one level in <a href="../lp01-intro-to-python/hints.md">hints.md</a> when stuck.</p>`,
       notes: { timing: "19 min", talking: "Begin the ten-exercise ladder here and let students continue after class. Offer only the first hint: start the count at zero. Ask learners to explain a passing check.", question: "Why test 70? It is the boundary of the condition.", failure: "A student sees NOT STARTED after fixing one function. Point them to the next TODO and the matching hint section.", action: "Have learners state one prediction, the observed result, and the explaining line." }
@@ -85,6 +98,11 @@ labels = [f"{number}. {name}" for number, name in enumerate(["Maya", "Ari"], 1)]
       title: "Week 3 check",
       html: `<h2>Week 3 check</h2><div data-quiz="w3"></div><p>After your own attempt, compare with <a href="../lp01-intro-to-python/solutions.py">solutions.py</a>. The <a href="../lp01-intro-to-python/notebook-source.md">text source</a> covers the same examples.</p>`,
       notes: { timing: "8 min", talking: "Let students explain each answer. Close with the relation between a prediction and actual output.", question: "What should you read first in a traceback? The last line names the error.", failure: "If quiz interaction fails, ask the questions aloud and use the explanation in the answers.", action: "Say variable, type, condition, function once more." }
+    },
+    {
+      title: "Before next Monday",
+      html: `<h2>Before next Monday</h2><ol><li>Run <code>python lp01-intro-to-python/check.py</code> and note your first <code>NOT STARTED</code> line.</li><li>Replace one TODO, run the check again, and read the line before opening a hint.</li><li>Write one prediction and the actual output for a function you changed.</li></ol><p>Stuck? Open one level in <a href="../lp01-intro-to-python/hints.md">hints.md</a>, then bring the exact check line to Monday.</p>`,
+      notes: { timing: "3 min", talking: "Name the three steps and point to the hints file. Keep graded work out of this packet.", question: "What do you bring if stuck? The exact check line.", failure: "If learners cannot run the check, confirm the working directory is the repository root.", action: "Ask each learner to pick their first exercise for the week." }
     }
   ],
   quizzes: { w3: [
@@ -93,6 +111,16 @@ labels = [f"{number}. {name}" for number, name in enumerate(["Maya", "Ari"], 1)]
     { q: "What does <code>total_points([])</code> return?", options: [{ text: "0", correct: true }, { text: "None" }, { text: "9" }], why: "The loop has no items, so total remains zero." },
     { q: "What should parse_score return for text that cannot become an integer?", options: [{ text: "None", correct: true }, { text: "Zero" }, { text: "The original text" }], why: "The ValueError path returns None for bad text." },
     { q: "When does a while loop stop?", options: [{ text: "When its condition becomes false", correct: true }, { text: "After one visit" }, { text: "When it prints" }], why: "The condition is checked before each visit." },
-    { q: "Where should return sit to total every point in a loop?", options: [{ text: "After the loop", correct: true }, { text: "Inside the first iteration" }, { text: "Before total starts" }], why: "Returning inside the loop ends the function after its first item." }
+    { q: "Where should return sit to total every point in a loop?", options: [{ text: "After the loop", correct: true }, { text: "Inside the first iteration" }, { text: "Before total starts" }], why: "Returning inside the loop ends the function after its first item." },
+    { q: "What error does <code>\"72\" &gt;= 70</code> raise?", options: [{ text: "TypeError", correct: true }, { text: "ValueError" }, { text: "It returns False" }], why: "Text and a number cannot be ordered, so Python raises TypeError." },
+    { q: "What does <code>int(\"abc\")</code> raise?", options: [{ text: "ValueError", correct: true }, { text: "TypeError" }, { text: "It returns 0" }], why: "The text is a string, but it cannot become an integer." },
+    { q: "What number does <code>enumerate(names, 1)</code> give the first item?", options: [{ text: "1", correct: true }, { text: "0" }, { text: "The item's length" }], why: "The second argument sets the starting count." }
+  ],
+  matches: { w3: [
+      { term: "Variable", meaning: "A name that refers to a value" },
+      { term: "Type", meaning: "The kind of value, such as str or int" },
+      { term: "Condition", meaning: "A test that is true or false" },
+      { term: "Function", meaning: "A named job that can return a result" },
+      { term: "Exception", meaning: "An error Python raises when a step fails" }
   ] }
 };
