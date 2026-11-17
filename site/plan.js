@@ -266,8 +266,8 @@ window.COURSE_PLAN = {
       }
     },
     {
-      id: "lp06a", phase: "core", code: "W06 / LP 06A", title: "Functions & Scope", status: "preview",
-      summary: "Preview the November 9 lesson on function calls, returned values, local names, and refactoring.",
+      id: "lp06a", phase: "core", code: "W06 / LP 06A", title: "Functions & Scope", status: "live",
+      summary: "Revisit the November 9 lesson on function calls, returned values, local names, and refactoring.",
       topics: ["def and parameters", "defaults and keyword arguments", "return versus print", "scope and docstrings", "refactoring"],
       objective: "I can name a small job, return its result, and explain which names a function can use.",
       teach: "Predict the outputs of calls with defaults and watch where a returned value goes.",
@@ -304,8 +304,8 @@ window.COURSE_PLAN = {
       }
     },
     {
-      id: "lp07a", phase: "core", code: "W07 / LP 07A", title: "Text Data & Modules", status: "preview",
-      summary: "Preview the November 16 lesson on reading and writing files, CSV rows, paths, dates, and when to import a module.",
+      id: "lp07a", phase: "core", code: "W07 / LP 07A", title: "Text Data & Modules", status: "live",
+      summary: "Follow the November 16 lesson on reading and writing files, CSV rows, paths, dates, and when to import a module.",
       topics: ["open and with", "file modes", "csv and DictReader", "os and datetime", "import or write your own"],
       objective: "I can read a text or CSV file into Python data, write results back out, and explain when to import a module.",
       teach: "Predict what each file read returns, then watch a blank cell and a quoted comma break hand-written parsing.",
