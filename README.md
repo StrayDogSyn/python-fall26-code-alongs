@@ -17,9 +17,9 @@ New to coding? You are in the right place. No experience is needed, and every qu
 | 🧭 | **Explore the learning hub** | [Interactive course map](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) |
 | 🎥 | **Watch the recordings** | [Eric Hunter Petross on YouTube](https://www.youtube.com/@EricHunterPetross) |
 | ⏰ | **Join the live class** | Mondays, 8:00 PM Eastern |
-| 🖥️ | **Review the slides** (interactive decks for self-study) | [Week 1](week01/week01-slides.html) · [Week 2](week02/week02-slides.html) · [Week 3](week03/week03-slides.html) · [Week 4](week04/week04-slides.html) · [Week 5](week05/week05-slides.html) |
+| 🖥️ | **Review the slides** (interactive decks for self-study) | [Week 1](week01/week01-slides.html) · [Week 2](week02/week02-slides.html) · [Week 3](week03/week03-slides.html) · [Week 4](week04/week04-slides.html) · [Week 5](week05/week05-slides.html) · [Week 6](week06/week06-slides.html) · [Week 7](week07/week07-slides.html) |
 | 🏫 | **About the program** | [Code the Dream](https://codethedream.org/) |
-| 📚 | **Weeks 3 to 5** | [Week 3 catch-up](lp01-intro-to-python/week03-walkthrough.md) · [Week 4 catch-up](lp02-data-structures/week04-walkthrough.md) · [Week 5 packet](lp03-more-python-skills/README.md) |
+| 📚 | **Weeks 3 to 7** | [Week 3 catch-up](lp01-intro-to-python/week03-walkthrough.md) · [Week 4 catch-up](lp02-data-structures/week04-walkthrough.md) · [Week 5 packet](lp03-more-python-skills/README.md) · [Week 6 packet](lp06a-functions-and-scope/README.md) · [Week 7 packet](lp07a-text-data-and-modules/README.md) |
 | 🧠 | **Gemini Notebook study kit** | [Source uploads and teaching plan](GEMINI_NOTEBOOK.md) |
 
 **Your first move:** jump to [Getting Started](#getting-started) and get your computer ready. It takes about 15 minutes.
@@ -269,7 +269,7 @@ Weeks 1 through 5 have materials. The repository grows toward this layout:
 
 ```text
 python-fall26-code-alongs/
-├── week01/ ... week05/            Weekly slide decks
+├── week01/ ... week07/            Weekly slide decks
 ├── lp01-intro-to-python/          Supplemental Python fundamentals lab
 ├── lp02-data-structures/          Supplemental collections and files lab
 ├── lp03-more-python-skills/       Classes, comprehensions, decorators, closures

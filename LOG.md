@@ -1,0 +1,1 @@
+- T-24 2026-11-16: hub static fallbacks refreshed (Week 07 hero link, counters, progress, noscript, Week 06/07 resource cards, README).
