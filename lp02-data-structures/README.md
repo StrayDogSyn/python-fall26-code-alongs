@@ -4,6 +4,10 @@
 
 **Week 4 catch-up route:** Use the [interactive slides](../week04/week04-slides.html) with the [text walkthrough](week04-walkthrough.md). Both follow the I Do → We Do → You Do sequence below.
 
+**For mentors:** the timed [run of show](run-of-show.md) and the [Bridge the Dream topic map](bridge-the-dream-map.md) (unverified cells read `TBD (Hunter)`).
+
+**Optional warm-up:** [LeetCode 1 Two Sum](leetcode-two-sum.md), solved together in class.
+
 ## Start here
 
 1. Read [the Gemini Notebook source](notebook-source.md). Predict before revealing each worked result.

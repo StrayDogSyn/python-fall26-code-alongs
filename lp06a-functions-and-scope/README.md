@@ -2,6 +2,8 @@
 
 This kindred packet serves Python Intro 26.4 Week 6. It teaches `def`, parameters, defaults, `return`, local and outer scope, docstrings, and refactoring with event and library examples. It does not give an answer to the graded Week 6 warmups or the Number Cruncher refactor. See the [course map](../resources/agents/OFFICIAL_COURSE_MAP.md) for the official week topics.
 
+**Optional warm-up:** [LeetCode 125 Valid Palindrome](leetcode-valid-palindrome.md), solved together in class.
+
 ## Start here
 
 From the repository root:

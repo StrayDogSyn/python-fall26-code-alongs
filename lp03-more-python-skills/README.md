@@ -4,6 +4,8 @@
 
 **Week 5 presentation:** Open the [interactive slides](../week05/week05-slides.html). The instructor's [run of show](week05-run-of-show.md) has timed prompts and checkpoints; the source below is the equivalent text route.
 
+**For mentors:** the [Bridge the Dream topic map](bridge-the-dream-map.md) (unverified cells read `TBD (Hunter)`).
+
 ## Start here
 
 1. Read [the Gemini Notebook source](notebook-source.md). Write down a prediction at each **Predict** prompt before you read the answer.

@@ -558,6 +558,11 @@ short_form = [wait for wait in [4, 7, 2, 9] if wait &gt; 4]</code></pre><p>Both 
       notes: { timing: "6 min", talking: "Read the comprehension as output, source, condition. Compare with the plain loop.", question: "When might the longer loop be clearer? When each visit needs several steps or a trace.", failure: "If students read the condition first, point to the output expression and source before it.", action: "Have learners name one reason to choose each form." }
     },
     {
+      title: "Match the vocabulary",
+      html: `<h2>Match the vocabulary</h2><p>Pair each term with its meaning before you run the check.</p><div data-match="w5b"></div>`,
+      notes: { timing: "4 min", talking: "Let learners work in pairs, then read one pairing aloud with an example from today.", question: "Which pairing was hardest to decide? Return to the slide where that term appeared.", failure: "If two terms blur, trace one example of each side by side.", action: "Ask each learner to use one term in a sentence." }
+    },
+    {
       title: "Run the local check",
       html: `<h2>Run the local check</h2><p>From the repository root, replace one TODO, then run:</p><pre class="cmd"><code>python lp03a-iteration-and-algorithms/check.py</code></pre><p>Each of eleven exercises gets <code>PASS</code>, <code>FAIL</code> with a nudge, or <code>NOT STARTED</code>. Use <a href="../lp03a-iteration-and-algorithms/hints.md">hints.md</a> one level at a time.</p><details class="reveal"><summary>Predict the untouched starter's result</summary><div>Eleven <code>NOT STARTED</code> lines. The check does not show a traceback wall for a TODO.</div></details>`,
       notes: { timing: "5 min", talking: "Show one local check line, then return to the matching exercise.", question: "What does NOT STARTED mean? That exercise still raises its TODO.", failure: "If a command cannot find the file, return to the repository root.", action: "Ask learners to choose a Warm-up or Fix it first." }
@@ -577,6 +582,13 @@ short_form = [wait for wait in [4, 7, 2, 9] if wait &gt; 4]</code></pre><p>Both 
     { q: "What moves to the right edge after a full bubble pass?", options: [{ text: "The largest remaining value", correct: true }, { text: "The smallest value" }, { text: "The first input value" }], why: "Neighbor swaps move the largest active value rightward." },
     { q: "What does selection sort choose for each open position?", options: [{ text: "The smallest remaining value", correct: true }, { text: "The next random value" }, { text: "Only a neighboring value" }], why: "It scans the unsorted tail for the minimum." },
     { q: "What pairs do the nested loops visit for three items?", options: [{ text: "(0,1), (0,2), (1,2)", correct: true }, { text: "Only (0,1)" }, { text: "All self-pairs" }], why: "The inner loop starts after the outer position." }
+  ] },
+  matches: { w5b: [
+      { term: "Iteration", meaning: "Repeating a step over items or until a condition" },
+      { term: "Linear search", meaning: "Check each item in order until one matches" },
+      { term: "Sorting pass", meaning: "One sweep that moves items toward their order" },
+      { term: "Accumulator", meaning: "A variable that builds a result across a loop" },
+      { term: "Algorithm", meaning: "Clear steps that solve a problem" }
   ] }
 };
 

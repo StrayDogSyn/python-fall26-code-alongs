@@ -557,7 +557,28 @@ python -c "print('Hello, Fall 26!')"</code></pre>
           { text: "No. Python only runs in Spyder." },
           { text: "Only if you both switch to the same operating system." }
         ],
-        why: "Editors are interchangeable. The terminal and Git are the constants." }
+        why: "Editors are interchangeable. The terminal and Git are the constants." },
+      { q: "Which command shows the folder your terminal is standing in?",
+        options: [
+          { text: "<code>pwd</code>", correct: true },
+          { text: "<code>exit()</code>" },
+          { text: "<code>python --version</code>" }
+        ],
+        why: "The working directory decides where files are found and saved. Check it before you run or create anything." },
+      { q: "What does a virtual environment (venv) keep separate?",
+        options: [
+          { text: "This project's installed packages from every other project's.", correct: true },
+          { text: "Your files from your Git history." },
+          { text: "Python itself from your operating system." }
+        ],
+        why: "A venv is the project's clean room: packages installed inside it do not leak into other work." },
+      { q: "You open a new terminal and the venv is gone. What did you most likely need to do?",
+        options: [
+          { text: "Activate it again in this terminal.", correct: true },
+          { text: "Reinstall Python." },
+          { text: "Delete the project folder." }
+        ],
+        why: "Activation belongs to one terminal session, so each new terminal needs its own activation." }
     ]
   },
 

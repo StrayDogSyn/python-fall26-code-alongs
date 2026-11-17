@@ -518,6 +518,11 @@ ranked = sorted(averages.items(), key=report_key)</code></pre><p><code>@property
       notes: { timing: "24 min", talking: "Give silent work time. Use the session plan for checkpoints. Offer one hint at a time. Keep the reference closed until students attempt the task.", question: "Where should wrapper.calls start? Zero, before any calls happen.", failure: "A NOT STARTED line means the TODO remains. A FAIL line names the input, expected result, actual result, and a nudge.", action: "Ask for one check result and one explanation." }
     },
     {
+      title: "Match the vocabulary",
+      html: `<h2>Match the vocabulary</h2><p>Pair each term with its meaning before you run the check.</p><div data-match="w5"></div>`,
+      notes: { timing: "4 min", talking: "Let learners work in pairs, then read one pairing aloud with an example from today.", question: "Which pairing was hardest to decide? Return to the slide where that term appeared.", failure: "If two terms blur, trace one example of each side by side.", action: "Ask each learner to use one term in a sentence." }
+    },
+    {
       title: "Run the local check",
       html: `<h2>Run the local check</h2><p>From the repository root, run this after each TODO you replace:</p><pre class="cmd"><code>python lp03-more-python-skills/check.py</code></pre><p>Each exercise gets a <code>PASS</code>, <code>FAIL</code> with a nudge, or <code>NOT STARTED</code> line. The Gradebook project has its own line.</p><details class="reveal"><summary>Predict the untouched starter's result</summary><div>Ten <code>NOT STARTED</code> lines. Each points to one exercise or the mini project.</div></details>`,
       notes: { timing: "3 min", talking: "Run the command from the repository root. Read the check line for the exercise being changed.", question: "What does the Gradebook line cover? Its project behavior, including report order.", failure: "If a TODO remains, use its NOT STARTED line to find the next function.", action: "Ask learners to identify their next check line." }
@@ -537,6 +542,13 @@ ranked = sorted(averages.items(), key=report_key)</code></pre><p><code>@property
     { q: "Why does once need a Boolean flag beside its saved result?", options: [{ text: "None can be a valid saved result", correct: true }, { text: "The flag sorts results" }, { text: "The flag counts students" }], why: "Checking result is None cannot tell an uncached call from a cached None." },
     { q: "After pushing a then b, what does Stack.pop return?", options: [{ text: "b", correct: true }, { text: "a" }, { text: "Both items" }], why: "A stack removes the most recently pushed item first." },
     { q: "What order does compose(f, g) apply its functions?", options: [{ text: "g, then f", correct: true }, { text: "f, then g" }, { text: "Both at once" }], why: "The composed result is f(g(value))." }
+  ] },
+  matches: { w5: [
+      { term: "Class", meaning: "A blueprint that bundles data and methods" },
+      { term: "Comprehension", meaning: "A compact expression that builds a list" },
+      { term: "Decorator", meaning: "A wrapper that adds behavior around a function" },
+      { term: "Closure", meaning: "A function that remembers values from where it was made" },
+      { term: "Stack", meaning: "Items added and removed from the same end" }
   ] }
 };
 

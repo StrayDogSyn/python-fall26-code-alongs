@@ -477,10 +477,9 @@ window.DECK = {
       title: "Define, call, return",
       companions: ["function", "parameter", "argument", "return_value"],
       html: `<h2>Define, call, return</h2><pre class="cmd"><code>def shelf_tag(title, shelf):
-    """Return a short tag for a library book."""
     return f"{shelf}: {title}"
 
-tag = shelf_tag("Night Sky", "Science")</code></pre><p><code>title</code> and <code>shelf</code> are parameters. The two strings in the call are arguments. <code>return</code> gives the caller a value.</p><details class="reveal"><summary>Predict tag</summary><div><code>Science: Night Sky</code>. The function does not print by itself.</div></details>`,
+tag = shelf_tag("Night Sky", "Science")</code></pre><p>Parameters: <code>title</code>, <code>shelf</code>. Arguments: the two call strings. <code>return</code> hands back a value.</p><details class="reveal"><summary>Predict tag</summary><div><code>Science: Night Sky</code>. The function does not print by itself.</div></details>`,
       notes: { timing: "7 min", talking: "Point to definition, parameters, call, arguments, and returned value in that order.", question: "What value is stored in tag? Science: Night Sky.", failure: "If students think defining runs the body, point to the later call line.", action: "Ask what one missing argument would cause." }
     },
     {
@@ -575,6 +574,11 @@ def agenda_text(heading, entries):
       notes: { timing: "8 min", talking: "Keep the core target on def, defaults, return, and scope; the closure is optional stretch work.", question: "Why does a second counter not inherit the first one's count? Each outer call creates new local state.", failure: "If nonlocal is unfamiliar, trace only the count box before explaining the keyword.", action: "Ask what one fresh default counter returns first." }
     },
     {
+      title: "Match the vocabulary",
+      html: `<h2>Match the vocabulary</h2><p>Pair each term with its meaning before you run the check.</p><div data-match="w6"></div>`,
+      notes: { timing: "4 min", talking: "Let learners work in pairs, then read one pairing aloud with an example from today.", question: "Which pairing was hardest to decide? Return to the slide where that term appeared.", failure: "If two terms blur, trace one example of each side by side.", action: "Ask each learner to use one term in a sentence." }
+    },
+    {
       title: "Run the local check",
       html: `<h2>Run the local check</h2><p>From the repository root, replace one TODO, then run:</p><pre class="cmd"><code>python lp06a-functions-and-scope/check.py</code></pre><p>Each of eleven exercises gets <code>PASS</code>, <code>FAIL</code> with an input and nudge, or <code>NOT STARTED</code>. Open <a href="../lp06a-functions-and-scope/hints.md">hints.md</a> one level at a time.</p><details class="reveal"><summary>Predict the untouched starter result</summary><div>Eleven <code>NOT STARTED</code> lines. Choose a Warm-up or Fix it before a Build exercise.</div></details>`,
       notes: { timing: "8 min", talking: "You Do: let students choose one non-graded event or text task and run its check.", question: "What does NOT STARTED mean? The function still raises its TODO.", failure: "If the command cannot find check.py, return to the repository root.", action: "Ask each student to explain one test input before editing." }
@@ -594,6 +598,13 @@ def agenda_text(heading, entries):
     { q: "What does a docstring describe?", options: [{ text: "A function's purpose and contract", correct: true }, { text: "Only the last print" }, { text: "A Git branch" }], why: "It tells a reader what the function is for and what it returns." },
     { q: "Which function owns the event row format?", options: [{ text: "agenda_line", correct: true }, { text: "The browser" }, { text: "The input list" }], why: "The helper gives one formatting rule a name." },
     { q: "What does a fresh counter starting at 2 return first?", options: [{ text: "3", correct: true }, { text: "2" }, { text: "0" }], why: "The inner call increments before returning." }
+  ] },
+  matches: { w6: [
+      { term: "Parameter", meaning: "A name in the definition that receives a value" },
+      { term: "Argument", meaning: "The value passed in at the call" },
+      { term: "Return value", meaning: "The result a function hands back to its caller" },
+      { term: "Scope", meaning: "Where a name can be used" },
+      { term: "Docstring", meaning: "Text inside a function that explains its job" }
   ] }
 };
 
