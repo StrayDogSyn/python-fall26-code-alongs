@@ -133,3 +133,16 @@ window.WEEK06_GLOSSARY = [
     { id: "refactor", term: "Refactor", say: "ree-FAK-ter", meaning: "Reshape code for clarity while keeping its useful behavior.", usage: "Move one agenda-row rule into a helper." },
     { id: "closure", term: "Closure", say: "KLOH-zher", meaning: "A returned function that remembers a value from an enclosing call.", usage: "Each visit tracker remembers its own count." }
 ];
+/* WEEK07_ONLY_GLOSSARY */
+window.WEEK07_GLOSSARY = [
+    { id: "file_handle", term: "File handle", say: "fyl HAN-dul", meaning: "The object Python gives you after opening a file; you read from it or write to it.", usage: "The handle reads the shift log one line at a time." },
+    { id: "with_block", term: "with block", say: "with blok", meaning: "A block that opens a resource and closes it automatically when the block ends.", usage: "Open the prep list in a with block so it always closes." },
+    { id: "file_mode", term: "File mode", say: "fyl mohd", meaning: "A letter that says how to open a file: r to read, w to replace, a to append.", usage: "Mode w wipes the old file the moment it opens." },
+    { id: "csv_file", term: "CSV file", say: "see-ess-VEE fyl", meaning: "A text file of rows whose values are separated by commas, usually with a header row.", usage: "The prep list is a CSV file with four columns." },
+    { id: "dict_reader", term: "DictReader", say: "DIKT-ree-der", meaning: "A csv tool that turns each row into a dictionary keyed by the header names.", usage: "Read row[\"qty\"] instead of remembering column 3." },
+    { id: "module", term: "Module", say: "MOJ-ool", meaning: "A file of ready-made Python code you can bring into your program.", usage: "The csv module already knows how to read quoted commas." },
+    { id: "import_statement", term: "import", say: "IM-port", meaning: "The statement that brings a module's tools into your program.", usage: "Write import os before you call os.path.exists." },
+    { id: "standard_library", term: "Standard library", say: "STAN-derd LY-brair-ee", meaning: "The modules that ship with Python, so there is nothing to install.", usage: "csv, os, and datetime are all in the standard library." },
+    { id: "working_directory", term: "Working directory", say: "WUR-king dih-REK-ter-ee", meaning: "The folder python considers current; relative paths are measured from it.", usage: "Print the working directory when a file is not found." },
+    { id: "datetime", term: "datetime", say: "DAYT-tyme", meaning: "The module for dates and times: parse text, add spans of time, format results.", usage: "Use datetime to add three days and format the result." }
+];

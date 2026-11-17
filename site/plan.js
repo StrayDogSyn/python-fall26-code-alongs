@@ -303,6 +303,45 @@ window.COURSE_PLAN = {
         ]
       }
     },
+    {
+      id: "lp07a", phase: "core", code: "W07 / LP 07A", title: "Text Data & Modules", status: "preview",
+      summary: "Preview the November 16 lesson on reading and writing files, CSV rows, paths, dates, and when to import a module.",
+      topics: ["open and with", "file modes", "csv and DictReader", "os and datetime", "import or write your own"],
+      objective: "I can read a text or CSV file into Python data, write results back out, and explain when to import a module.",
+      teach: "Predict what each file read returns, then watch a blank cell and a quoted comma break hand-written parsing.",
+      together: "Repair a loop that wipes its own file and a total that adds text instead of numbers.",
+      solo: "Complete one of eleven new practice exercises and explain its local check result.",
+      links: [
+        { label: "Week 7 slides", href: "week07/week07-slides.html", kind: "primary" },
+        { label: "Kindred lesson packet", href: "lp07a-text-data-and-modules/README.md" },
+        { label: "Practice starter", href: "lp07a-text-data-and-modules/practice.py" },
+        { label: "Local check", href: "lp07a-text-data-and-modules/check.py" }
+      ],
+      lesson: {
+        estimate: "≈90 min",
+        steps: [
+          { key: "start", label: "Start here", text: "Open the packet and predict each file result before running the code-along.", links: [
+            { label: "Week 7 slides", href: "week07/week07-slides.html", kind: "primary" },
+            { label: "Text walkthrough", href: "lp07a-text-data-and-modules/week07-walkthrough.md" }
+          ] },
+          { key: "watch", label: "Watch / observe", mode: "I DO", text: "Run the code-along and trace a with block, a CSV row, a path, and a date.", links: [
+            { label: "Code-along", href: "lp07a-text-data-and-modules/code-along.py" }
+          ] },
+          { key: "practice", label: "Practice together", mode: "WE DO", text: "Find the loop that wipes its own file, then the total that adds text instead of numbers.", links: [
+            { label: "Week 7 slides", href: "week07/week07-slides.html" }
+          ] },
+          { key: "try", label: "Try independently", mode: "YOU DO", text: "Complete one TODO at a time. Run python lp07a-text-data-and-modules/check.py from the repository root.", links: [
+            { label: "Practice starter", href: "lp07a-text-data-and-modules/practice.py" },
+            { label: "Three-level hints", href: "lp07a-text-data-and-modules/hints.md" }
+          ] },
+          { key: "check", label: "Check understanding", text: "Explain what with does and when you would import a module, then take the deck quiz. Optional: the LeetCode warm-up.", links: [
+            { label: "Week 7 quiz", href: "week07/week07-slides.html" },
+            { label: "LeetCode warm-up", href: "lp07a-text-data-and-modules/leetcode-most-common-word.md" },
+            { label: "Local check", href: "lp07a-text-data-and-modules/check.py" }
+          ] }
+        ]
+      }
+    },
     { id: "lp04", phase: "data", code: "LP 04", title: "Intro to Data Engineering", status: "planned", summary: "Meet pandas Series and DataFrames.", topics: ["pandas", "Series", "DataFrames"], objective: "I can load, inspect, and describe a small table.", teach: "Inspect a DataFrame's rows, columns, and types.", together: "Choose a column and explain what it represents.", solo: "Load a new table and report three observations.", links: [] },
     { id: "lp05", phase: "data", code: "LP 05", title: "Data Cleaning & Validation", status: "planned", summary: "Find and fix missing, inconsistent, or invalid values.", topics: ["missing values", "validation", "data quality"], objective: "I can identify a data-quality problem and verify a correction.", teach: "Show how a bad value affects a summary.", together: "Choose a cleaning rule and test it.", solo: "Document a cleaning decision on fresh data.", links: [] },
     { id: "lp06", phase: "data", code: "LP 06", title: "Wrangling & Aggregation", status: "planned", summary: "Combine and summarize data to answer a question.", topics: ["grouping", "merging", "aggregation"], objective: "I can group records and explain the resulting summary.", teach: "Walk through a group-by result one group at a time.", together: "Predict a merge and inspect mismatched keys.", solo: "Build a summary for a new question.", links: [] },

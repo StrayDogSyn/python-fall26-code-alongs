@@ -19,6 +19,7 @@ PACKETS = (
     "lp03-more-python-skills",
     "lp03a-iteration-and-algorithms",
     "lp06a-functions-and-scope",
+    "lp07a-text-data-and-modules",
 )
 
 
@@ -92,6 +93,20 @@ def main() -> int:
                 failures.append(f"{packet} code-along output changed:\n{demo.stdout}{demo.stderr}")
             else:
                 print(f"PASS {packet}/code-along.py (defaults, return, scope, and refactoring)")
+        if packet == "lp07a-text-data-and-modules":
+            demo = run(folder / "code-along.py")
+            expected = (
+                "Lines read: 9, kept: 5", "After a: ['first', 'second']",
+                "After w: ['third']", "Accent survives the round trip: True",
+                "Every value is text: str", "Total qty: 45",
+                "Naive split: 6 pieces, csv: 5 fields", "Joined: ../data/prep.csv",
+                "Exists (menu): False", "Three days later: 2026-12-02",
+                "Days between: 26", "Same answer both ways: True",
+            )
+            if demo.returncode or any(piece not in demo.stdout for piece in expected):
+                failures.append(f"{packet} code-along output changed:\n{demo.stdout}{demo.stderr}")
+            else:
+                print(f"PASS {packet}/code-along.py (files, csv, os, datetime, and Counter)")
         names = (
                 "classify_score", "count_passing", "parse_score", "average",
                 "lowest_and_highest", "countdown", "numbered_lines", "clean_name",
@@ -108,6 +123,10 @@ def main() -> int:
             "ask_until_valid", "last_match_search", "binary_search", "selection_sort",
             "bubble_sort_passes", "duplicate_pair", "squares_of_odds",
         ) if packet == "lp03a-iteration-and-algorithms" else (
+            "read_clean_lines", "longest_line", "append_note", "repair_total_qty",
+            "repair_save_lines", "load_prep", "totals_by_station", "write_prep_report",
+            "parse_ticket_line", "first_existing", "shift_dates",
+        ) if packet == "lp07a-text-data-and-modules" else (
             "badge_line", "headline", "format_duration", "repair_price_line",
             "repair_shadowed_prefix", "card_from_parts", "scope_snapshot",
             "make_signoff", "render_agenda", "make_visit_tracker", "batch_badges",
