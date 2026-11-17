@@ -46,6 +46,16 @@ Splitting a CSV line on commas works until a field contains a comma. The ticket 
 
 `csv.DictWriter` takes `fieldnames`, writes a header with `writeheader()`, and writes one row per `writerow`. Open the file with `"w"` and `newline=""`. Without `newline=""`, Windows can print a blank line after every row. **Predict:** If you summarize three stations, how many lines does the file have, counting the header?
 
+`csv.writer` is the list version: `csv.writer(handle).writerow(["Grill", 30])` writes values in the order you give them, so you keep the column order straight. `DictWriter` matches by name, which is safer when a file has many columns. **Predict:** what does `writer.writerow(["Grill", 30])` put on the line?
+
+## 8b. Two import styles
+
+`import math` means every call reads `math.sqrt(16)`, so the origin stays visible. `from math import sqrt` lets you write `sqrt(16)`, which is shorter, but two modules can define the same name and the later import wins without a warning. **Predict:** which style protects you from a name collision?
+
+## 8c. Vetting a package that is not in the standard library
+
+Ask five questions before you install one: Is it already in the standard library? Is it maintained (a recent release, open issues answered)? Do people use it? Is the license and documentation clear? Can you read what it does? Install in a virtual environment, and check the exact package name because look-alike names exist. A package that fails these questions is a good reason to write your own small version. **Predict:** which question would stop you?
+
 ## 9. `Counter` is a dictionary that learned to count
 
 `by_hand[word] = by_hand.get(word, 0) + 1` and `Counter(words)` give the same tally. The hand-written version teaches you the pattern. The module version saves you the typing once you own the pattern. **Predict:** Does `dict(counted) == by_hand` print `True`?

@@ -38,6 +38,16 @@ A hand-written comma split breaks when a field contains a comma. The `csv` modul
 
 `csv.DictWriter(handle, fieldnames=[...])` with `writeheader()` and `writerow()` writes a CSV. Use `newline=""` when opening the output file. **Predict:** How many lines does a three-row summary have with its header?
 
+`csv.writer(handle).writerow([...])` writes lists in the order given; `DictWriter` matches by column name. **Predict:** what line does `writerow(["Grill", 30])` write?
+
+## 8b. Import styles
+
+`import math` keeps the module name visible at each call. `from math import sqrt` is shorter but can hide where a name came from or collide with another module's name. **Predict:** which style avoids collisions?
+
+## 8c. Vetting a package
+
+Check the standard library first. For an outside package ask: is it maintained, do people use it, is the license and documentation clear, can you read what it does, and is the name exactly right? Install in a virtual environment. **Predict:** which answer would make you write your own?
+
 ## 9. A tally with `Counter`
 
 `collections.Counter` counts items. The hand-written dictionary tally and `Counter` give the same result, so the module is a time saver after you understand the pattern. **Predict:** Does the dictionary version match `Counter` on the same words?

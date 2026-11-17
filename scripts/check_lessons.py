@@ -102,6 +102,7 @@ def main() -> int:
                 "Naive split: 6 pieces, csv: 5 fields", "Joined: ../data/prep.csv",
                 "Exists (menu): False", "Three days later: 2026-12-02",
                 "Days between: 26", "Same answer both ways: True",
+                "csv.writer lines: ['station,total', 'Garde Manger,10']", "Two import styles: 4.0 4.0",
             )
             if demo.returncode or any(piece not in demo.stdout for piece in expected):
                 failures.append(f"{packet} code-along output changed:\n{demo.stdout}{demo.stderr}")

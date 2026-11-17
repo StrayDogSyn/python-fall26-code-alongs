@@ -96,6 +96,13 @@ help(os.path.join)     # what does this one do?</code></pre><p><code>import</cod
       notes: { timing: "6 min", talking: "Show dir and help live, then open the docs page for os.path. Name the three tiers: standard library, third-party packages, your own code.", question: "Where do you look before installing a package? The standard library docs.", failure: "If the output of dir is overwhelming, filter it by eye for names starting with e or j.", action: "Ask each learner to look up one function in os.path and say what it returns." }
     },
     {
+      title: "Two import styles, and vetting a package",
+      companions: [],
+      html: `<h2>Two import styles, and vetting a package</h2><pre class="cmd"><code>import math          # call math.sqrt(16)
+from math import sqrt  # call sqrt(16)</code></pre><p><code>import x</code> keeps the origin visible. <code>from x import y</code> is shorter, but two modules can define the same name and the later import wins quietly. Both are fine; pick one and stay consistent.</p><p>Before you install a package that is not in the standard library, ask five questions: Is it already in the standard library? Is it maintained (recent release, open issues answered)? Do people use it (downloads, stars, other projects)? Is the license and documentation clear? Can you read what it does? Install it in a virtual environment and check the exact name, because look-alike names exist.</p><details class="reveal"><summary>Predict: which style protects you from a name collision?</summary><div><code>import math</code>, because every call is written <code>math.something</code>. A package that fails the five questions is a good reason to write your own small version instead.</div></details>`,
+      notes: { timing: "7 min", talking: "Show both import styles on one line of math. Then walk the five-question checklist on a real package page. Connect it to the weekly reflection about import versus write your own.", question: "Which question would stop you from installing a package? Unmaintained, unclear license, or a name that looks like another package.", failure: "If learners treat popular as safe, point out that the name check and the maintenance check still apply.", action: "Ask learners to pick one package they have heard of and answer the five questions in the cohort channel." }
+    },
+    {
       title: "os, paths, and the working directory trap",
       companions: ["working_directory", "path"],
       html: `<h2>os, paths, and the working directory trap</h2><pre class="cmd"><code>import os
@@ -122,7 +129,7 @@ print(later.strftime("%Y-%m-%d"))</code></pre><p><code>strptime</code> parses te
     writer = csv.DictWriter(handle, fieldnames=["station", "total"])
     writer.writeheader()
     for station, total in totals.items():
-        writer.writerow({"station": station, "total": total})</code></pre><p>Name the columns, write the header, then write one row per dictionary. Open the file with <code>"w"</code> and <code>newline=""</code> so Windows does not add blank lines.</p><details class="reveal"><summary>Predict the line count for 4 stations</summary><div>5 lines: one header and four rows. Read it back with <code>DictReader</code> to prove it round-trips.</div></details>`,
+        writer.writerow({"station": station, "total": total})</code></pre><p>Name the columns, write the header, then write one row per dictionary. Open the file with <code>"w"</code> and <code>newline=""</code> so Windows does not add blank lines.</p><p><code>csv.writer</code> is the list version: <code>csv.writer(handle).writerow(["Grill", 30])</code>. You keep the column order straight yourself, so <code>DictWriter</code> is safer when a file has many columns.</p><details class="reveal"><summary>Predict the line count for 4 stations</summary><div>5 lines: one header and four rows. Read it back with <code>DictReader</code> to prove it round-trips.</div></details>`,
       notes: { timing: "8 min", talking: "Mirror the reader. Write, then read the result back to prove it. Mention the w danger again.", question: "What does writeheader do? It writes the column names as the first row.", failure: "If learners see doubled line breaks, add newline and rerun.", action: "Ask learners to add a third column and update the dictionary keys." }
     },
     {
@@ -150,6 +157,7 @@ banned = ["fries"]</code></pre><p>Solve it by hand first with a character loop a
     { q: "Why use the csv module instead of split(\",\")?", options: [{ text: "It handles commas inside quoted fields", correct: true }, { text: "It is always shorter" }, { text: "split cannot read files" }], why: "A quoted comma splits a hand-written line into the wrong pieces." },
     { q: "A relative path is measured from where?", options: [{ text: "The working directory", correct: true }, { text: "The folder holding the script" }, { text: "The desktop" }], why: "os.getcwd() shows the folder python considers current." },
     { q: "Which datetime function parses text into a date?", options: [{ text: "strptime", correct: true }, { text: "strftime" }, { text: "timedelta" }], why: "p is for parse, f is for format, and timedelta is a span of time." },
+    { q: "Which is a good check before installing an outside package?", options: [{ text: "Whether it is maintained and already in the standard library", correct: true }, { text: "Whether its name is short" }, { text: "Whether it has a logo" }], why: "Check the standard library first, then maintenance, usage, license, documentation, and the exact package name." },
     { q: "When is writing your own code the better call?", options: [{ text: "When the task is tiny or you are learning how the tool works", correct: true }, { text: "Never" }, { text: "Whenever a module exists" }], why: "Import for solved, edge-case-heavy problems; write your own to learn or for tiny special cases." }
   ] }
 };

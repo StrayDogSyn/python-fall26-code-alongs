@@ -5,10 +5,12 @@ no matter which folder you start it from.
 """
 
 import csv
+import math  # style 1: bring in the whole module
 import os
 import tempfile
 from collections import Counter
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta  # style 2: bring in only the names you need
+from math import sqrt
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, "data")
@@ -126,6 +128,29 @@ with tempfile.TemporaryDirectory() as folder:
     with open(out_path, newline="", encoding="utf-8") as handle:
         summary_rows = list(csv.DictReader(handle))
 print("Summary rows:", len(summary_rows), summary_rows[1])
+
+
+# === 8b. csv.writer: the list version of DictWriter ===
+# DictWriter matches values by column name. writer just writes each list in order,
+# so you keep the column order straight yourself.
+with tempfile.TemporaryDirectory() as folder:
+    plain_path = os.path.join(folder, "plain.csv")
+    with open(plain_path, "w", newline="", encoding="utf-8") as handle:
+        plain_writer = csv.writer(handle)
+        plain_writer.writerow(["station", "total"])
+        for station, total in totals.items():
+            plain_writer.writerow([station, total])
+    with open(plain_path, newline="", encoding="utf-8") as handle:
+        plain_lines = handle.read().splitlines()
+print("csv.writer lines:", plain_lines[:2])
+
+
+# === 8c. Two import styles ===
+# import math         -> call math.sqrt(16); the module name shows where it came from
+# from math import sqrt -> call sqrt(16); shorter, but the origin is less obvious
+print("Two import styles:", math.sqrt(16), sqrt(16))
+# A name collision is the risk with from ... import. Two modules can both define
+# a name, and the later import silently wins.
 
 
 # === 9. Counter is a dict that already knows how to count ===
