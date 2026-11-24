@@ -50,6 +50,8 @@ This is a call-site fragment: import Requests and supply url in the optional dem
 
 The instructor helpers provide a Response object with status_code, text, and json(). This makes the exercises repeatable without a real network. request_object checks status before decoding, then checks the root shape. safe_board maps expected failures to reasons while leaving caller TypeError visible.
 
+The code-along catches both the timeout and dropped-connection routes with short messages. In fixture mode they are injected failures; in --requests mode they are real local HTTP transport failures. A 503 response is different: the connection succeeded and the server reported failure.
+
 Catch subclasses first: TimeoutError before OSError; our HTTPStatusError and JSONDecodeError before ValueError. Otherwise one broad handler erases useful distinctions. **Predict:** `([], None)` is an empty successful board; `([], "timeout")` is a failed request. Do not turn both into the same empty screen.
 
 A Requests timeout is a limit on waiting for connection/read activity, not a guaranteed deadline for the whole download. The adapter uses the supplied timeout and preserves the original exception as its cause. In native Requests code, catch Requests' Timeout, HTTPError, JSONDecodeError, and RequestException as appropriate. The [quickstart's error and timeout sections](https://requests.readthedocs.io/en/latest/user/quickstart/#timeouts) explain their library-specific types.

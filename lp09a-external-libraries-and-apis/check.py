@@ -44,7 +44,7 @@ class LessonChecks(unittest.TestCase):
             self.target.decode_object("{'open': True}")
 
     def test_02_status_group(self):
-        for code, expected in [(200,"success"),(204,"success"),(299,"success"),(300,"other"),(399,"other"),(400,"client"),(499,"client"),(500,"server"),(599,"server"),(600,"other")]:
+        for code, expected in [(100,"other"),(199,"other"),(200,"success"),(204,"success"),(299,"success"),(300,"other"),(399,"other"),(400,"client"),(499,"client"),(500,"server"),(599,"server"),(600,"other")]:
             self.expect("status_group", (code,), expected, "Use half-open ranges, not only status 200.")
 
     def test_03_ticket_titles(self):
@@ -70,6 +70,10 @@ class LessonChecks(unittest.TestCase):
         self.expect("repair_fetch", (fetch,"https://example.test/board",params), 200, "Use params, not data, and supply timeout.")
         fetch.assert_called_once_with("https://example.test/board",params=params,timeout=3)
         self.assertEqual(params,before)
+        for status in (204, 404, 503):
+            fetch = Mock(return_value=Response(status, '{}'))
+            self.expect("repair_fetch", (fetch, "https://example.test/board", params), status, "Return the actual status, including a non-200 response.")
+            fetch.assert_called_once_with("https://example.test/board", params=params, timeout=3)
         error=TimeoutError("slow")
         with self.assertRaises(TimeoutError) as caught:
             self.target.repair_fetch(Mock(side_effect=error),"x",{})
@@ -100,6 +104,10 @@ class LessonChecks(unittest.TestCase):
                 self.target.request_object(Mock(return_value=response),"x",{})
             self.assertEqual(caught.exception.status,status)
             response.json.assert_not_called()
+        error = OSError("connection failure")
+        with self.assertRaises(OSError) as caught:
+            self.target.request_object(Mock(side_effect=error), "x", {})
+        self.assertIs(caught.exception, error, "Do not replace a transport exception with a new one.")
         with self.assertRaises(json.JSONDecodeError):
             self.target.request_object(Mock(return_value=Response(200,'not JSON')),"x",{})
         with self.assertRaisesRegex(ValueError,"object required"):

@@ -1,8 +1,7 @@
-"""Run offline by default. --requests opts into real HTTP on the local machine."""
+"""Offline by default; --requests uses local HTTP, --public reads course metadata."""
 import argparse
 import json
 from pathlib import Path
-from support import Response
 from transport import fixture_fetch, requests_fetch, query_preview
 
 DATA = Path(__file__).resolve().parent / "data"
@@ -19,7 +18,7 @@ def public_demo(requests):
     url = "https://api.github.com/repos/StrayDogSyn/python-fall26-code-alongs"
     headers = {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2026-03-10"}
     try:
-        with requests.get(url, headers=headers, timeout=3) as response:
+        with requests.get(url, headers=headers, timeout=3, allow_redirects=False) as response:
             print("Public HTTP:", response.status_code)
             if response.status_code != 200:
                 print("Public demo unavailable; use the offline or local HTTP path.")
@@ -53,6 +52,14 @@ def demonstrate(fetch, base):
     print("JSON null becomes:", json.loads('{"note":null}')["note"])
     nested = json.loads((DATA / "nested-orders.json").read_text(encoding="utf-8"))
     print("Clean records:", clean_order_records(nested))
+    # We Do: a transport failure happens before an HTTP response is available.
+    for route in ("/timeout", "/offline"):
+        try:
+            fetch(base + route, params={}, timeout=0.1 if route == "/timeout" else 3)
+        except TimeoutError:
+            print("Transport timeout: caught")
+        except OSError:
+            print("Connection failure: caught")
     # We Do: JSON parsing is not a status check. Error JSON is still JSON.
     failed = fetch(base + "/unavailable", params={}, timeout=3)
     print("Error JSON:", failed.status_code, failed.json()["error"])

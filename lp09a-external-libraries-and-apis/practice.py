@@ -82,8 +82,9 @@ def request_object(fetch, url, params):
     """Build:
     Call fetch(url, params=params, timeout=3). Require status 200 before decoding;
     otherwise raise support.HTTPStatusError(status). Decode with response.json() and
-    require a dictionary, otherwise ValueError("object required"). Preserve transport
-    failures and JSONDecodeError. Example: a 200 object response returns that object.
+    require a dictionary, otherwise ValueError("object required"). Let the original
+    transport failures and JSONDecodeError propagate unchanged. Example: a 200 object
+    response returns that object.
     Edge: 204 is not this endpoint's required 200 and must not be JSON-decoded.
     """
     raise NotImplementedError("TODO")

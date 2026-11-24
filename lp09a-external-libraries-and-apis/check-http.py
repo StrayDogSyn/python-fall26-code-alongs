@@ -1,13 +1,14 @@
 """Optional Requests checks. Install requirements-optional.txt first."""
 import json
-from contextlib import redirect_stdout
+import copy
+from contextlib import redirect_stdout, redirect_stderr
 from io import StringIO
 from pathlib import Path
 import runpy
 import unittest
 from unittest.mock import MagicMock, patch
 from demo_server import local_api
-from transport import requests_fetch
+from transport import fixture_fetch, requests_fetch
 
 
 class HTTPChecks(unittest.TestCase):
@@ -24,6 +25,26 @@ class HTTPChecks(unittest.TestCase):
             with self.assertRaises(json.JSONDecodeError):
                 requests_fetch(base + "/bad-json", params={}, timeout=3).json()
 
+    def test_fixture_and_http_preserve_query_values(self):
+        with local_api() as base:
+            for params in ({}, {"station": ""}, {"station": "Hot line"}, {"station": "A&B"}, {"page": 2}):
+                before = copy.deepcopy(params)
+                expected = fixture_fetch("https://classroom.test/board", params=params, timeout=3)
+                actual = requests_fetch(base + "/board", params=params, timeout=3)
+                self.assertEqual(actual.status_code, expected.status_code)
+                self.assertEqual(actual.json(), expected.json(), f"Query contract differs for {params!r}")
+                self.assertEqual(params, before)
+
+    def test_real_transport_failure_routes_are_quiet(self):
+        errors = StringIO()
+        with redirect_stderr(errors), local_api() as base:
+            with self.assertRaises(TimeoutError):
+                requests_fetch(base + "/timeout", params={}, timeout=0.1)
+            with self.assertRaises(OSError) as caught:
+                requests_fetch(base + "/offline", params={}, timeout=3)
+            self.assertNotIsInstance(caught.exception, TimeoutError)
+        self.assertEqual(errors.getvalue(), "", "Teaching failure routes should not crash a server handler.")
+
     def test_transport_failure_mapping_preserves_cause(self):
         for error, kind in [(self.requests.exceptions.Timeout("slow"),TimeoutError),(self.requests.exceptions.ConnectionError("offline"),OSError)]:
             with patch("requests.get",side_effect=error):
@@ -33,7 +54,7 @@ class HTTPChecks(unittest.TestCase):
 
     def test_public_demo_success_and_http_fallback(self):
         demo=runpy.run_path(str(Path(__file__).with_name("code-along.py")))["public_demo"]
-        for status,payload,expected in [(200,{"full_name":"StrayDogSyn/python-fall26-code-alongs","default_branch":"main"},0),(429,{},1),(200,[],1)]:
+        for status,payload,expected in [(200,{"full_name":"StrayDogSyn/python-fall26-code-alongs","default_branch":"main"},0),(429,{},1),(302,{},1),(200,[],1)]:
             context=MagicMock()
             response=context.__enter__.return_value
             response.status_code=status
@@ -42,10 +63,17 @@ class HTTPChecks(unittest.TestCase):
                 self.assertEqual(demo(self.requests),expected)
             fetch.assert_called_once()
             self.assertEqual(fetch.call_args.kwargs["timeout"],3)
+            self.assertIs(fetch.call_args.kwargs["allow_redirects"],False)
             self.assertNotIn("Authorization",fetch.call_args.kwargs["headers"])
             if status != 200:
                 response.json.assert_not_called()
-        with patch("requests.get",side_effect=self.requests.exceptions.Timeout("slow")), redirect_stdout(StringIO()):
+        for error in (self.requests.exceptions.Timeout("slow"), self.requests.exceptions.ConnectionError("offline")):
+            with patch("requests.get", side_effect=error), redirect_stdout(StringIO()):
+                self.assertEqual(demo(self.requests),1)
+        context = MagicMock()
+        context.__enter__.return_value.status_code = 200
+        context.__enter__.return_value.json.side_effect = self.requests.exceptions.JSONDecodeError("bad", "x", 0)
+        with patch("requests.get", return_value=context), redirect_stdout(StringIO()):
             self.assertEqual(demo(self.requests),1)
 
     def test_delegates_query_timeout_and_disables_redirects(self):

@@ -1167,6 +1167,18 @@ lp09a_mutants = {'decode_object': [('returns raw text', 'def decode_object(text)
                        '    for a,b in paths:\n'
                        '        if a not in destinations:\n'
                        '            return a')]}
+lp09a_mutants['status_group'].append(('accepts informational statuses as success', """def status_group(code):
+    if code < 300:
+        return "success"
+    if 400 <= code < 500:
+        return "client"
+    if 500 <= code < 600:
+        return "server"
+    return "other"
+"""))
+lp09a_mutants['repair_fetch'].append(('returns a fixed success status', """def repair_fetch(fetch, url, params):
+    fetch(url, params=params, timeout=3)
+    return 200"""))
 lp09a_source = pathlib.Path('lp09a-external-libraries-and-apis/solutions.py').read_text(encoding='utf-8')
 for exercise, mutants in lp09a_mutants.items():
     for label, replacement in mutants:
