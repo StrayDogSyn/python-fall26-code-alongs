@@ -17,7 +17,7 @@ New to coding? You are in the right place. No experience is needed, and every qu
 | 🧭 | **Explore the learning hub** | [Interactive course map](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) |
 | 🎥 | **Watch the recordings** | [Eric Hunter Petross on YouTube](https://www.youtube.com/@EricHunterPetross) |
 | ⏰ | **Join the live class** | Mondays, 8:00 PM Eastern |
-| 🖥️ | **Review the slides** (interactive decks for self-study) | [Week 1](week01/week01-slides.html) · [Week 2](week02/week02-slides.html) · [Week 3](week03/week03-slides.html) · [Week 4](week04/week04-slides.html) · [Week 5](week05/week05-slides.html) · [Week 6](week06/week06-slides.html) · [Week 7](week07/week07-slides.html) · [Week 8](week08/week08-slides.html) |
+| 🖥️ | **Review the slides** (interactive decks for self-study) | [Week 1](week01/week01-slides.html) · [Week 2](week02/week02-slides.html) · [Week 3](week03/week03-slides.html) · [Week 4](week04/week04-slides.html) · [Week 5](week05/week05-slides.html) · [Week 6](week06/week06-slides.html) · [Week 7](week07/week07-slides.html) · [Week 8](week08/week08-slides.html) · [Week 9 preview](week09/week09-slides.html) |
 | 🏫 | **About the program** | [Code the Dream](https://codethedream.org/) |
 | 📚 | **Weeks 3 to 8** | [Week 3 catch-up](lp01-intro-to-python/week03-walkthrough.md) · [Week 4 catch-up](lp02-data-structures/week04-walkthrough.md) · [Week 5 packet](lp03-more-python-skills/README.md) · [Week 6 packet](lp06a-functions-and-scope/README.md) · [Week 7 packet](lp07a-text-data-and-modules/README.md) · [Week 8 packet](lp08a-errors-and-debugging/README.md) |
 | 🧠 | **Gemini Notebook study kit** | [Source uploads and teaching plan](GEMINI_NOTEBOOK.md) |
@@ -31,7 +31,7 @@ New to coding? You are in the right place. No experience is needed, and every qu
 - [Who Can Use This](#who-can-use-this)
 - [The Roadmap](#the-roadmap)
 - [Getting Started](#getting-started)
-- [Weeks 1 to 8](#weeks-1-to-8)
+- [Weeks 1 to 9](#weeks-1-to-9)
 - [How a Code-Along Works](#how-a-code-along-works)
 - [Repository Layout](#repository-layout)
 - [The Dad Joke Vault](#the-dad-joke-vault)
@@ -130,6 +130,7 @@ flowchart TB
 | 07A | [Text Data & Modules](lp07a-text-data-and-modules/README.md) | Reading and writing files, CSV rows, paths, dates, and when to import a module; kindred packet for Python Intro 26.4 Week 7 |
 | 08A | [Errors & Debugging](lp08a-errors-and-debugging/README.md) | Reading errors, try and except, defensive checks, logging, and virtual environments; kindred packet for Python Intro 26.4 Week 8 |
 | 08 | Intro to Web Scraping | Requests, parsing HTML |
+| 09A | [External Libraries & APIs](lp09a-external-libraries-and-apis/README.md) | Requests, JSON, response boundaries, query parameters, keys, and pagination; Python Intro 26.4 Week 9 |
 | 09 | Databases & SQL | Querying data with SQLite |
 | 10 | Advanced SQL & Database Integration | Python and SQL working together |
 | 11 | Advanced Data Visualization | Putting the whole toolkit to work |
@@ -216,9 +217,9 @@ Still stuck? Bring it to Monday night, or see [Getting Unstuck](#getting-unstuck
 
 > 🧓 **Dad joke drop #3:** There are 10 kinds of people in this world: those who understand binary and those who do not. *(Come back after we cover how computers count. Yes, it is a joke about counting.)*
 
-## Weeks 1 to 8
+## Weeks 1 to 9
 
-The [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) is the central map for the weekly sessions and the full LP roadmap. Weeks 3 and 4 have catch-up routes, and Weeks 5 through 8 have session packets. Week 8 covers Errors and Debugging for the November 23 mentor session:
+The [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) is the central map for the weekly sessions and the full LP roadmap. Weeks 3 and 4 have catch-up routes, and Weeks 5 through 8 have session packets. Week 8 covers Errors and Debugging for November 23; Week 9 previews External Libraries and APIs for November 30:
 
 | Lesson | Primary material | Gemini Notebook source | Practice |
 | --- | --- | --- | --- |
@@ -231,6 +232,7 @@ The [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) is
 | Week 06 / LP 06A: functions and scope | [Slides](week06/week06-slides.html) · [walkthrough](lp06a-functions-and-scope/week06-walkthrough.md) · [kindred packet](lp06a-functions-and-scope/README.md) | [LP 06A source](lp06a-functions-and-scope/notebook-source.md) | [Starter](lp06a-functions-and-scope/practice.py) · [check](lp06a-functions-and-scope/check.py) |
 | Week 07 / LP 07A: text data and modules | [Slides](week07/week07-slides.html) · [walkthrough](lp07a-text-data-and-modules/week07-walkthrough.md) · [kindred packet](lp07a-text-data-and-modules/README.md) · [LeetCode warm-up](lp07a-text-data-and-modules/leetcode-most-common-word.md) | [LP 07A source](lp07a-text-data-and-modules/notebook-source.md) | [Starter](lp07a-text-data-and-modules/practice.py) · [check](lp07a-text-data-and-modules/check.py) |
 | Week 08 / LP 08A: errors and debugging | [Slides](week08/week08-slides.html) · [walkthrough](lp08a-errors-and-debugging/week08-walkthrough.md) · [kindred packet](lp08a-errors-and-debugging/README.md) · [LeetCode warm-up](lp08a-errors-and-debugging/leetcode-valid-parentheses.md) | [LP 08A source](lp08a-errors-and-debugging/notebook-source.md) | [Starter](lp08a-errors-and-debugging/practice.py) · [check](lp08a-errors-and-debugging/check.py) |
+| Week 09 / LP 09A: external libraries and APIs (preview) | [Slides](week09/week09-slides.html) · [mentor plan](lp09a-external-libraries-and-apis/run-of-show.md) · [packet](lp09a-external-libraries-and-apis/README.md) | [LP 09A source](lp09a-external-libraries-and-apis/notebook-source.md) | [Starter](lp09a-external-libraries-and-apis/practice.py) · [check](lp09a-external-libraries-and-apis/check.py) · [LeetCode 1436](lp09a-external-libraries-and-apis/leetcode-destination-city.md) |
 
 LP 03A is the Python Intro 26.4 Week 5 lesson. The existing LP 03 packet remains available as an extension.
 

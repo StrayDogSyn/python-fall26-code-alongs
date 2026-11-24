@@ -1,0 +1,15 @@
+{
+  "tickets": [
+    {
+      "id": 5,
+      "dish": "Soup",
+      "station": "Hot line"
+    },
+    {
+      "id": 6,
+      "dish": "Rice",
+      "station": "Hot line"
+    }
+  ],
+  "next_page": null
+}

@@ -1,0 +1,20 @@
+{
+  "board": {
+    "orders": [
+      {
+        "ticket": 7,
+        "dish": {
+          "label": " Soup "
+        },
+        "station": " Hot line "
+      },
+      {
+        "ticket": 8,
+        "dish": {
+          "label": " Tart "
+        },
+        "station": " Pastry "
+      }
+    ]
+  }
+}

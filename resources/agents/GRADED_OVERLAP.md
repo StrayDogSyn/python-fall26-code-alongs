@@ -120,10 +120,43 @@ Safe Week 8 ideas that teach the same skills with different problems (the shippe
 
 Checked on November 23, 2026: none of the packet's function names, signatures, data files, or scenarios match the graded list above. The two closest are `read_cooler_log` (defensive per-line reading and bad-line numbers, but a pipe-separated text file, no `DictReader`, no `None in row` guard, a returned dictionary instead of a printed report, and a different file and fields) and `collect_tickets` (per-item `try/except ValueError` with numbered errors, but in-memory strings, a tuple result, and no printed summary). The code-along's `DictReader` demo uses an in-memory ragged sample to show what `None` keys and values look like; it is not a reader program and has no summary. The packet's data file is `cooler_log.txt`, not the graded file names. The graded data file `messy_data.csv` was not available when this was checked.
 
-## Week 9, titles only (read before building)
+## Week 9, External Libraries and APIs (graded, due December 1)
 
-- Week 9 warmups: a first API request, picking specific JSON fields, looping a JSON list, handling request errors. Mini-project: a country explorer command line tool.
-- Weeks 10 and 11: assignment text not read. Read it before building any packet.
+Paraphrased November 23, 2026 from the complete course and assignment text Hunter supplied. The actual sample_countries.json and authenticated service response were not supplied or fetched.
+
+Warmups:
+1. Fetch an Agify prediction for a named person and print the HTTP status and full decoded response.
+2. From that same prediction, print name and age and use a missing birthday field with a fallback.
+3. Fetch the Europe region from REST Countries v5 with a Bearer key, navigate data.objects and names.common, and print only the first ten names.
+4. Catch Requests RequestException around a deliberately failing public URL; reject non-200 statuses before decoding.
+
+Mini-project: Country Explorer CLI. Fetch the country dataset once, normalize name/capital/region/population, search names by case-insensitive substring, filter by region and sort population descending, display a missing-capital fallback, and stop with a useful error if the initial request fails. Do not publish this fetch-and-menu program or its component functions in the same country scenario.
+
+The assignment requires an environment-held REST Countries key and a Bearer header. Its lesson overview also mentions keyless practice; flag this discrepancy rather than promising the graded country endpoint is keyless. Requested names.common and the displayed sample's names.official differ; capitals in the sample are a list of objects. Inspect the student's actual sample and service docs before assuming a field layout. The stated monthly allowance belongs to the assignment text, not a verified dashboard quota.
+
+Avoid public solutions using Agify person predictions, name/age/birthday extraction, the REST Countries country endpoints, the exact country wrapper and fields, an arbitrary-failing-URL warmup script, or a country-search/region-sort menu with name/capital/region/population output. General Requests, JSON, query, authentication, and exception concepts remain necessary teaching material.
+
+Supplemental packet comparison:
+
+| Signature | Distinct problem |
+| --- | --- |
+| decode_object(text) | Validate a supplied JSON object's root without a network call |
+| status_group(code) | Classify a supplied status code, not a request-and-print script |
+| ticket_titles(payload) | Kitchen ticket schema, ordered duplicate dish labels |
+| repair_available(rows) | Actual Boolean availability versus truthy text |
+| repair_fetch(fetch, url, params) | Injected callable keyword contract and timeout |
+| api_headers(key) | Generic trimmed header builder, no environment setup or country call |
+| next_page(payload) | Validate a kitchen-board continuation field |
+| request_object(fetch, url, params) | Injected response contract and typed failure, no arbitrary failing live URL |
+| safe_board(fetch, url) | Kitchen results with distinct failure reasons, no country CLI |
+| merge_tickets(pages) | Deduplicate already validated tickets by ID without a menu |
+| destination_city(paths) | Directed city-pair chain reasoning, no country attributes or API |
+
+The code-along additionally projects invented nested kitchen orders into clean dictionaries. Its optional public demo reads only this course's public GitHub repository metadata. It does not use Agify, the country APIs, country parsing, a search/filter menu, or the graded failing URL. The optional loopback API uses only invented local records. Compared by function signatures, fields, outputs, and scenarios against the supplied assignment; no copyable graded warmup or mini-project solution was found.
+
+## Weeks 10 and 11
+
+Final-project assignment text not read. Read it before building a final-project packet.
 
 ## Process
 

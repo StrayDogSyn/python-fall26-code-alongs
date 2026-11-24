@@ -1063,6 +1063,135 @@ for exercise, mutants in lp08a_mutants.items():
         if status == 'CAUGHT': caught += 1
         else: escaped.append(('lp08a-errors-and-debugging', exercise, label, result.stdout, result.stderr))
         print(f'lp08a-errors-and-debugging {exercise}: {label:30} {status}')
+
+lp09a_mutants = {'decode_object': [('returns raw text', 'def decode_object(text):\n    return text'),
+                   ('accepts any JSON root',
+                    'def decode_object(text):\n    return json.loads(text)')],
+ 'status_group': [('only recognizes 200',
+                   'def status_group(code):\n'
+                   '    if code == 200:\n'
+                   '        return "success"\n'
+                   '    if 400 <= code < 500:\n'
+                   '        return "client"\n'
+                   '    if 500 <= code < 600:\n'
+                   '        return "server"\n'
+                   '    return "other"'),
+                  ('includes 300',
+                   'def status_group(code):\n'
+                   '    if 200 <= code <= 300:\n'
+                   '        return "success"\n'
+                   '    if 400 <= code < 500:\n'
+                   '        return "client"\n'
+                   '    if 500 <= code < 600:\n'
+                   '        return "server"\n'
+                   '    return "other"')],
+ 'ticket_titles': [('silently accepts missing tickets',
+                    'def ticket_titles(payload):\n'
+                    '    return [row["dish"] for row in payload.get("tickets", [])]'),
+                   ('deduplicates titles',
+                    'def ticket_titles(payload):\n'
+                    '    return sorted({row["dish"] for row in payload["tickets"]})')],
+ 'repair_available': [('uses truthiness',
+                       'def repair_available(rows):\n'
+                       '    return [row["item"] for row in rows if row.get("available")]'),
+                      ('uses Boolean equality',
+                       'def repair_available(rows):\n'
+                       '    return [row["item"] for row in rows if row.get("available") == True]')],
+ 'repair_fetch': [('sends a body',
+                   'def repair_fetch(fetch, url, params):\n'
+                   '    return fetch(url, data=params, timeout=3).status_code'),
+                  ('omits timeout',
+                   'def repair_fetch(fetch, url, params):\n'
+                   '    return fetch(url, params=params).status_code')],
+ 'api_headers': [('keeps padding',
+                  'def api_headers(key):\n'
+                  '    return {"Authorization": "Bearer " + key, "Accept": "application/json"}'),
+                 ('puts key in wrong header',
+                  'def api_headers(key):\n'
+                  '    return {"api_key": key.strip(), "Accept": "application/json"}')],
+ 'next_page': [('silently accepts missing field',
+                'def next_page(payload):\n    return payload.get("next_page")'),
+               ('accepts booleans',
+                'def next_page(payload):\n'
+                '    page = payload["next_page"]\n'
+                '    if page is None:\n'
+                '        return None\n'
+                '    if not isinstance(page, int) or page < 1:\n'
+                '        raise ValueError("invalid page")\n'
+                '    return page')],
+ 'request_object': [('parses errors as success',
+                     'def request_object(fetch, url, params):\n'
+                     '    response = fetch(url, params=params, timeout=3)\n'
+                     '    return response.json()'),
+                    ('accepts array root',
+                     'def request_object(fetch, url, params):\n'
+                     '    response = fetch(url, params=params, timeout=3)\n'
+                     '    if response.status_code != 200:\n'
+                     '        raise HTTPStatusError(response.status_code)\n'
+                     '    return response.json()')],
+ 'safe_board': [('all failures look empty',
+                 'def safe_board(fetch, url):\n'
+                 '    try:\n'
+                 '        return ticket_titles(request_object(fetch,url,{})), None\n'
+                 '    except Exception:\n'
+                 '        return [], None'),
+                ('JSON mislabeled as shape',
+                 'def safe_board(fetch, url):\n'
+                 '    try:\n'
+                 '        return ticket_titles(request_object(fetch,url,{})), None\n'
+                 '    except TimeoutError:\n'
+                 '        return [], "timeout"\n'
+                 '    except OSError:\n'
+                 '        return [], "connection"\n'
+                 '    except HTTPStatusError:\n'
+                 '        return [], "http"\n'
+                 '    except ValueError:\n'
+                 '        return [], "shape"')],
+ 'merge_tickets': [('keeps duplicates',
+                    'def merge_tickets(pages):\n'
+                    '    return [dict(row) for page in pages for row in page["tickets"]]'),
+                   ('shares input rows',
+                    'def merge_tickets(pages):\n'
+                    '    result, seen = [], set()\n'
+                    '    for page in pages:\n'
+                    '        for row in page["tickets"]:\n'
+                    '            if row["id"] not in seen:\n'
+                    '                seen.add(row["id"])\n'
+                    '                result.append(row)\n'
+                    '    return result')],
+ 'destination_city': [('returns last row destination',
+                       'def destination_city(paths):\n    return paths[-1][1]'),
+                      ('finds starting city',
+                       'def destination_city(paths):\n'
+                       '    destinations = {b for a,b in paths}\n'
+                       '    for a,b in paths:\n'
+                       '        if a not in destinations:\n'
+                       '            return a')]}
+lp09a_mutants['status_group'].append(('accepts informational statuses as success', """def status_group(code):
+    if code < 300:
+        return "success"
+    if 400 <= code < 500:
+        return "client"
+    if 500 <= code < 600:
+        return "server"
+    return "other"
+"""))
+lp09a_mutants['repair_fetch'].append(('returns a fixed success status', """def repair_fetch(fetch, url, params):
+    fetch(url, params=params, timeout=3)
+    return 200"""))
+lp09a_source = pathlib.Path('lp09a-external-libraries-and-apis/solutions.py').read_text(encoding='utf-8')
+for exercise, mutants in lp09a_mutants.items():
+    for label, replacement in mutants:
+        with tempfile.TemporaryDirectory() as folder:
+            path = pathlib.Path(folder) / 'wrong.py'
+            path.write_text(replace_function(lp09a_source, exercise, replacement), encoding='utf-8')
+            result = subprocess.run([sys.executable, 'lp09a-external-libraries-and-apis/check.py', '--module', str(path)], capture_output=True, text=True)
+        total += 1
+        status = 'CAUGHT' if result.returncode == 1 and f'FAIL {exercise}:' in result.stdout else 'ESCAPED'
+        if status == 'CAUGHT': caught += 1
+        else: escaped.append(('lp09a-external-libraries-and-apis', exercise, label, result.stdout, result.stderr))
+        print(f'lp09a-external-libraries-and-apis {exercise}: {label:30} {status}')
+
 print(f'\nmutants caught by lesson checks: {caught}/{total}')
 for e in escaped: print('  NOT RELIABLY CAUGHT:',e)
 raise SystemExit(1 if escaped else 0)
