@@ -61,3 +61,7 @@ The README roadmap (LP 01 to LP 11: pandas, cleaning, wrangling, visualization, 
 - Weeks 3 and 4 catch-ups should teach **Control Flow** and **Data Structures and Loops**.
 - Week 6 (next Monday) is **Functions and Scope** and builds on the Number Cruncher.
 - Queue tasks T-04 to T-09 are on hold until Hunter confirms the realignment. See `QUEUE.md`.
+
+## Week 9 update | November 23, 2026
+
+Hunter supplied the full Week 9 lesson and assignment in chat. The objectives include Requests GETs, status codes, query parameters, nested JSON, and building a clean list of dictionaries. Warmups use Agify prediction data, REST Countries v5 regional names, and request-error handling; the mini-project is Country Explorer. Coding work is due December 1; the mindset topic is Accessibility. The assignment requires a REST Countries key despite the overview's keyless-practice wording. The paraphrased overlap checklist and mentor heads-up record this and the common/official-name sample mismatch. This update uses supplied text, not a new portal login; actual sample_countries.json and authenticated responses remain unverified.

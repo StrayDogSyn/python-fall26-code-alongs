@@ -1,0 +1,7 @@
+# Optional HTTP demo only. Offline practice needs no packages.
+# Verified with Python 3.13 on Windows, November 23, 2026.
+certifi==2026.11.20
+charset-normalizer==3.5.3
+idna==3.20
+requests==2.34.2
+urllib3==2.8.0

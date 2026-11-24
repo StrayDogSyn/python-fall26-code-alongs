@@ -27,7 +27,7 @@ def main():
             continue
         target = OUT / folder.name
         target.mkdir(exist_ok=True)
-        for source in (*folder.glob("*.md"), *folder.glob("*.py")):
+        for source in (*folder.glob("*.md"), *folder.glob("*.py"), *folder.glob("requirements*.txt")):
             shutil.copy2(source, target / source.name)
         data = folder / "data"
         if data.is_dir():

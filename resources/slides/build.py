@@ -31,6 +31,7 @@ DECKS = {
     "week06.js": "week06/week06-slides.html",
     "week07.js": "week07/week07-slides.html",
     "week08.js": "week08/week08-slides.html",
+    "week09.js": "week09/week09-slides.html",
 }
 
 

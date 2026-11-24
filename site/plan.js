@@ -381,6 +381,170 @@ window.COURSE_PLAN = {
         ]
       }
     },
+    {
+  "id": "lp09a",
+  "phase": "core",
+  "code": "W09 / LP 09A",
+  "title": "External Libraries & APIs",
+  "status": "preview",
+  "summary": "Prepare for November 30: use external libraries, query an API, inspect JSON, and keep request failures distinct.",
+  "topics": [
+    "Requests and environments",
+    "HTTP and query parameters",
+    "JSON and schema",
+    "status codes and timeouts",
+    "keys and pagination"
+  ],
+  "objective": "I can separate transport, HTTP, JSON, and shape failures while extracting useful structured data.",
+  "teach": "Trace a response from status and text to decoded Python values.",
+  "together": "Repair a query call and a Boolean truthiness bug using local fixture data.",
+  "solo": "Complete an offline checked exercise, then reason about the Destination City route pairs.",
+  "links": [
+    {
+      "label": "Week 9 slides",
+      "href": "week09/week09-slides.html",
+      "kind": "primary"
+    },
+    {
+      "label": "Mentor session plan",
+      "href": "lp09a-external-libraries-and-apis/run-of-show.md"
+    },
+    {
+      "label": "Lesson packet",
+      "href": "lp09a-external-libraries-and-apis/README.md"
+    },
+    {
+      "label": "LeetCode class solve",
+      "href": "lp09a-external-libraries-and-apis/leetcode-destination-city.md"
+    }
+  ],
+  "lesson": {
+    "estimate": "90 min",
+    "steps": [
+      {
+        "key": "start",
+        "label": "Start here",
+        "text": "Open the mentor plan. The default demo and every exercise work offline.",
+        "links": [
+          {
+            "label": "Week 9 slides",
+            "href": "week09/week09-slides.html",
+            "kind": "primary"
+          },
+          {
+            "label": "Mentor plan",
+            "href": "lp09a-external-libraries-and-apis/run-of-show.md"
+          },
+          {
+            "label": "Lesson packet",
+            "href": "lp09a-external-libraries-and-apis/README.md"
+          }
+        ]
+      },
+      {
+        "key": "watch",
+        "label": "Watch / observe",
+        "text": "Run python lp09a-external-libraries-and-apis/code-along.py. Predict status, JSON type, and empty success.",
+        "links": [
+          {
+            "label": "Code-along",
+            "href": "lp09a-external-libraries-and-apis/code-along.py"
+          },
+          {
+            "label": "Walkthrough",
+            "href": "lp09a-external-libraries-and-apis/week09-walkthrough.md"
+          }
+        ],
+        "mode": "I DO"
+      },
+      {
+        "key": "practice",
+        "label": "Practice together",
+        "text": "Repair data-versus-params and Boolean truthiness. Optional: install pinned Requests and run the local HTTP demo before class.",
+        "links": [
+          {
+            "label": "Week 9 slides",
+            "href": "week09/week09-slides.html"
+          },
+          {
+            "label": "Optional setup",
+            "href": "lp09a-external-libraries-and-apis/README.md"
+          }
+        ],
+        "mode": "WE DO"
+      },
+      {
+        "key": "try",
+        "label": "Try independently",
+        "text": "Edit one TODO, then run python lp09a-external-libraries-and-apis/check.py.",
+        "links": [
+          {
+            "label": "Practice starter",
+            "href": "lp09a-external-libraries-and-apis/practice.py"
+          },
+          {
+            "label": "Three-level hints",
+            "href": "lp09a-external-libraries-and-apis/hints.md"
+          }
+        ],
+        "mode": "YOU DO"
+      },
+      {
+        "key": "check",
+        "label": "Check understanding",
+        "text": "Explain a response boundary, take the nine-question quiz, and solve Destination City together.",
+        "links": [
+          {
+            "label": "Quiz in slides",
+            "href": "week09/week09-slides.html"
+          },
+          {
+            "label": "Class LeetCode guide",
+            "href": "lp09a-external-libraries-and-apis/leetcode-destination-city.md"
+          },
+          {
+            "label": "Local check",
+            "href": "lp09a-external-libraries-and-apis/check.py"
+          }
+        ]
+      },
+      {
+        "key": "unstuck",
+        "label": "Get unstuck",
+        "text": "Identify which boundary failed: transport, HTTP, JSON syntax, shape, or domain rules.",
+        "links": [
+          {
+            "label": "Walkthrough",
+            "href": "lp09a-external-libraries-and-apis/week09-walkthrough.md"
+          },
+          {
+            "label": "Mentor plan",
+            "href": "lp09a-external-libraries-and-apis/run-of-show.md"
+          }
+        ]
+      },
+      {
+        "key": "deeper",
+        "label": "Go deeper",
+        "text": "Compare the fixture and Requests paths; inspect pagination and the study source prepared for mentor upload.",
+        "links": [
+          {
+            "label": "Notebook source",
+            "href": "lp09a-external-libraries-and-apis/notebook-source.md"
+          },
+          {
+            "label": "Technical sources",
+            "href": "lp09a-external-libraries-and-apis/sources.md"
+          },
+          {
+            "label": "Topic map",
+            "href": "lp09a-external-libraries-and-apis/bridge-the-dream-map.md"
+          }
+        ]
+      }
+    ]
+  }
+},
     { id: "lp04", phase: "data", code: "LP 04", title: "Intro to Data Engineering", status: "planned", summary: "Meet pandas Series and DataFrames.", topics: ["pandas", "Series", "DataFrames"], objective: "I can load, inspect, and describe a small table.", teach: "Inspect a DataFrame's rows, columns, and types.", together: "Choose a column and explain what it represents.", solo: "Load a new table and report three observations.", links: [] },
     { id: "lp05", phase: "data", code: "LP 05", title: "Data Cleaning & Validation", status: "planned", summary: "Find and fix missing, inconsistent, or invalid values.", topics: ["missing values", "validation", "data quality"], objective: "I can identify a data-quality problem and verify a correction.", teach: "Show how a bad value affects a summary.", together: "Choose a cleaning rule and test it.", solo: "Document a cleaning decision on fresh data.", links: [] },
     { id: "lp06", phase: "data", code: "LP 06", title: "Wrangling & Aggregation", status: "planned", summary: "Combine and summarize data to answer a question.", topics: ["grouping", "merging", "aggregation"], objective: "I can group records and explain the resulting summary.", teach: "Walk through a group-by result one group at a time.", together: "Predict a merge and inspect mismatched keys.", solo: "Build a summary for a new question.", links: [] },

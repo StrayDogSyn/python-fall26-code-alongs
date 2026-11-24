@@ -21,6 +21,7 @@ PACKETS = (
     "lp06a-functions-and-scope",
     "lp07a-text-data-and-modules",
     "lp08a-errors-and-debugging",
+    "lp09a-external-libraries-and-apis",
 )
 
 
@@ -127,7 +128,14 @@ def main() -> int:
                 failures.append(f"{packet} code-along output changed:\n{demo.stdout}{demo.stderr}")
             else:
                 print(f"PASS {packet}/code-along.py (errors, try/except, guards, logging, and venv)")
-        names = (
+        if packet == "lp09a-external-libraries-and-apis":
+            demo = run(folder / "code-along.py")
+            expected = ("Transport: offline fixtures (no network)", "station=Hot+line", "HTTP: 200", "Root type: dict", "Dishes: ['Soup', 'Soup']", "JSON null becomes: None", "Error JSON: 503 kitchen unavailable", "Malformed JSON: caught", "Empty success: 200 []", "Class route pairs: 2", "Clean records: [{'id': 7, 'dish': 'Soup', 'station': 'Hot line'}, {'id': 8, 'dish': 'Tart', 'station': 'Pastry'}]")
+            if demo.returncode or any(piece not in demo.stdout for piece in expected):
+                failures.append(f"{packet} code-along output changed:\n{demo.stdout}{demo.stderr}")
+            else:
+                print(f"PASS {packet}/code-along.py (offline HTTP contract, JSON, params, and failures)")
+        names = ('decode_object', 'status_group', 'ticket_titles', 'repair_available', 'repair_fetch', 'api_headers', 'next_page', 'request_object', 'safe_board', 'merge_tickets', 'destination_city') if packet == "lp09a-external-libraries-and-apis" else (
                 "classify_score", "count_passing", "parse_score", "average",
                 "lowest_and_highest", "countdown", "numbered_lines", "clean_name",
                 "grade_letter", "total_points",
