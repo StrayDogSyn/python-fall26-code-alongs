@@ -786,6 +786,254 @@ for exercise, mutants in lp07a_mutants.items():
         if status == 'CAUGHT': caught += 1
         else: escaped.append(('lp07a-text-data-and-modules', exercise, label, result.stdout, result.stderr))
         print(f'lp07a-text-data-and-modules {exercise}: {label:30} {status}')
+lp08a_mutants = {
+ 'parse_temp': [
+  ('forgets nan and inf', """def parse_temp(text):
+    try:
+        return float(text)
+    except ValueError:
+        return None"""),
+  ('returns zero for bad text', """def parse_temp(text):
+    try:
+        value = float(text)
+    except ValueError:
+        return 0.0
+    return value if math.isfinite(value) else 0.0"""),
+ ],
+ 'average_temp': [
+  ('crashes on no readings', """def average_temp(readings):
+    return round(sum(readings) / len(readings), 1)"""),
+  ('returns a whole number', """def average_temp(readings):
+    try:
+        return round(sum(readings) / len(readings))
+    except ZeroDivisionError:
+        return None"""),
+ ],
+ 'ticket_field': [
+  ('lets a negative index wrap', """def ticket_field(fields, index, default=""):
+    try:
+        return fields[index]
+    except IndexError:
+        return default"""),
+  ('ignores the given default', """def ticket_field(fields, index, default=""):
+    if index < 0:
+        return ""
+    try:
+        return fields[index]
+    except IndexError:
+        return "" """),
+ ],
+ 'repair_parse_qty': [
+  ('catches everything', """def repair_parse_qty(text):
+    try:
+        return int(text)
+    except Exception:
+        return 0"""),
+  ('also swallows TypeError', """def repair_parse_qty(text):
+    try:
+        return int(text)
+    except (ValueError, TypeError):
+        return 0"""),
+ ],
+ 'repair_total_weight': [
+  ('try wraps the whole loop', """def repair_total_weight(weights):
+    total = 0.0
+    try:
+        for text in weights:
+            total += float(text)
+    except ValueError:
+        pass
+    return total"""),
+  ('starts from an int zero', """def repair_total_weight(weights):
+    total = 0
+    for text in weights:
+        try:
+            total += float(text)
+        except ValueError:
+            continue
+    return total"""),
+ ],
+ 'delivery_problems': [
+  ('allows a blank item', """def delivery_problems(record):
+    problems = []
+    if not record.get("item"):
+        problems.append("missing item")
+    weight = _number(record.get("weight"))
+    if weight is None or weight <= 0:
+        problems.append("bad weight")
+    temp = _number(record.get("temp"))
+    if temp is None:
+        problems.append("bad temp")
+    elif temp > 41.0:
+        problems.append("too warm")
+    return problems"""),
+  ('allows zero weight', """def delivery_problems(record):
+    problems = []
+    if not (record.get("item") or "").strip():
+        problems.append("missing item")
+    weight = _number(record.get("weight"))
+    if weight is None or weight < 0:
+        problems.append("bad weight")
+    temp = _number(record.get("temp"))
+    if temp is None:
+        problems.append("bad temp")
+    elif temp > 41.0:
+        problems.append("too warm")
+    return problems"""),
+ ],
+ 'read_cooler_log': [
+  ('numbers only the kept lines', """def read_cooler_log(path):
+    try:
+        with open(path, encoding="utf-8") as handle:
+            lines = handle.readlines()
+    except FileNotFoundError:
+        return None
+    kept = [raw.strip() for raw in lines if raw.strip() and not raw.strip().startswith("#")]
+    readings = []
+    bad_lines = []
+    for number, line in enumerate(kept, start=1):
+        parts = [part.strip() for part in line.split("|")]
+        value = parse_temp(parts[1]) if len(parts) == 2 else None
+        if value is None:
+            bad_lines.append(number)
+        else:
+            readings.append(value)
+    return {"readings": readings, "bad_lines": bad_lines}"""),
+  ('accepts extra parts', """def read_cooler_log(path):
+    try:
+        with open(path, encoding="utf-8") as handle:
+            lines = handle.readlines()
+    except FileNotFoundError:
+        return None
+    readings = []
+    bad_lines = []
+    for number, raw in enumerate(lines, start=1):
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        parts = [part.strip() for part in line.split("|")]
+        value = parse_temp(parts[1]) if len(parts) >= 2 else None
+        if value is None:
+            bad_lines.append(number)
+        else:
+            readings.append(value)
+    return {"readings": readings, "bad_lines": bad_lines}"""),
+ ],
+ 'log_reading': [
+  ('prints instead of logging', """def log_reading(logger, reading, limit=41.0):
+    if reading is None:
+        print("cooler reading missing")
+        return False
+    if reading > limit:
+        print("cooler warm", reading)
+        return False
+    print("cooler ok", reading)
+    return True"""),
+  ('warns at the limit', """def log_reading(logger, reading, limit=41.0):
+    if reading is None:
+        logger.error("cooler reading missing")
+        return False
+    if reading >= limit:
+        logger.warning("cooler warm: %.1f F (limit %.1f)", reading, limit)
+        return False
+    logger.info("cooler ok: %.1f F", reading)
+    return True"""),
+ ],
+ 'parse_ticket_strict': [
+  ('lets int raise without a field name', """def parse_ticket_strict(line):
+    parts = [part.strip() for part in line.split("|")]
+    if len(parts) != 5:
+        raise ValueError(f"expected 5 fields, got {len(parts)}")
+    ticket_text, table_text, dish, qty_text, price_text = parts
+    ticket, table, qty = int(ticket_text), int(table_text), int(qty_text)
+    if not dish:
+        raise ValueError("dish is empty")
+    if qty < 1:
+        raise ValueError("qty must be at least 1")
+    price = _number(price_text)
+    if price is None:
+        raise ValueError(f"price must be a number, got {price_text!r}")
+    if price < 0:
+        raise ValueError("price cannot be negative")
+    return {"ticket": ticket, "table": table, "dish": dish, "qty": qty, "price": price}"""),
+  ('allows a negative price', """def parse_ticket_strict(line):
+    parts = [part.strip() for part in line.split("|")]
+    if len(parts) != 5:
+        raise ValueError(f"expected 5 fields, got {len(parts)}")
+    ticket_text, table_text, dish, qty_text, price_text = parts
+    numbers = {}
+    for name, text in (("ticket", ticket_text), ("table", table_text), ("qty", qty_text)):
+        try:
+            numbers[name] = int(text)
+        except ValueError:
+            raise ValueError(f"{name} must be a whole number, got {text!r}") from None
+    if not dish:
+        raise ValueError("dish is empty")
+    if numbers["qty"] < 1:
+        raise ValueError("qty must be at least 1")
+    price = _number(price_text)
+    if price is None:
+        raise ValueError(f"price must be a number, got {price_text!r}")
+    return {"ticket": numbers["ticket"], "table": numbers["table"], "dish": dish, "qty": numbers["qty"], "price": price}"""),
+ ],
+ 'collect_tickets': [
+  ('numbers lines from zero', """def collect_tickets(lines):
+    good = []
+    errors = []
+    for number, line in enumerate(lines):
+        if not line.strip():
+            continue
+        try:
+            good.append(parse_ticket_strict(line))
+        except ValueError as error:
+            errors.append(f"line {number}: {error}")
+    return good, errors"""),
+  ('reports blank lines as errors', """def collect_tickets(lines):
+    good = []
+    errors = []
+    for number, line in enumerate(lines, start=1):
+        try:
+            good.append(parse_ticket_strict(line))
+        except ValueError as error:
+            errors.append(f"line {number}: {error}")
+    return good, errors"""),
+ ],
+ 'call_with_retries': [
+  ('retries every exception', """def call_with_retries(action, attempts):
+    if attempts < 1:
+        raise ValueError("attempts must be at least 1")
+    for attempt in range(1, attempts + 1):
+        try:
+            return action()
+        except Exception:
+            if attempt == attempts:
+                raise"""),
+  ('hides the original error', """def call_with_retries(action, attempts):
+    if attempts < 1:
+        raise ValueError("attempts must be at least 1")
+    for attempt in range(1, attempts + 1):
+        try:
+            return action()
+        except ConnectionError:
+            if attempt == attempts:
+                raise RuntimeError("gave up")"""),
+ ],
+}
+lp08a_source = pathlib.Path('lp08a-errors-and-debugging/solutions.py').read_text(encoding='utf-8')
+for exercise, mutants in lp08a_mutants.items():
+    for label, replacement in mutants:
+        with tempfile.TemporaryDirectory() as folder:
+            path = pathlib.Path(folder) / 'wrong.py'
+            path.write_text(replace_function(lp08a_source, exercise, replacement), encoding='utf-8')
+            result = subprocess.run(
+                [sys.executable, 'lp08a-errors-and-debugging/check.py', '--module', str(path)],
+                capture_output=True, text=True,
+            )
+        total += 1
+        status = 'CAUGHT' if result.returncode == 1 and f'FAIL {exercise}:' in result.stdout else 'ESCAPED'
+        if status == 'CAUGHT': caught += 1
+        else: escaped.append(('lp08a-errors-and-debugging', exercise, label, result.stdout, result.stderr))
+        print(f'lp08a-errors-and-debugging {exercise}: {label:30} {status}')
 print(f'\nmutants caught by lesson checks: {caught}/{total}')
 for e in escaped: print('  NOT RELIABLY CAUGHT:',e)
 raise SystemExit(1 if escaped else 0)

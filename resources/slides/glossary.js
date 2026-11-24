@@ -146,3 +146,16 @@ window.WEEK07_GLOSSARY = [
     { id: "working_directory", term: "Working directory", say: "WUR-king dih-REK-ter-ee", meaning: "The folder python considers current; relative paths are measured from it.", usage: "Print the working directory when a file is not found." },
     { id: "datetime", term: "datetime", say: "DAYT-tyme", meaning: "The module for dates and times: parse text, add spans of time, format results.", usage: "Use datetime to add three days and format the result." }
 ];
+
+/* WEEK08_ONLY_GLOSSARY */
+window.WEEK08_GLOSSARY = [
+    { id: "runtime_error", term: "Runtime error", say: "RUN-tyme AIR-er", meaning: "A problem that shows up while the program is running, on one line with one input.", usage: "int(\"twelve\") is a runtime error, not a syntax error." },
+    { id: "traceback", term: "Traceback", say: "TRAYS-bak", meaning: "The report Python prints when an error stops the program. Read the last line first.", usage: "The last line of the traceback names the error and its message." },
+    { id: "try_except", term: "try and except", say: "try and ek-SEPT", meaning: "A pair of blocks: try runs the risky line, and except handles a named failure.", usage: "Put float(text) in a try and catch ValueError in the except." },
+    { id: "guard_clause", term: "Guard clause", say: "gard klawz", meaning: "An early return that handles a bad case first, so the main path stays flat.", usage: "Return None at the top when the reading is missing." },
+    { id: "defensive_programming", term: "Defensive programming", say: "dih-FEN-siv PRO-gram-ing", meaning: "Writing code that checks its input and plans for bad data instead of hoping for good data.", usage: "Defensive code checks for None before it compares." },
+    { id: "log_level", term: "Log level", say: "log LEV-ul", meaning: "A label such as DEBUG, INFO, WARNING, or ERROR that says how serious a message is.", usage: "A warm cooler is a WARNING; a dead sensor is an ERROR." },
+    { id: "assertion", term: "assert", say: "uh-SURT", meaning: "A development-time check that raises AssertionError when a condition is false.", usage: "Assert that guests is positive while you build the function." },
+    { id: "requirements_file", term: "requirements.txt", say: "rih-KWYR-ments tekst fyl", meaning: "A text file that lists the exact packages and versions a project needs.", usage: "Run pip install -r requirements.txt to rebuild the same environment." },
+    { id: "package", term: "Package", say: "PAK-ij", meaning: "Code someone else wrote and published, installed with pip from PyPI.", usage: "Install the requests package inside a virtual environment." }
+];
