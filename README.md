@@ -17,9 +17,9 @@ New to coding? You are in the right place. No experience is needed, and every qu
 | 🧭 | **Explore the learning hub** | [Interactive course map](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) |
 | 🎥 | **Watch the recordings** | [Eric Hunter Petross on YouTube](https://www.youtube.com/@EricHunterPetross) |
 | ⏰ | **Join the live class** | Mondays, 8:00 PM Eastern |
-| 🖥️ | **Review the slides** (interactive decks for self-study) | [Week 1](week01/week01-slides.html) · [Week 2](week02/week02-slides.html) · [Week 3](week03/week03-slides.html) · [Week 4](week04/week04-slides.html) · [Week 5](week05/week05-slides.html) · [Week 6](week06/week06-slides.html) · [Week 7](week07/week07-slides.html) |
+| 🖥️ | **Review the slides** (interactive decks for self-study) | [Week 1](week01/week01-slides.html) · [Week 2](week02/week02-slides.html) · [Week 3](week03/week03-slides.html) · [Week 4](week04/week04-slides.html) · [Week 5](week05/week05-slides.html) · [Week 6](week06/week06-slides.html) · [Week 7](week07/week07-slides.html) · [Week 8](week08/week08-slides.html) |
 | 🏫 | **About the program** | [Code the Dream](https://codethedream.org/) |
-| 📚 | **Weeks 3 to 7** | [Week 3 catch-up](lp01-intro-to-python/week03-walkthrough.md) · [Week 4 catch-up](lp02-data-structures/week04-walkthrough.md) · [Week 5 packet](lp03-more-python-skills/README.md) · [Week 6 packet](lp06a-functions-and-scope/README.md) · [Week 7 packet](lp07a-text-data-and-modules/README.md) |
+| 📚 | **Weeks 3 to 8** | [Week 3 catch-up](lp01-intro-to-python/week03-walkthrough.md) · [Week 4 catch-up](lp02-data-structures/week04-walkthrough.md) · [Week 5 packet](lp03-more-python-skills/README.md) · [Week 6 packet](lp06a-functions-and-scope/README.md) · [Week 7 packet](lp07a-text-data-and-modules/README.md) · [Week 8 packet](lp08a-errors-and-debugging/README.md) |
 | 🧠 | **Gemini Notebook study kit** | [Source uploads and teaching plan](GEMINI_NOTEBOOK.md) |
 
 **Your first move:** jump to [Getting Started](#getting-started) and get your computer ready. It takes about 15 minutes.
@@ -128,6 +128,7 @@ flowchart TB
 | 06A | [Functions & Scope](lp06a-functions-and-scope/README.md) | Defining functions, defaults, returns, scope, docstrings, and refactoring; kindred packet for Python Intro 26.4 Week 6 |
 | 07 | Intro to Data Visualization | Charts that tell the truth |
 | 07A | [Text Data & Modules](lp07a-text-data-and-modules/README.md) | Reading and writing files, CSV rows, paths, dates, and when to import a module; kindred packet for Python Intro 26.4 Week 7 |
+| 08A | [Errors & Debugging](lp08a-errors-and-debugging/README.md) | Reading errors, try and except, defensive checks, logging, and virtual environments; kindred packet for Python Intro 26.4 Week 8 |
 | 08 | Intro to Web Scraping | Requests, parsing HTML |
 | 09 | Databases & SQL | Querying data with SQLite |
 | 10 | Advanced SQL & Database Integration | Python and SQL working together |
@@ -229,6 +230,7 @@ The [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) is
 | Week 05 / LP 03A: iteration and algorithms | [New slides](week05/week05-iteration-slides.html) · [walkthrough](lp03a-iteration-and-algorithms/week05-walkthrough.md) · [kindred packet](lp03a-iteration-and-algorithms/README.md) | [LP 03A source](lp03a-iteration-and-algorithms/notebook-source.md) | [Starter](lp03a-iteration-and-algorithms/practice.py) · [check](lp03a-iteration-and-algorithms/check.py) |
 | Week 06 / LP 06A: functions and scope | [Slides](week06/week06-slides.html) · [walkthrough](lp06a-functions-and-scope/week06-walkthrough.md) · [kindred packet](lp06a-functions-and-scope/README.md) | [LP 06A source](lp06a-functions-and-scope/notebook-source.md) | [Starter](lp06a-functions-and-scope/practice.py) · [check](lp06a-functions-and-scope/check.py) |
 | Week 07 / LP 07A: text data and modules | [Slides](week07/week07-slides.html) · [walkthrough](lp07a-text-data-and-modules/week07-walkthrough.md) · [kindred packet](lp07a-text-data-and-modules/README.md) · [LeetCode warm-up](lp07a-text-data-and-modules/leetcode-most-common-word.md) | [LP 07A source](lp07a-text-data-and-modules/notebook-source.md) | [Starter](lp07a-text-data-and-modules/practice.py) · [check](lp07a-text-data-and-modules/check.py) |
+| Week 08 / LP 08A: errors and debugging | [Slides](week08/week08-slides.html) · [walkthrough](lp08a-errors-and-debugging/week08-walkthrough.md) · [kindred packet](lp08a-errors-and-debugging/README.md) · [LeetCode warm-up](lp08a-errors-and-debugging/leetcode-valid-parentheses.md) | [LP 08A source](lp08a-errors-and-debugging/notebook-source.md) | [Starter](lp08a-errors-and-debugging/practice.py) · [check](lp08a-errors-and-debugging/check.py) |
 
 LP 03A is the Python Intro 26.4 Week 5 lesson. The existing LP 03 packet remains available as an extension.
 
@@ -269,7 +271,7 @@ Weeks 1 through 5 have materials. The repository grows toward this layout:
 
 ```text
 python-fall26-code-alongs/
-├── week01/ ... week07/            Weekly slide decks
+├── week01/ ... week08/            Weekly slide decks
 ├── lp01-intro-to-python/          Supplemental Python fundamentals lab
 ├── lp02-data-structures/          Supplemental collections and files lab
 ├── lp03-more-python-skills/       Classes, comprehensions, decorators, closures

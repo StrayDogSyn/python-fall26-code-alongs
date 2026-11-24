@@ -80,9 +80,48 @@ Safe Week 7 ideas that teach the same skills with different problems (the shippe
 
 Checked on November 16, 2026: none of the packet's function names, signatures, data files, or scenarios match the graded list above. The packet's date exercise uses ISO dates and `timedelta`, not a month-name sentence from `now()`. The packet's CSV files are `prep.csv` and `tickets.csv`, not the graded file names.
 
-## Weeks 8 to 9, titles only (read before building)
+## Week 8, Errors and Debugging (graded, due November 24)
 
-- Week 8 warmup: validating numeric input (the other warmups were not fully read).
+Paraphrased on November 23, 2026 from the course page text Hunter supplied. Four warmups, each a separate file, using sample data in a `data` folder next to the assignment folder:
+
+1. **Validate numeric input.** A loop asks for a number. Text that cannot be converted raises `ValueError`, which `try/except` catches; the program prints a message and asks again. A valid number is printed (as a float) and the loop stops.
+2. **Safe division.** Ask for two numbers, divide the first by the second, and catch `ZeroDivisionError` to print a friendly message instead of crashing. A normal division prints the equation and result.
+3. **Missing file.** Open `../data/missing.txt` (which does not exist), catch `FileNotFoundError`, and print a helpful message that names the file instead of a traceback.
+4. **Virtual environment.** Create a virtual environment, install `requests`, generate `requirements.txt` with `pip freeze`, and write a short script that imports `requests` and prints its version, with the `requirements.txt` contents pasted as a comment at the top.
+
+Mini-project: **Defensive CSV Reader.** Read `messy_data.csv` (fields name, category, amount; some rows have missing values, non-numeric amounts, or extra columns) with `csv.DictReader`. Wrap the file open in `try/except FileNotFoundError` and stop with a message if missing. Process each row inside `try/except`, catching at least `ValueError` (amount not a float) and `KeyError` (included even if it never runs). Guard extra columns with `if None in row` before the `try`. Collect parsed rows as a list of dictionaries, number rows with `enumerate(reader, start=1)`, and print a summary: rows attempted, rows parsed, rows skipped, a list of skipped rows with a reason each, and the clean data as `name | category | $amount`.
+
+Mindset: Problem Solving (a process, plus what the student learned from classmates' approaches).
+
+Avoid in public solutions:
+
+- A loop that reads typed input with `input()`, converts with `float()`, catches `ValueError`, and repeats until valid, and any function shaped as "ask until a number parses".
+- A script that asks for two numbers and divides them with a `ZeroDivisionError` message, and any `divide(a, b)` whose point is a friendly division-by-zero message.
+- A script that opens `missing.txt` (or any single named file) and prints a message from a `FileNotFoundError` handler.
+- A script that imports `requests`, prints `requests.__version__`, or carries a pasted `requirements.txt` comment.
+- A `csv.DictReader` loop over a name, category, amount file that tries `float(row["amount"])` per row, checks `None in row`, collects parsed rows, and prints an "attempted, parsed, skipped" report with row numbers and reasons, or the `name | category | $amount` clean-data lines.
+- The file names `messy_data.csv` and `missing.txt`, or the column names name, category, amount used together.
+
+Safe Week 8 ideas that teach the same skills with different problems (the shipped packet `lp08a-errors-and-debugging` uses these):
+
+| Skill | Different problem | Packet exercise |
+| --- | --- | --- |
+| `try/except ValueError` | Turn thermometer text into a finite float or `None` | `parse_temp` |
+| `ZeroDivisionError` | Average of readings, `None` for an empty list | `average_temp` |
+| `IndexError` and a guard clause | Read a ticket field by position with a default | `ticket_field` |
+| Specific versus broad `except` | Repair a bare `except` that hides `None` | `repair_parse_qty` |
+| `try` inside the loop | Repair a total that stops at the first bad entry | `repair_total_weight` |
+| Validating input | List the problems with a delivery record | `delivery_problems` |
+| `FileNotFoundError` as a return value, bad-line numbers | Read a pipe-separated cooler log from a text file | `read_cooler_log` |
+| `logging` levels | Log a cooler reading as INFO, WARNING, or ERROR | `log_reading` |
+| `raise` | Parse an order ticket line and raise a `ValueError` naming the field | `parse_ticket_strict` |
+| `except ... as error` per item | Collect good tickets and numbered error strings | `collect_tickets` |
+| Retry and re-raise | Retry an action on `ConnectionError` only | `call_with_retries` |
+
+Checked on November 23, 2026: none of the packet's function names, signatures, data files, or scenarios match the graded list above. The two closest are `read_cooler_log` (defensive per-line reading and bad-line numbers, but a pipe-separated text file, no `DictReader`, no `None in row` guard, a returned dictionary instead of a printed report, and a different file and fields) and `collect_tickets` (per-item `try/except ValueError` with numbered errors, but in-memory strings, a tuple result, and no printed summary). The code-along's `DictReader` demo uses an in-memory ragged sample to show what `None` keys and values look like; it is not a reader program and has no summary. The packet's data file is `cooler_log.txt`, not the graded file names. The graded data file `messy_data.csv` was not available when this was checked.
+
+## Week 9, titles only (read before building)
+
 - Week 9 warmups: a first API request, picking specific JSON fields, looping a JSON list, handling request errors. Mini-project: a country explorer command line tool.
 - Weeks 10 and 11: assignment text not read. Read it before building any packet.
 
