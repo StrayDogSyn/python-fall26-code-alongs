@@ -1,20 +1,40 @@
-"""Check Week 8 practice: --solutions or --module PATH selects other work."""
+"""Run from the repo root: python lp08a-errors-and-debugging/check.py."""
+
 import argparse
 import importlib.util
-from datetime import date
+import logging
+import os
 from pathlib import Path
 import tempfile
 import unittest
-from unittest.mock import Mock
+
 
 HERE = Path(__file__).resolve().parent
-EXERCISES = ('describe_error', 'station_note', 'portion_size', 'repair_pick', 'require_label', 'read_optional', 'parse_service_date', 'run_with_cleanup', 'logged_lookup', 'collect_dates', 'balanced_brackets')
+DATA = HERE / "data"
+EXERCISES = (
+    "parse_temp", "average_temp", "ticket_field", "repair_parse_qty",
+    "repair_total_weight", "delivery_problems", "read_cooler_log", "log_reading",
+    "parse_ticket_strict", "collect_tickets", "call_with_retries",
+)
+
 
 def load_module(path):
     spec = importlib.util.spec_from_file_location("week8_work", path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
+
+
+class ListHandler(logging.Handler):
+    """Collects log records so a test can look at their levels and messages."""
+
+    def __init__(self):
+        super().__init__(level=logging.DEBUG)
+        self.records = []
+
+    def emit(self, record):
+        self.records.append(record)
+
 
 class LessonChecks(unittest.TestCase):
     target = None
@@ -24,9 +44,10 @@ class LessonChecks(unittest.TestCase):
         self.addCleanup(self.folder.cleanup)
 
     def temp(self, name, text=None):
-        path = Path(self.folder.name) / name
+        path = os.path.join(self.folder.name, name)
         if text is not None:
-            path.write_text(text, encoding="utf-8")
+            with open(path, "w", encoding="utf-8", newline="") as handle:
+                handle.write(text)
         return path
 
     def expect(self, name, args, expected, nudge):
@@ -35,100 +56,235 @@ class LessonChecks(unittest.TestCase):
         except NotImplementedError:
             raise
         except Exception as error:
-            self.fail(f"input {args!r}; got {type(error).__name__}: {error}. Hint: {nudge}")
-        self.assertIs(type(actual), type(expected), f"input {args!r}. Hint: {nudge}")
-        self.assertEqual(actual, expected, f"input {args!r}. Hint: {nudge}")
+            self.fail(
+                f"input {args!r}; expected {expected!r}, got "
+                f"{type(error).__name__}: {error}. Hint: {nudge}"
+            )
+        if type(actual) is not type(expected) or actual != expected:
+            self.fail(f"input {args!r}; expected {expected!r}, got {actual!r}. Hint: {nudge}")
         return actual
 
-    def test_01_describe_error(self):
-        self.expect("describe_error", (KeyError("oven"),), "KeyError", "Read the type, not the message.")
-        self.expect("describe_error", (ValueError(""),), "ValueError", "An empty message still has a class.")
-        self.expect("describe_error", (IndexError("out"),), "IndexError", "Do not hard-code one class.")
+    def expect_raises(self, name, args, error_type, nudge, word=None):
+        """The call must raise error_type, and its message must contain word."""
+        try:
+            actual = getattr(self.target, name)(*args)
+        except NotImplementedError:
+            raise
+        except error_type as error:
+            if word is not None and word not in str(error):
+                self.fail(
+                    f"input {args!r}; expected a {error_type.__name__} message that "
+                    f"mentions {word!r}, got {str(error)!r}. Hint: {nudge}"
+                )
+            return error
+        except Exception as error:
+            self.fail(
+                f"input {args!r}; expected {error_type.__name__}, got "
+                f"{type(error).__name__}: {error}. Hint: {nudge}"
+            )
+        self.fail(f"input {args!r}; expected {error_type.__name__}, got the result {actual!r}. Hint: {nudge}")
 
-    def test_02_station_note(self):
-        self.expect("station_note", ({"Grill": "hot", "Pastry": ""}, "Grill"), "hot", "Return the stored text.")
-        self.expect("station_note", ({"Pastry": ""}, "Pastry"), "", "Empty is different from missing.")
-        self.expect("station_note", ({}, "Grill"), "No note", "Catch KeyError.")
-        with self.assertRaises(TypeError):
-            self.target.station_note({}, [])
+    def test_01_parse_temp(self):
+        self.expect("parse_temp", ("38.5",), 38.5, "float() turns text into a number.")
+        self.expect("parse_temp", (" 40 ",), 40.0, "float() ignores spaces around the number.")
+        self.expect("parse_temp", ("n/a",), None, "Catch the ValueError and return None.")
+        self.expect("parse_temp", ("",), None, "Empty text is not a number.")
+        self.expect("parse_temp", ("nan",), None, "float('nan') does not raise. Check for it after converting.")
+        self.expect("parse_temp", ("inf",), None, "float('inf') does not raise either. math.isfinite helps.")
+        self.expect_raises("parse_temp", (None,), TypeError, "Only malformed text is recoverable here.")
+        self.expect("parse_temp", ("-4",), -4.0, "A freezer reading below zero is still a number.")
 
-    def test_03_portion_size(self):
-        self.expect("portion_size", (9, 2), 4.5, "Use true division.")
-        self.expect("portion_size", (0, 2), 0.0, "Zero total is valid.")
-        self.expect("portion_size", (9, 0), None, "Catch only division by zero.")
-        with self.assertRaises(TypeError):
-            self.target.portion_size("9", 2)
+    def test_02_average_temp(self):
+        self.expect("average_temp", ([38.0, 39.0, 41.0],), 39.3, "Round to one decimal place.")
+        self.expect("average_temp", ([40.0],), 40.0, "One reading is its own average.")
+        self.expect("average_temp", ([37.5, 38.5],), 38.0, "Add, divide by the count, round.")
+        self.expect("average_temp", ([],), None, "No readings means None, not a crash.")
 
-    def test_04_repair_pick(self):
-        self.expect("repair_pick", (["soup", "tart"], 1), "tart", "The last index is length minus one.")
-        self.expect("repair_pick", (["soup"], 1), None, "Equal to length is out of range.")
-        self.expect("repair_pick", (["soup"], -1), None, "Reject negative indices here.")
-        self.expect("repair_pick", ([], 0), None, "An empty list has no index zero.")
+    def test_03_ticket_field(self):
+        fields = ["104", "2", "Corn"]
+        self.expect("ticket_field", (fields, 1), "2", "Index 1 is the second field.")
+        self.expect("ticket_field", (fields, 3), "", "Past the end gives the default.")
+        self.expect("ticket_field", (fields, 3, "n/a"), "n/a", "Use the default you were given.")
+        self.expect("ticket_field", (fields, -1), "", "A negative index must not wrap around to the last item.")
+        self.expect("ticket_field", ([], 0), "", "An empty list has no field 0.")
+        self.expect("ticket_field", (fields, 0, None), "104", "A real field wins over the default.")
 
-    def test_05_require_label(self):
-        self.expect("require_label", (" Grill ",), "Grill", "Strip the edges.")
-        for text in ("", " \t"):
-            with self.assertRaisesRegex(ValueError, "^label required$"):
-                self.target.require_label(text)
+    def test_04_repair_parse_qty(self):
+        self.expect("repair_parse_qty", ("12",), 12, "int() turns whole-number text into an int.")
+        self.expect("repair_parse_qty", (" 7 ",), 7, "int() ignores spaces around the number.")
+        self.expect("repair_parse_qty", ("oops",), 0, "Text that is not a number gives 0.")
+        self.expect("repair_parse_qty", ("",), 0, "Empty text gives 0.")
+        self.expect("repair_parse_qty", ("12.5",), 0, "int('12.5') raises ValueError, so this gives 0.")
+        self.expect_raises(
+            "repair_parse_qty", (None,), TypeError,
+            "None is a bug in the caller, not bad text. Catch only ValueError so the TypeError still shows.",
+        )
 
-    def test_06_read_optional(self):
-        path = self.temp("note.txt", "menu\ncafé\n")
-        self.expect("read_optional", (path,), "menu\ncafé\n", "Keep newlines and UTF-8 text.")
-        self.expect("read_optional", (self.temp("missing.txt"),), "", "Only a missing file gets the fallback.")
-        with self.assertRaises(OSError):
-            self.target.read_optional(self.folder.name)
-        bad = Path(self.folder.name) / "bad.txt"
-        bad.write_bytes(bytes([255]))
-        with self.assertRaises(UnicodeDecodeError):
-            self.target.read_optional(bad)
+    def test_05_repair_total_weight(self):
+        self.expect("repair_total_weight", (["5", "oops", "7"],), 12.0, "One bad entry should skip only itself.")
+        self.expect("repair_total_weight", (["1.5", "2.5"],), 4.0, "Good entries add up.")
+        self.expect("repair_total_weight", (["bad"],), 0.0, "All bad entries total 0.0.")
+        self.expect("repair_total_weight", ([],), 0.0, "No entries total 0.0.")
+        self.expect("repair_total_weight", (["", "3"],), 3.0, "An empty entry is skipped like any other bad one.")
 
-    def test_07_parse_service_date(self):
-        self.expect("parse_service_date", ("2028-02-29",), date(2028, 2, 29), "Let datetime handle leap years.")
-        with self.assertRaisesRegex(ValueError, "^invalid service date$") as found:
-            self.target.parse_service_date("2026-02-29")
-        self.assertIsInstance(found.exception.__cause__, ValueError, "Keep the original exception as the cause.")
-        with self.assertRaises(TypeError):
-            self.target.parse_service_date(None)
+    def test_06_delivery_problems(self):
+        good = {"item": "Halibut", "weight": "12.5", "temp": "38"}
+        self.expect("delivery_problems", (good,), [], "A clean record has no problems.")
+        self.expect("delivery_problems", ({"item": "  ", "weight": "12", "temp": "38"},), ["missing item"], "Blank after strip counts as missing.")
+        self.expect("delivery_problems", ({"item": "Cream", "weight": "0", "temp": "38"},), ["bad weight"], "Weight must be above zero.")
+        self.expect("delivery_problems", ({"item": "Cream", "weight": "-3", "temp": "38"},), ["bad weight"], "Negative weight is bad.")
+        self.expect("delivery_problems", ({"item": "Cream", "weight": "abc", "temp": "38"},), ["bad weight"], "Text that is not a number is a bad weight.")
+        self.expect("delivery_problems", ({"item": "Cream", "weight": "5", "temp": "45.5"},), ["too warm"], "Above 41 is too warm.")
+        self.expect("delivery_problems", ({"item": "Cream", "weight": "5", "temp": "41"},), [], "41 exactly is still fine.")
+        self.expect("delivery_problems", ({"item": "Cream", "weight": "5", "temp": "n/a"},), ["bad temp"], "Unreadable temp is a bad temp, not a warm one.")
+        self.expect("delivery_problems", ({},), ["missing item", "bad weight", "bad temp"], "Missing keys count as missing values; keep this order.")
+        self.expect("delivery_problems", ({"item": "", "weight": "nan", "temp": "90"},), ["missing item", "bad weight", "too warm"], "nan is not a usable weight.")
+        self.expect("delivery_problems", ({"item": "Eggs", "weight": "5", "temp": None},), ["bad temp"], "None is a missing temp.")
+        before = dict(good)
+        self.target.delivery_problems(good)
+        self.assertEqual(good, before, "input a record; expected it unchanged. Hint: Only read the record.")
 
-    def test_08_run_with_cleanup(self):
-        events = []
-        def operation():
-            events.append("run")
-            return 7
-        self.expect("run_with_cleanup", (operation, lambda: events.append("close")), 7, "Preserve the operation result.")
-        self.assertEqual(events, ["run", "close"])
-        events.clear()
-        error = RuntimeError("oven offline")
+    def test_07_read_cooler_log(self):
+        self.expect(
+            "read_cooler_log", (str(DATA / "cooler_log.txt"),),
+            {"readings": [37.5, 38.0, 39.5, 44.0, 38.2], "bad_lines": [5, 9, 10, 11]},
+            "Count physical lines from 1, skip blank and # lines, and flag lines without exactly two parts or a usable temp.",
+        )
+        self.expect("read_cooler_log", (self.temp("none.txt"),), None, "A missing file gives None.")
+        self.expect("read_cooler_log", (self.temp("empty.txt", ""),), {"readings": [], "bad_lines": []}, "An empty file is not a missing file.")
+        self.expect(
+            "read_cooler_log", (self.temp("pad.txt", "\n# note\n  1:00  |  36.0  \nbroken\n"),),
+            {"readings": [36.0], "bad_lines": [4]},
+            "Strip each part, and number the lines before you skip any.",
+        )
+
+    def test_08_log_reading(self):
+        def run(reading, *extra):
+            logger = logging.getLogger(f"lp08a.check.{reading!r}.{extra!r}")
+            logger.setLevel(logging.DEBUG)
+            logger.propagate = False
+            handler = ListHandler()
+            logger.addHandler(handler)
+            try:
+                result = self.target.log_reading(logger, reading, *extra)
+            except NotImplementedError:
+                raise
+            except Exception as error:
+                self.fail(f"input {reading!r}; expected a log record, got {type(error).__name__}: {error}. Hint: Call the logger, do not print.")
+            finally:
+                logger.removeHandler(handler)
+            return result, [(r.levelname, r.getMessage()) for r in handler.records]
+
+        result, records = run(38.0)
+        self.assertIs(result, True, f"input 38.0; expected True, got {result!r}. Hint: A fine reading returns True.")
+        self.assertEqual([level for level, _ in records], ["INFO"], f"input 38.0; expected one INFO record, got {records!r}. Hint: logger.info for a normal reading.")
+        self.assertIn("38.0", records[0][1], f"input 38.0; expected the reading in the message, got {records[0][1]!r}. Hint: Put the number in the text.")
+        result, records = run(45.0)
+        self.assertIs(result, False, f"input 45.0; expected False, got {result!r}. Hint: A warm reading returns False.")
+        self.assertEqual([level for level, _ in records], ["WARNING"], f"input 45.0; expected one WARNING record, got {records!r}. Hint: logger.warning when above the limit.")
+        self.assertIn("45.0", records[0][1], f"input 45.0; expected the reading in the message, got {records[0][1]!r}. Hint: Put the number in the text.")
+        result, records = run(41.0)
+        self.assertEqual((result, [level for level, _ in records]), (True, ["INFO"]), f"input 41.0; expected True with an INFO record, got {(result, records)!r}. Hint: The limit itself is still fine.")
+        result, records = run(None)
+        self.assertIs(result, False, f"input None; expected False, got {result!r}. Hint: A missing reading is not fine.")
+        self.assertEqual([level for level, _ in records], ["ERROR"], f"input None; expected one ERROR record, got {records!r}. Hint: logger.error for a missing reading.")
+        result, records = run(40.0, 39.0)
+        self.assertEqual((result, [level for level, _ in records]), (False, ["WARNING"]), f"input 40.0 with limit 39.0; expected False with a WARNING, got {(result, records)!r}. Hint: Use the limit you were given.")
+
+    def test_09_parse_ticket_strict(self):
+        self.expect(
+            "parse_ticket_strict", ("104 | 2 | Corn | 3 | 3.50",),
+            {"ticket": 104, "table": 2, "dish": "Corn", "qty": 3, "price": 3.5},
+            "Split on |, strip each part, convert the numbers.",
+        )
+        self.expect(
+            "parse_ticket_strict", ("7|11|Fries, large|1|4.25",),
+            {"ticket": 7, "table": 11, "dish": "Fries, large", "qty": 1, "price": 4.25},
+            "A comma in the dish is plain text here.",
+        )
+        self.expect_raises("parse_ticket_strict", ("104|2|Corn|3",), ValueError, "Say how many fields you expected.", "5 fields")
+        self.expect_raises("parse_ticket_strict", ("",), ValueError, "Empty text has one piece, not five.", "5 fields")
+        self.expect_raises("parse_ticket_strict", ("x|2|Corn|3|3.50",), ValueError, "Name the field that failed.", "ticket")
+        self.expect_raises("parse_ticket_strict", ("104|two|Corn|3|3.50",), ValueError, "Name the field that failed.", "table")
+        self.expect_raises("parse_ticket_strict", ("104|2||3|3.50",), ValueError, "A blank dish is an error.", "dish")
+        self.expect_raises("parse_ticket_strict", ("104|2|Corn|0|3.50",), ValueError, "Zero portions is not an order.", "qty")
+        self.expect_raises("parse_ticket_strict", ("104|2|Corn|1.5|3.50",), ValueError, "qty must be a whole number.", "qty")
+        self.expect_raises("parse_ticket_strict", ("104|2|Corn|3|-1",), ValueError, "A negative price is an error.", "price")
+        self.expect_raises("parse_ticket_strict", ("104|2|Corn|3|abc",), ValueError, "Text that is not a number is a bad price.", "price")
+        self.expect_raises("parse_ticket_strict", ("104|2|Corn|3|nan",), ValueError, "nan is not a price.", "price")
+
+    def test_10_collect_tickets(self):
+        lines = ["101|4|Ramen|2|14.50", "102|7|Fries|x|4.25", "", "104|2|Corn|3|3.50", "oops"]
+        good, errors = self.expect_pair("collect_tickets", (lines,))
+        self.assertEqual(
+            [ticket["ticket"] for ticket in good], [101, 104],
+            f"input five lines; expected tickets [101, 104], got {good!r}. Hint: Keep only lines that parse.",
+        )
+        self.assertEqual(good, [
+            {"ticket": 101, "table": 4, "dish": "Ramen", "qty": 2, "price": 14.5},
+            {"ticket": 104, "table": 2, "dish": "Corn", "qty": 3, "price": 3.5},
+        ], "Keep every parsed ticket field, not only the ticket number.")
+        self.assertEqual(lines, ["101|4|Ramen|2|14.50", "102|7|Fries|x|4.25", "", "104|2|Corn|3|3.50", "oops"], "Do not change the supplied lines.")
+        self.assertEqual(len(errors), 2, f"input five lines; expected 2 errors, got {errors!r}. Hint: Blank lines are skipped, not errors.")
+        self.assertTrue(errors[0].startswith("line 2: ") and "qty" in errors[0], f"input five lines; expected the first error to start 'line 2: ' and name qty, got {errors[0]!r}. Hint: Number lines from 1 and add the ValueError text.")
+        self.assertTrue(errors[1].startswith("line 5: "), f"input five lines; expected the second error to start 'line 5: ', got {errors[1]!r}. Hint: Count the blank line too.")
+        good, errors = self.expect_pair("collect_tickets", ([],))
+        self.assertEqual((good, errors), ([], []), "input []; expected ([], []). Hint: No lines means nothing to report.")
+        good, errors = self.expect_pair("collect_tickets", (["  ", ""],))
+        self.assertEqual((good, errors), ([], []), "input two blank lines; expected ([], []). Hint: Blank lines are not errors.")
+
+    def expect_pair(self, name, args):
+        try:
+            result = getattr(self.target, name)(*args)
+        except NotImplementedError:
+            raise
+        except Exception as error:
+            self.fail(f"input {args!r}; expected a (list, list) pair, got {type(error).__name__}: {error}. Hint: Catch the ValueError inside the loop.")
+        if not (isinstance(result, tuple) and len(result) == 2):
+            self.fail(f"input {args!r}; expected a (good, errors) tuple, got {result!r}. Hint: return good, errors.")
+        return result
+
+    def test_11_call_with_retries(self):
+        def flaky(failures, result="ok"):
+            state = {"calls": 0}
+
+            def action():
+                state["calls"] += 1
+                if state["calls"] <= failures:
+                    raise ConnectionError(f"attempt {state['calls']}")
+                return result
+
+            return action, state
+
+        action, state = flaky(0)
+        self.expect("call_with_retries", (action, 3), "ok", "A first-try success returns its result.")
+        self.assertEqual(state["calls"], 1, f"input an action that works; expected 1 call, got {state['calls']}. Hint: Stop as soon as it works.")
+        action, state = flaky(2)
+        self.expect("call_with_retries", (action, 3), "ok", "Retry on ConnectionError until it works.")
+        self.assertEqual(state["calls"], 3, f"input an action that fails twice; expected 3 calls, got {state['calls']}. Hint: Count every try.")
+        action, state = flaky(5)
+        error = self.expect_raises("call_with_retries", (action, 2), ConnectionError, "After the last try, let the error out.")
+        self.assertEqual(state["calls"], 2, f"input an action that always fails with attempts=2; expected 2 calls, got {state['calls']}. Hint: attempts is the total number of tries.")
+        self.assertEqual(str(error), "attempt 2", f"input an action that always fails; expected the last error 'attempt 2', got {str(error)!r}. Hint: Re-raise the error you caught with a bare raise.")
+        last_error = ConnectionError("still offline")
+        def always_offline():
+            raise last_error
+        actual_error = self.expect_raises("call_with_retries", (always_offline, 2), ConnectionError, "Re-raise the same exception object.")
+        self.assertIs(actual_error, last_error, "Re-raise the original error, not a new one with the same text.")
+        successful, state = flaky(0, 0)
+        self.expect("call_with_retries", (successful, 3), 0, "A falsey value is still a successful result.")
+        self.assertEqual(state["calls"], 1)
+        calls = []
+
         def broken():
-            events.append("run")
-            raise error
-        with self.assertRaises(RuntimeError) as found:
-            self.target.run_with_cleanup(broken, lambda: events.append("close"))
-        self.assertIs(found.exception, error)
-        self.assertEqual(events, ["run", "close"], "Cleanup runs exactly once even on failure.")
+            calls.append(1)
+            raise ValueError("not a network problem")
 
-    def test_09_logged_lookup(self):
-        logger = Mock()
-        self.expect("logged_lookup", ({"Grill": "ready"}, "Grill", logger), "ready", "Successful work belongs in else.")
-        logger.warning.assert_not_called()
-        self.expect("logged_lookup", ({}, "Pastry", logger), None, "Warn once for missing data.")
-        logger.warning.assert_called_once_with("Missing station: %s", "Pastry")
-        logger.reset_mock()
-        with self.assertRaises(TypeError):
-            self.target.logged_lookup({}, [], logger)
-        logger.warning.assert_not_called()
-
-    def test_10_collect_dates(self):
-        texts = ["bad", "2026-11-23", "2026-02-29", "2028-02-29"]
-        self.expect("collect_dates", (texts,), ([date(2026, 11, 23), date(2028, 2, 29)], [1, 3]), "Catch each bad row and continue.")
-        self.assertEqual(texts, ["bad", "2026-11-23", "2026-02-29", "2028-02-29"])
-        self.expect("collect_dates", ([],), ([], []), "Keep both result lists.")
-        with self.assertRaises(TypeError):
-            self.target.collect_dates([None])
-
-    def test_11_balanced_brackets(self):
-        for text, expected in [("{[]}", True), ("()[]{}", True), ("([)]", False), ("]", False), ("((", False), ("", True), ("(]", False)]:
-            self.expect("balanced_brackets", (text,), expected, "Check before popping, and check leftover opens.")
+        self.expect_raises("call_with_retries", (broken, 3), ValueError, "Only ConnectionError is worth a retry.")
+        self.assertEqual(len(calls), 1, f"input an action that raises ValueError; expected 1 call, got {len(calls)}. Hint: Catch only ConnectionError.")
+        untouched, state = flaky(0)
+        self.expect_raises("call_with_retries", (untouched, 0), ValueError, "Zero attempts is a mistake in the caller.")
+        self.assertEqual(state["calls"], 0, f"input attempts=0; expected 0 calls, got {state['calls']}. Hint: Check attempts before you call anything.")
 
 
 class LineResult(unittest.TestResult):

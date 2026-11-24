@@ -1,90 +1,62 @@
-# Week 8 walkthrough
+# Week 8 catch-up | Errors & Debugging
 
-## I Do: read the evidence
+Use this after class or beside the slides. Predict before each run, then compare with `python lp08a-errors-and-debugging/code-along.py`. The examples use a restaurant kitchen's cooler log, deliveries, and order tickets, not the graded assignment.
 
-An exception is a runtime failure represented by an object. A syntax error prevents the broken source from starting. A logic error can produce a wrong answer with no exception at all.
+## 1. Two kinds of error
 
-Type this small program into a scratch file and run it:
+A syntax error means Python cannot read your program, so nothing runs at all. A runtime error means the program started and then one line met one bad input. Think of a recipe with a smudged line (syntax) versus a recipe that says "add the shallots" when the shallots are gone (runtime). The six runtime errors you will meet most: `ValueError` (right type, wrong content, as in `int("twelve")`), `TypeError` (wrong type, as in `"4" + 6`), `KeyError` (a dictionary key that is not there), `IndexError` (a list position that is not there), `FileNotFoundError` (a path that does not lead to a file), and `ZeroDivisionError`. **Predict:** Which of the six does `int(None)` raise? (Hint: it is about the type, not the content.)
 
-```python
-def announce(notes):
-    return notes["Grill"]
+## 2. try, except, else, finally
 
-print(announce({}))
-```
+| Block | Runs when |
+| --- | --- |
+| `try` | Always first. Put only the line that can fail in here. |
+| `except ValueError` | When the `try` raised ValueError or one of its subclasses. |
+| `else` | Only when the `try` raised nothing. |
+| `finally` | Every time, error or not. Use it for cleanup. |
 
-**Predict:** does print receive a value? No. `notes["Grill"]` raises `KeyError`. Read the last traceback line for the class and missing key; move upward to the line inside `announce`, then the call site. A traceback is a route to the failure, not a request to wrap the whole program in `except`.
+The code-along records a trail so you can see the order. **Predict:** For the text `"n/a"`, which of the four names appear in the trail, and in what order?
 
-| Evidence | Meaning | First check |
-| --- | --- | --- |
-| `ValueError` | Correct kind of argument, unusable value | Inspect the string or calendar date. |
-| `TypeError` | Operation does not support that type | Print `type(value)` or inspect it in the debugger. |
-| `KeyError` | Dictionary key is missing | Inspect keys and spelling. |
-| `IndexError` | List position is unavailable | Compare index and length. |
-| `ZeroDivisionError` | Divisor is zero | Decide the domain rule for zero. |
-| `FileNotFoundError` | Requested path does not exist | Inspect the path and working directory. |
-| `NameError` | Name has not been defined | Check spelling and scope. |
+Do not return from `finally`: it can replace a result or suppress an exception that should reach the caller. Prefer `with` for file cleanup.
 
-Run `python lp08a-errors-and-debugging/code-along.py`. It demonstrates expected failures safely. The warning is written to stderr; printed lines go to stdout, so terminal ordering between those streams can vary.
+## 3. Catch the failure you expect, not every failure
 
-## We Do: choose a recovery boundary
+`except Exception` and a bare `except:` catch things you did not plan for, including your own typos. The code-along shows `sloppy_qty("12")` returning `0` because a misspelled variable raised `NameError` and the catch-all swallowed it. The program kept running and gave a wrong answer, which is worse than a crash. A bare `except:` goes further and also catches Ctrl+C, so you cannot even stop the program. The rule: name the one exception you expect. **Predict:** What does `careful_qty(None)` do, and why is that the right behavior?
 
-```python
-try:
-    note = notes[station]
-except KeyError:
-    note = "No note"
-else:
-    print("Found a note")
-finally:
-    print("Lookup finished")
-```
+## 4. `as e`: the message is data
 
-**Predict:** on a missing key, which blocks run? `try`, `except`, `finally`. On a present key: `try`, `else`, `finally`. An unrelated `TypeError` propagates after `finally`. `else` belongs to successful work and its exceptions are not caught by the preceding handlers. Keep the risky operation small.
+`except ValueError as error:` gives the error a name. `str(error)` or `{error}` in an f-string is the message, and `type(error).__name__` is the class name. You can log them, show them, or build a better sentence from them. **Predict:** What message does `int("12.5")` give?
 
-`finally` runs when a return or exception leaves `try` during normal Python execution. Do not return from `finally`: that can replace the result or swallow the exception. For files, use Week 7's `with` rather than manually reproducing file closure.
+## 5. `raise`: say so loudly
 
-Raise an error when your own function's contract is violated. A required kitchen label containing only spaces should raise `ValueError("label required")`. If you replace a library exception with a domain message, `raise ... from error` retains the original cause. Catch it at a caller that can make a useful decision.
+When you find the problem yourself, raise the error yourself, with a message that helps the next reader: `raise ValueError(f"guests must be at least 1, got {guests}")`. A bare `raise` inside an `except` passes the original error along unchanged, which is useful when you want to leave a note and still stop. **Predict:** If you catch an error, print a note, and use a bare `raise`, does the caller see the error?
 
-## We Do: repair one cause
+## 6. Defensive programming
 
-Broken guard:
+Validate input before you use it. Use guard clauses, which are early returns for the bad cases, so the good path reads straight down instead of nesting three levels deep. The code-along has `label_nested` and `label_guarded` giving identical answers. Check for `None` before you compare or call a method on a value.
 
-```python
-if index <= len(labels):
-    return labels[index]
-```
+Not every problem raises an error. `items[-1]` returns the last item of a non-empty list, while an index farther back than the list length does raise IndexError. So if any negative index is a mistake in your program, only a guard clause will catch it. And `float("nan")` converts without complaint, so an unreadable thermometer can slip a bad number into your average. Failing loudly (an error you can see) beats failing silently (a wrong number nobody notices). **Predict:** Does `["Corn", "Ramen"][-1]` raise an error?
 
-**Predict:** what does `labels=[]`, `index=0` do? It enters the branch and raises `IndexError`. A one-item list with index `-1` also violates this exercise's rule, though Python accepts it. Repair to `0 <= index < len(labels)`. Confirm both failing cases and a valid case. Do not use a broad catch to conceal an incorrect boundary.
+Check cheaply when you can (`if key in menu`). Catch when the check costs as much as the work, or when the situation can change between the check and the use (a file someone deletes a moment after you looked). Keep the `try` as small as the one line that can fail.
 
-In VS Code, put a breakpoint before the guard, start the Python debugger if configured, and inspect `labels`, `index`, and `len(labels)`. Step over the condition. If a debugger is unavailable, print `repr(labels)` and the index. Use the same cycle: reproduce, shrink, predict, change one cause, rerun the failing case, then check a nearby valid case.
+## 7. What `csv.DictReader` does with a ragged row
 
-## I Do: record useful context
+`DictReader` does not raise when a row has the wrong number of fields. A short row gets `None` for the missing values, so `int(None)` raises `TypeError`, not `ValueError`. A long row files the extra values as a list under the key `None`, so `None in row` is the test. Blank lines are skipped, so "Row N" counts records, not file lines. **Predict:** For the row `Butter,3` under the header `name,qty,unit`, what is `row["unit"]`?
 
-```python
-import logging
-logger = logging.getLogger(__name__)
-logger.warning("Missing station: %s", station)
-```
+## 8. Fail gracefully
 
-Set `logging.basicConfig(level=logging.INFO)` once at the program entry point. DEBUG is detailed investigation; INFO is normal progress; WARNING signals a recoverable issue; ERROR means an operation failed; CRITICAL means a severe failure. Inside an `except` block, `logger.exception("Could not read manifest")` records ERROR plus the active traceback. Avoid sensitive data in logs. Reusable functions accept or obtain a named logger; they should not reconfigure global logging.
+Graceful means the program keeps going with a safe default and leaves a record of what happened, instead of crashing or going quiet. The `logging` module has levels so you can tell a note from an alarm: `DEBUG` for details only a developer wants, `INFO` for normal events, `WARNING` for something odd but survivable, and `ERROR` for a failure. Set the handler to `INFO` and the `DEBUG` line disappears without you deleting it. A missing log returns `None` and logs an `ERROR`, and a bad line logs a `WARNING` and is skipped. **Predict:** With the level set to `INFO`, which of the four messages print?
 
-## Environment check
+## 9. `assert`
 
-An environment problem and a program bug need different evidence. If an import fails, check the active Python and environment before changing source. `csv`, `datetime`, and `logging` ship with Python; do not install them with pip. A virtual environment keeps project packages separate; pip installs packages for a Python environment. Use the [existing setup guide](../README.md#getting-started) to create and activate one. This packet needs no external package.
+`assert guests > 0, "guests must be positive"` is a tripwire for the programmer. Running Python with `-O` removes every `assert`, so never use one to check input that a user might get wrong. Use `if` and `raise` for that.
 
-## You Do: prove recovery is selective
+## 10. pip and virtual environments
 
-Run `python lp08a-errors-and-debugging/check.py`. Start with `station_note`, `repair_pick`, or `require_label`. A passing normal case is only the beginning: missing data, empty data, and wrong types reveal different defects. Then try `run_with_cleanup` or `collect_dates` and explain why one bad date does not discard later valid dates.
+pip installs packages from PyPI, the public package index. If everything installs into one global Python, every project shares one pile, and two projects that need different versions of the same package cannot both be happy. A virtual environment is a private folder with its own Python and its own pile. The steps, in order: create it (`python -m venv .venv`), activate it (`.venv\Scripts\Activate.ps1` in Windows PowerShell, `source .venv/bin/activate` on macOS and Linux), install into it (`pip install requests`), write down exactly what is installed (`pip freeze > requirements.txt`), and rebuild the same pile somewhere else (`pip install -r requirements.txt`). Do not commit the `.venv` folder itself; commit `requirements.txt` and list `.venv/` in `.gitignore`. **Predict:** What does `sys.prefix != sys.base_prefix` tell you?
 
-Use the [LeetCode class exercise](leetcode-valid-parentheses.md) to apply the same method to a fresh problem. A leading closing bracket is a useful smallest failing input.
+## Run the local check
 
-## Exit check
+Start with a Warm-up or Fix it task in [practice.py](practice.py), run `python lp08a-errors-and-debugging/check.py`, and open [hints.md](hints.md) only as needed. A `NOT STARTED` line points to a TODO, while a `FAIL` line names the input and expected result. When you want more reps, the [LeetCode warm-up](leetcode-valid-parentheses.md) is a problem where the first draft crashes on purpose.
 
-1. Which traceback line tells you the exception class? Which tells you your source location?
-2. Why does a missing dictionary key need different treatment from an unhashable key?
-3. What runs after return when a finally block is present?
-4. Why should a successful lookup with empty text keep that empty text?
-5. Give one input that finds an error a happy-path test misses.
-
-Answers: the last line and the relevant frame above it; KeyError is a known missing value while TypeError suggests a caller mistake; finally runs before leaving; empty and missing are different states; examples include `]`, an empty list at index zero, and a non-leap February 29.
+**Exit check:** Explain the difference between a syntax error and a runtime error. Explain why `except Exception` is risky. Give one case where you would check first and one where you would catch.

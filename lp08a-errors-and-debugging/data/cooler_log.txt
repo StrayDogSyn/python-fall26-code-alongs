@@ -1,0 +1,12 @@
+# Walk-in cooler log, Sunday
+06:00 | 37.5
+08:00 | 38.0
+
+10:00 | n/a
+12:00 | 39.5   
+14:00 | 44.0
+# sensor swapped at 3 PM
+16:00 | 38.5 | extra
+18:00 |
+20:00 | nan
+22:00 | 38.2

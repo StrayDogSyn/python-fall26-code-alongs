@@ -343,158 +343,44 @@ window.COURSE_PLAN = {
       }
     },
     {
-  "id": "lp08a",
-  "phase": "core",
-  "code": "W08 / LP 08A",
-  "title": "Errors & Debugging",
-  "status": "preview",
-  "summary": "Prepare for the November 23 mentor session: read tracebacks, recover selectively, log context, and prove a repair.",
-  "topics": [
-    "tracebacks and common errors",
-    "try/except/else/finally",
-    "raise and chaining",
-    "logging",
-    "defensive programming",
-    "pip and virtual environments"
-  ],
-  "objective": "I can identify a failure, handle only expected exceptions, and verify a repair with an edge case.",
-  "teach": "Read a traceback and predict success, recovery, and cleanup.",
-  "together": "Repair an index boundary and an empty-stack bracket failure.",
-  "solo": "Complete a checked kitchen exercise and explain a fresh failing input.",
-  "links": [
-    {
-      "label": "Week 8 slides",
-      "href": "week08/week08-slides.html",
-      "kind": "primary"
-    },
-    {
-      "label": "Mentor session plan",
-      "href": "lp08a-errors-and-debugging/run-of-show.md"
-    },
-    {
-      "label": "Lesson packet",
-      "href": "lp08a-errors-and-debugging/README.md"
-    },
-    {
-      "label": "LeetCode class solve",
-      "href": "lp08a-errors-and-debugging/leetcode-valid-parentheses.md"
-    }
-  ],
-  "lesson": {
-    "estimate": "90 min",
-    "steps": [
-      {
-        "key": "start",
-        "label": "Start here",
-        "text": "Open the packet and the session plan. No extra packages are required.",
-        "links": [
-          {
-            "label": "Week 8 slides",
-            "href": "week08/week08-slides.html",
-            "kind": "primary"
-          },
-          {
-            "label": "Mentor plan",
-            "href": "lp08a-errors-and-debugging/run-of-show.md"
-          }
-        ]
-      },
-      {
-        "key": "watch",
-        "label": "Watch / observe",
-        "text": "Run python lp08a-errors-and-debugging/code-along.py and predict the exception, recovery, and cleanup.",
-        "links": [
-          {
-            "label": "Code-along",
-            "href": "lp08a-errors-and-debugging/code-along.py"
-          },
-          {
-            "label": "Text walkthrough",
-            "href": "lp08a-errors-and-debugging/week08-walkthrough.md"
-          }
-        ],
-        "mode": "I DO"
-      },
-      {
-        "key": "practice",
-        "label": "Practice together",
-        "text": "Reproduce an index guard defect, then debug the empty-stack failure in Valid Parentheses.",
-        "links": [
-          {
-            "label": "LeetCode walkthrough",
-            "href": "lp08a-errors-and-debugging/leetcode-valid-parentheses.md"
-          },
-          {
-            "label": "Week 8 slides",
-            "href": "week08/week08-slides.html"
-          }
-        ],
-        "mode": "WE DO"
-      },
-      {
-        "key": "try",
-        "label": "Try independently",
-        "text": "Edit one TODO, then run python lp08a-errors-and-debugging/check.py.",
-        "links": [
-          {
-            "label": "Practice starter",
-            "href": "lp08a-errors-and-debugging/practice.py"
-          },
-          {
-            "label": "Three-level hints",
-            "href": "lp08a-errors-and-debugging/hints.md"
-          }
-        ],
-        "mode": "YOU DO"
-      },
-      {
-        "key": "check",
-        "label": "Check understanding",
-        "text": "Explain one specific exception boundary and one cleanup guarantee, then take the nine-question quiz.",
-        "links": [
-          {
-            "label": "Quiz in slides",
-            "href": "week08/week08-slides.html"
-          },
-          {
-            "label": "Local check",
-            "href": "lp08a-errors-and-debugging/check.py"
-          }
-        ]
-      },
-      {
-        "key": "unstuck",
-        "label": "Get unstuck",
-        "text": "Read the final traceback line, shrink the input, inspect variables, and change one cause.",
-        "links": [
-          {
-            "label": "Text walkthrough",
-            "href": "lp08a-errors-and-debugging/week08-walkthrough.md"
-          },
-          {
-            "label": "Hints",
-            "href": "lp08a-errors-and-debugging/hints.md"
-          }
-        ]
-      },
-      {
-        "key": "deeper",
-        "label": "Go deeper",
-        "text": "Practice date-record recovery or revisit the bracket invariant. Study source is available for mentor upload.",
-        "links": [
-          {
-            "label": "Notebook source",
-            "href": "lp08a-errors-and-debugging/notebook-source.md"
-          },
-          {
-            "label": "Topic map",
-            "href": "lp08a-errors-and-debugging/bridge-the-dream-map.md"
-          }
+      id: "lp08a", phase: "core", code: "W08 / LP 08A", title: "Errors & Debugging", status: "live",
+      summary: "Follow the November 23 lesson on reading errors, catching the right ones, defensive checks, logging, and virtual environments.",
+      topics: ["try and except", "specific exceptions", "guard clauses", "logging", "pip and venv"],
+      objective: "I can handle a predictable failure without hiding a real bug, and explain what a virtual environment is for.",
+      teach: "Predict which blocks run for each input, then watch a catch-all hide a typo and a negative index slip through.",
+      together: "Repair a bare except that swallows a real error and a try that ends the loop at the first bad entry.",
+      solo: "Complete one of eleven new practice exercises and explain its local check result.",
+      links: [
+        { label: "Week 8 slides", href: "week08/week08-slides.html", kind: "primary" },
+        { label: "Kindred lesson packet", href: "lp08a-errors-and-debugging/README.md" },
+        { label: "Practice starter", href: "lp08a-errors-and-debugging/practice.py" },
+        { label: "Local check", href: "lp08a-errors-and-debugging/check.py" }
+      ],
+      lesson: {
+        estimate: "≈90 min",
+        steps: [
+          { key: "start", label: "Start here", text: "Open the packet and predict which blocks run before you run the code-along.", links: [
+            { label: "Week 8 slides", href: "week08/week08-slides.html", kind: "primary" },
+            { label: "Text walkthrough", href: "lp08a-errors-and-debugging/week08-walkthrough.md" }
+          ] },
+          { key: "watch", label: "Watch / observe", mode: "I DO", text: "Run the code-along and trace a try with else and finally, six runtime errors, and a guard clause.", links: [
+            { label: "Code-along", href: "lp08a-errors-and-debugging/code-along.py" }
+          ] },
+          { key: "practice", label: "Practice together", mode: "WE DO", text: "Find the bare except that hides a real error, then the try that wraps the whole loop.", links: [
+            { label: "Week 8 slides", href: "week08/week08-slides.html" }
+          ] },
+          { key: "try", label: "Try independently", mode: "YOU DO", text: "Complete one TODO at a time. Run python lp08a-errors-and-debugging/check.py from the repository root.", links: [
+            { label: "Practice starter", href: "lp08a-errors-and-debugging/practice.py" },
+            { label: "Three-level hints", href: "lp08a-errors-and-debugging/hints.md" }
+          ] },
+          { key: "check", label: "Check understanding", text: "Explain why except Exception is risky and when a guard clause beats a try, then take the deck quiz. Optional: the LeetCode warm-up.", links: [
+            { label: "Week 8 quiz", href: "week08/week08-slides.html" },
+            { label: "LeetCode warm-up", href: "lp08a-errors-and-debugging/leetcode-valid-parentheses.md" },
+            { label: "Local check", href: "lp08a-errors-and-debugging/check.py" }
+          ] }
         ]
       }
-    ]
-  }
-},
+    },
     { id: "lp04", phase: "data", code: "LP 04", title: "Intro to Data Engineering", status: "planned", summary: "Meet pandas Series and DataFrames.", topics: ["pandas", "Series", "DataFrames"], objective: "I can load, inspect, and describe a small table.", teach: "Inspect a DataFrame's rows, columns, and types.", together: "Choose a column and explain what it represents.", solo: "Load a new table and report three observations.", links: [] },
     { id: "lp05", phase: "data", code: "LP 05", title: "Data Cleaning & Validation", status: "planned", summary: "Find and fix missing, inconsistent, or invalid values.", topics: ["missing values", "validation", "data quality"], objective: "I can identify a data-quality problem and verify a correction.", teach: "Show how a bad value affects a summary.", together: "Choose a cleaning rule and test it.", solo: "Document a cleaning decision on fresh data.", links: [] },
     { id: "lp06", phase: "data", code: "LP 06", title: "Wrangling & Aggregation", status: "planned", summary: "Combine and summarize data to answer a question.", topics: ["grouping", "merging", "aggregation"], objective: "I can group records and explain the resulting summary.", teach: "Walk through a group-by result one group at a time.", together: "Predict a merge and inspect mismatched keys.", solo: "Build a summary for a new question.", links: [] },

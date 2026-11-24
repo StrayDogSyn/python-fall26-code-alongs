@@ -1,102 +1,51 @@
 # LP 08A | Errors & Debugging | Fall 26
 
-Upload-ready study text. No Notebook upload or generated artifact is claimed.
+This is source text Hunter can add to the cohort Gemini Notebook. No upload or generated Notebook artifact is claimed. The packet uses a restaurant kitchen's cooler log, deliveries, and order tickets so public reference code does not solve the graded Week 8 work.
 
-## I Do: read the evidence
+## Learning targets
 
-An exception is a runtime failure represented by an object. A syntax error prevents the broken source from starting. A logic error can produce a wrong answer with no exception at all.
+Tell a syntax error from a runtime error, name the common runtime errors (`ValueError`, `TypeError`, `KeyError`, `IndexError`, `FileNotFoundError`, `ZeroDivisionError`), use `try`, `except`, `else`, and `finally`, catch a specific exception instead of every exception, use `as` to read an error's message, raise an error with `raise`, validate input with guard clauses and checks for `None`, tell failing loudly from failing silently, use `assert` for development-time checks, return a safe default and log what went wrong with the four `logging` levels, and explain what pip and a virtual environment are for.
 
-Type this small program into a scratch file and run it:
+## 1. Two kinds of error
 
-```python
-def announce(notes):
-    return notes["Grill"]
+A syntax error stops Python before anything runs. A runtime error happens on one line with one input while the program is running. **Predict:** Which exception does `int(None)` raise?
 
-print(announce({}))
-```
+## 2. try, except, else, finally
 
-**Predict:** does print receive a value? No. `notes["Grill"]` raises `KeyError`. Read the last traceback line for the class and missing key; move upward to the line inside `announce`, then the call site. A traceback is a route to the failure, not a request to wrap the whole program in `except`.
+`try` holds the line that can fail, `except` handles a named failure, `else` runs only when nothing failed, and `finally` runs as control leaves the try, including on return or an unhandled exception; do not return from finally because that can hide an error. **Predict:** For the text `n/a`, which of the four run, in what order?
 
-| Evidence | Meaning | First check |
-| --- | --- | --- |
-| `ValueError` | Correct kind of argument, unusable value | Inspect the string or calendar date. |
-| `TypeError` | Operation does not support that type | Print `type(value)` or inspect it in the debugger. |
-| `KeyError` | Dictionary key is missing | Inspect keys and spelling. |
-| `IndexError` | List position is unavailable | Compare index and length. |
-| `ZeroDivisionError` | Divisor is zero | Decide the domain rule for zero. |
-| `FileNotFoundError` | Requested path does not exist | Inspect the path and working directory. |
-| `NameError` | Name has not been defined | Check spelling and scope. |
+## 3. Specific versus broad
 
-Run `python lp08a-errors-and-debugging/code-along.py`. It demonstrates expected failures safely. The warning is written to stderr; printed lines go to stdout, so terminal ordering between those streams can vary.
+`except Exception` and a bare `except:` also catch typos and, for a bare one, Ctrl+C. A wrong answer with no error is worse than a crash. Catch the one failure you expect. **Predict:** What should `int(None)` do inside a function that only expects bad text?
 
-## We Do: choose a recovery boundary
+## 4. `as` and `raise`
 
-```python
-try:
-    note = notes[station]
-except KeyError:
-    note = "No note"
-else:
-    print("Found a note")
-finally:
-    print("Lookup finished")
-```
+`except ValueError as error` names the error so its message can be used. `raise ValueError("message")` raises one on purpose, and a bare `raise` inside an `except` passes the original error along. **Predict:** Does the caller still see an error after a bare `raise`?
 
-**Predict:** on a missing key, which blocks run? `try`, `except`, `finally`. On a present key: `try`, `else`, `finally`. An unrelated `TypeError` propagates after `finally`. `else` belongs to successful work and its exceptions are not caught by the preceding handlers. Keep the risky operation small.
+## 5. Defensive programming
 
-`finally` runs when a return or exception leaves `try` during normal Python execution. Do not return from `finally`: that can replace the result or swallow the exception. For files, use Week 7's `with` rather than manually reproducing file closure.
+Validate input before use. A guard clause is an early return for a bad case, which keeps the good path from nesting. An in-range negative index counts from the end without raising, and `float("nan")` converts without error, so some bad input needs an explicit check. **Predict:** Does `["Corn", "Ramen"][-1]` raise?
 
-Raise an error when your own function's contract is violated. A required kitchen label containing only spaces should raise `ValueError("label required")`. If you replace a library exception with a domain message, `raise ... from error` retains the original cause. Catch it at a caller that can make a useful decision.
+## 6. Ragged CSV rows
 
-## We Do: repair one cause
+`csv.DictReader` fills a short row's missing values with `None` and files extra values as a list under the key `None`. It skips blank lines. **Predict:** What is the `unit` of the row `Butter,3` under the header `name,qty,unit`?
 
-Broken guard:
+## 7. Graceful failure and logging
 
-```python
-if index <= len(labels):
-    return labels[index]
-```
+Return a safe default, and leave a record. `DEBUG` is for developer detail, `INFO` for normal events, `WARNING` for something odd but survivable, and `ERROR` for a failure. A handler's level hides lower messages. **Predict:** At level `INFO`, which of the four levels print?
 
-**Predict:** what does `labels=[]`, `index=0` do? It enters the branch and raises `IndexError`. A one-item list with index `-1` also violates this exercise's rule, though Python accepts it. Repair to `0 <= index < len(labels)`. Confirm both failing cases and a valid case. Do not use a broad catch to conceal an incorrect boundary.
+## 8. assert
 
-In VS Code, put a breakpoint before the guard, start the Python debugger if configured, and inspect `labels`, `index`, and `len(labels)`. Step over the condition. If a debugger is unavailable, print `repr(labels)` and the index. Use the same cycle: reproduce, shrink, predict, change one cause, rerun the failing case, then check a nearby valid case.
+`assert condition, message` is a tripwire for the programmer. Running Python with `-O` removes it, so it is not input validation.
 
-## I Do: record useful context
+## 9. pip and virtual environments
 
-```python
-import logging
-logger = logging.getLogger(__name__)
-logger.warning("Missing station: %s", station)
-```
+pip installs packages from PyPI. A virtual environment is a private folder with its own Python and packages, so projects do not share one pile. Create it with `python -m venv .venv`, activate it, install into it, record it with `pip freeze > requirements.txt`, and rebuild with `pip install -r requirements.txt`. Commit `requirements.txt`, not the `.venv` folder. **Predict:** What does `sys.prefix != sys.base_prefix` tell you?
 
-Set `logging.basicConfig(level=logging.INFO)` once at the program entry point. DEBUG is detailed investigation; INFO is normal progress; WARNING signals a recoverable issue; ERROR means an operation failed; CRITICAL means a severe failure. Inside an `except` block, `logger.exception("Could not read manifest")` records ERROR plus the active traceback. Avoid sensitive data in logs. Reusable functions accept or obtain a named logger; they should not reconfigure global logging.
+## Check yourself
 
-## Environment check
-
-An environment problem and a program bug need different evidence. If an import fails, check the active Python and environment before changing source. `csv`, `datetime`, and `logging` ship with Python; do not install them with pip. A virtual environment keeps project packages separate; pip installs packages for a Python environment. Use the [existing setup guide](../README.md#getting-started) to create and activate one. This packet needs no external package.
-
-## You Do: prove recovery is selective
-
-Run `python lp08a-errors-and-debugging/check.py`. Start with `station_note`, `repair_pick`, or `require_label`. A passing normal case is only the beginning: missing data, empty data, and wrong types reveal different defects. Then try `run_with_cleanup` or `collect_dates` and explain why one bad date does not discard later valid dates.
-
-Use the [LeetCode class exercise](leetcode-valid-parentheses.md) to apply the same method to a fresh problem. A leading closing bracket is a useful smallest failing input.
-
-## Exit check
-
-1. Which traceback line tells you the exception class? Which tells you your source location?
-2. Why does a missing dictionary key need different treatment from an unhashable key?
-3. What runs after return when a finally block is present?
-4. Why should a successful lookup with empty text keep that empty text?
-5. Give one input that finds an error a happy-path test misses.
-
-Answers: the last line and the relevant frame above it; KeyError is a known missing value while TypeError suggests a caller mistake; finally runs before leaving; empty and missing are different states; examples include `]`, an empty list at index zero, and a non-leap February 29.
-
-
-## Source-grounded tutor prompts
-
-- I Do: give me a tiny traceback and ask me to identify the exception and source line before explaining.
-- We Do: show a faulty list boundary and ask for a smallest failing input. Give one hint at a time.
-- You Do: ask me to choose a specific exception handler, a cleanup policy, and three meaningful checks for a kitchen manifest function.
-- Quiz me on try/except/else/finally, raise, logging levels, and environment concepts. Require a reason for each answer.
-
-Use only these supplemental examples. Do not invent assignment requirements or solve graded work. For bracket input, distinguish LeetCode's nonempty contract from our local empty-string extension.
+1. Explain the difference between a syntax error and a runtime error.
+2. Name when each of `try`, `except`, `else`, and `finally` runs.
+3. Explain why `except Exception` can hide a bug.
+4. Give one reason a guard clause can be better than `try/except`, and one reason it cannot.
+5. Explain what `requirements.txt` is for.

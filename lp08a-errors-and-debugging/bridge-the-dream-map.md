@@ -1,15 +1,19 @@
-# Week 8 topic crosswalk
+# Topic map for the two courses
 
-Official cohort topic names come from the locally recorded [course map](../resources/agents/OFFICIAL_COURSE_MAP.md). External practice coverage has not been inspected for this session. Use topics rather than matching week numbers.
+This read-only map is inside the Week 8 packet. No Bridge the Dream repository, practice site, or lesson file was opened or changed for T-22. The only verified coverage note comes from the appendix in [CODEX_WEEK5.md](https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/resources/agents/CODEX_WEEK5.md), read from commit `9b66bec` on November 2, 2026: Bridge the Dream lesson 2 covers modules (section 2.3). Nothing in that appendix covers error handling, logging, pip, or virtual environments, so every row stays `TBD (Hunter)` until someone reads the lesson text.
 
-| Week 8 topic | Local material | Bridge the Dream coverage |
+| Week 8 topic | Closest verified Bridge the Dream lesson | Fit |
 | --- | --- | --- |
-| Common errors and tracebacks | Walkthrough and describe_error | TBD (Hunter) |
-| Specific try/except and else | station_note, portion_size, logged_lookup | TBD (Hunter) |
-| finally and cleanup | run_with_cleanup, code-along | TBD (Hunter) |
-| raise and chaining | require_label, parse_service_date | TBD (Hunter) |
-| Defensive programming | repair_pick, read_optional, collect_dates, balanced_brackets | TBD (Hunter) |
-| logging | logged_lookup and code-along | TBD (Hunter) |
-| pip and virtual environments | Walkthrough and deck; existing root setup guide | TBD (Hunter) |
+| Syntax errors versus runtime errors | TBD (Hunter) | TBD (Hunter) |
+| `try`, `except`, `else`, `finally` | TBD (Hunter) | TBD (Hunter) |
+| Catching specific exceptions and `as e` | TBD (Hunter) | TBD (Hunter) |
+| `raise` | TBD (Hunter) | TBD (Hunter) |
+| Defensive programming and guard clauses | TBD (Hunter) | TBD (Hunter) |
+| `assert` | TBD (Hunter) | TBD (Hunter) |
+| The `logging` module | TBD (Hunter) | TBD (Hunter) |
+| pip and PyPI | TBD (Hunter): section 2.3 covers modules, but pip was not verified | TBD (Hunter) |
+| Virtual environments and `requirements.txt` | TBD (Hunter) | TBD (Hunter) |
 
-I Do: trace one failure. We Do: repair its cause. You Do: supply an edge case and explain its result.
+An earlier note in `OFFICIAL_COURSE_MAP.md` said the repository's only Week 8 material was a Spyder tour cell on `try/except` and the debugger. This packet is a full lesson and does not replace the tour.
+
+Hunter can replace a `TBD (Hunter)` cell only after checking the private course material. This map makes no claim about coverage that has not been verified.

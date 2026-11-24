@@ -111,12 +111,23 @@ def main() -> int:
                 print(f"PASS {packet}/code-along.py (files, csv, os, datetime, and Counter)")
         if packet == "lp08a-errors-and-debugging":
             demo = run(folder / "code-along.py")
-            expected = ("Error: KeyError", "Recovery: No note", "Success: ready", "Cleanup: done", "Dates: 2 accepted, rejected rows [2]", "Brackets: True False")
+            expected = (
+                "Syntax error caught before running: SyntaxError",
+                "Every label matched its error: True",
+                "Bad text: (None, ['try', 'except', 'finally'])",
+                "Sloppy qty for '12': 0 (should be 12)",
+                "Careful qty still complains about None: TypeError",
+                "Same answers: True", "Row 2: {'name': 'Butter', 'qty': '3', 'unit': None}",
+                "WARNING: line 11 skipped: not a finite number", "Average: 39.3",
+                "Missing log gives: None", "Assertion tripped: guests must be positive",
+                "Inside a virtual environment:",
+                "A venv is just a folder with a config file: True",
+            )
             if demo.returncode or any(piece not in demo.stdout for piece in expected):
                 failures.append(f"{packet} code-along output changed:\n{demo.stdout}{demo.stderr}")
             else:
-                print(f"PASS {packet}/code-along.py (specific recovery, cleanup, dates, guards)")
-        names = ('describe_error', 'station_note', 'portion_size', 'repair_pick', 'require_label', 'read_optional', 'parse_service_date', 'run_with_cleanup', 'logged_lookup', 'collect_dates', 'balanced_brackets') if packet == "lp08a-errors-and-debugging" else (
+                print(f"PASS {packet}/code-along.py (errors, try/except, guards, logging, and venv)")
+        names = (
                 "classify_score", "count_passing", "parse_score", "average",
                 "lowest_and_highest", "countdown", "numbered_lines", "clean_name",
                 "grade_letter", "total_points",
@@ -136,6 +147,10 @@ def main() -> int:
             "repair_save_lines", "load_prep", "totals_by_station", "write_prep_report",
             "parse_ticket_line", "first_existing", "shift_dates",
         ) if packet == "lp07a-text-data-and-modules" else (
+            "parse_temp", "average_temp", "ticket_field", "repair_parse_qty",
+            "repair_total_weight", "delivery_problems", "read_cooler_log", "log_reading",
+            "parse_ticket_strict", "collect_tickets", "call_with_retries",
+        ) if packet == "lp08a-errors-and-debugging" else (
             "badge_line", "headline", "format_duration", "repair_price_line",
             "repair_shadowed_prefix", "card_from_parts", "scope_snapshot",
             "make_signoff", "render_agenda", "make_visit_tracker", "batch_badges",

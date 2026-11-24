@@ -128,7 +128,7 @@ flowchart TB
 | 06A | [Functions & Scope](lp06a-functions-and-scope/README.md) | Defining functions, defaults, returns, scope, docstrings, and refactoring; kindred packet for Python Intro 26.4 Week 6 |
 | 07 | Intro to Data Visualization | Charts that tell the truth |
 | 07A | [Text Data & Modules](lp07a-text-data-and-modules/README.md) | Reading and writing files, CSV rows, paths, dates, and when to import a module; kindred packet for Python Intro 26.4 Week 7 |
-| 08A | [Errors & Debugging](lp08a-errors-and-debugging/README.md) | Specific exceptions, cleanup, raise, logging, defensive checks; Python Intro 26.4 Week 8 |
+| 08A | [Errors & Debugging](lp08a-errors-and-debugging/README.md) | Reading errors, try and except, defensive checks, logging, and virtual environments; kindred packet for Python Intro 26.4 Week 8 |
 | 08 | Intro to Web Scraping | Requests, parsing HTML |
 | 09 | Databases & SQL | Querying data with SQLite |
 | 10 | Advanced SQL & Database Integration | Python and SQL working together |
@@ -218,7 +218,7 @@ Still stuck? Bring it to Monday night, or see [Getting Unstuck](#getting-unstuck
 
 ## Weeks 1 to 8
 
-The [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) is the central map for the weekly sessions and the full LP roadmap. Weeks 3 and 4 have catch-up routes, Weeks 5 through 7 have session packets, and Week 8 has preparation for the November 23 mentor session:
+The [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) is the central map for the weekly sessions and the full LP roadmap. Weeks 3 and 4 have catch-up routes, and Weeks 5 through 8 have session packets. Week 8 covers Errors and Debugging for the November 23 mentor session:
 
 | Lesson | Primary material | Gemini Notebook source | Practice |
 | --- | --- | --- | --- |
@@ -230,7 +230,7 @@ The [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) is
 | Week 05 / LP 03A: iteration and algorithms | [New slides](week05/week05-iteration-slides.html) · [walkthrough](lp03a-iteration-and-algorithms/week05-walkthrough.md) · [kindred packet](lp03a-iteration-and-algorithms/README.md) | [LP 03A source](lp03a-iteration-and-algorithms/notebook-source.md) | [Starter](lp03a-iteration-and-algorithms/practice.py) · [check](lp03a-iteration-and-algorithms/check.py) |
 | Week 06 / LP 06A: functions and scope | [Slides](week06/week06-slides.html) · [walkthrough](lp06a-functions-and-scope/week06-walkthrough.md) · [kindred packet](lp06a-functions-and-scope/README.md) | [LP 06A source](lp06a-functions-and-scope/notebook-source.md) | [Starter](lp06a-functions-and-scope/practice.py) · [check](lp06a-functions-and-scope/check.py) |
 | Week 07 / LP 07A: text data and modules | [Slides](week07/week07-slides.html) · [walkthrough](lp07a-text-data-and-modules/week07-walkthrough.md) · [kindred packet](lp07a-text-data-and-modules/README.md) · [LeetCode warm-up](lp07a-text-data-and-modules/leetcode-most-common-word.md) | [LP 07A source](lp07a-text-data-and-modules/notebook-source.md) | [Starter](lp07a-text-data-and-modules/practice.py) · [check](lp07a-text-data-and-modules/check.py) |
-| Week 08 / LP 08A: errors and debugging (session prep) | [Slides](week08/week08-slides.html) · [mentor plan](lp08a-errors-and-debugging/run-of-show.md) · [walkthrough](lp08a-errors-and-debugging/week08-walkthrough.md) | [LP 08A source](lp08a-errors-and-debugging/notebook-source.md) | [Starter](lp08a-errors-and-debugging/practice.py) · [check](lp08a-errors-and-debugging/check.py) · [LeetCode 20](lp08a-errors-and-debugging/leetcode-valid-parentheses.md) |
+| Week 08 / LP 08A: errors and debugging | [Slides](week08/week08-slides.html) · [walkthrough](lp08a-errors-and-debugging/week08-walkthrough.md) · [kindred packet](lp08a-errors-and-debugging/README.md) · [LeetCode warm-up](lp08a-errors-and-debugging/leetcode-valid-parentheses.md) | [LP 08A source](lp08a-errors-and-debugging/notebook-source.md) | [Starter](lp08a-errors-and-debugging/practice.py) · [check](lp08a-errors-and-debugging/check.py) |
 
 LP 03A is the Python Intro 26.4 Week 5 lesson. The existing LP 03 packet remains available as an extension.
 
