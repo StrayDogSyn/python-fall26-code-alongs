@@ -25,6 +25,7 @@ Decisions already made by Hunter (November 2, 2026): adopt the official Python I
 | T-21 | claude | in review | **Due before class Nov 16, 8:00 PM ET.** Week 7 Text Data and Modules kindred packet `lp07a-text-data-and-modules` (files, `with`, `csv`, `os`, `datetime`, import versus write your own), deck, hub preview, and LeetCode 819 warm-up | none (own folder) | Same quality bar as `CODEX_WEEK5.md` section 4; no solution to the graded Week 7 warmups or the expense report; `GRADED_OVERLAP.md` updated |
 | T-11 | claude | ready | Review every Codex pull request marked `in review`; rerun the gate; log the verdict | any Codex PR | Log entry per pull request |
 | T-12 | claude | ready | Re-audit the site and repository after each merge; update the numbers in `resources/agents/AUDIT.md` if present | any merge | Short dated entry in `LOG.md` |
+| T-27 | codex | in progress | Week 8 Errors and Debugging packet, slides, mentor plan, LeetCode 20 class solve, and Windows validation | Week 7 pattern | Eleven checked exercises, hints, study sources, deck and hub route; exact graded assignment overlap unverified |
 | H-01 | hunter | hunter | Upload `lp01`, `lp02`, `lp03` `notebook-source.md` files to the cohort Gemini Notebook and run the prompts in `resources/weeks-3-5-handoff.md` | none | Verified artifacts only, then link in `plan.js` through a new task |
 | H-02 | hunter | hunter | Merge reviewed pull requests; decide Open Questions | none | n/a |
 | H-03 | hunter | hunter | Map recordings to lessons; supply the YouTube links | none | n/a |

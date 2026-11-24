@@ -20,6 +20,7 @@ PACKETS = (
     "lp03a-iteration-and-algorithms",
     "lp06a-functions-and-scope",
     "lp07a-text-data-and-modules",
+    "lp08a-errors-and-debugging",
 )
 
 
@@ -108,7 +109,14 @@ def main() -> int:
                 failures.append(f"{packet} code-along output changed:\n{demo.stdout}{demo.stderr}")
             else:
                 print(f"PASS {packet}/code-along.py (files, csv, os, datetime, and Counter)")
-        names = (
+        if packet == "lp08a-errors-and-debugging":
+            demo = run(folder / "code-along.py")
+            expected = ("Error: KeyError", "Recovery: No note", "Success: ready", "Cleanup: done", "Dates: 2 accepted, rejected rows [2]", "Brackets: True False")
+            if demo.returncode or any(piece not in demo.stdout for piece in expected):
+                failures.append(f"{packet} code-along output changed:\n{demo.stdout}{demo.stderr}")
+            else:
+                print(f"PASS {packet}/code-along.py (specific recovery, cleanup, dates, guards)")
+        names = ('describe_error', 'station_note', 'portion_size', 'repair_pick', 'require_label', 'read_optional', 'parse_service_date', 'run_with_cleanup', 'logged_lookup', 'collect_dates', 'balanced_brackets') if packet == "lp08a-errors-and-debugging" else (
                 "classify_score", "count_passing", "parse_score", "average",
                 "lowest_and_highest", "countdown", "numbered_lines", "clean_name",
                 "grade_letter", "total_points",

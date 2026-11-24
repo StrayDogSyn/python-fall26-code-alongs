@@ -80,7 +80,27 @@ Safe Week 7 ideas that teach the same skills with different problems (the shippe
 
 Checked on November 16, 2026: none of the packet's function names, signatures, data files, or scenarios match the graded list above. The packet's date exercise uses ISO dates and `timedelta`, not a month-name sentence from `now()`. The packet's CSV files are `prep.csv` and `tickets.csv`, not the graded file names.
 
-## Weeks 8 to 9, titles only (read before building)
+## Week 8 supplemental packet | November 23, 2026
+
+The full assignment text is unavailable in this checkout. The known Week 8 warmup is numeric-input validation. No input() loop or interactive numeric validator is included. Comparison below is against known titles only; exact assignment overlap remains unverified and needs mentor review before reference answers are distributed.
+
+| Function | Scenario and distinction |
+| --- | --- |
+| `describe_error(error)` | Warm-up; kitchen data, lifecycle, or bracket validation; no interactive numeric-input warmup. |
+| `station_note(notes, station)` | Warm-up; kitchen data, lifecycle, or bracket validation; no interactive numeric-input warmup. |
+| `portion_size(total, trays)` | Warm-up; kitchen data, lifecycle, or bracket validation; no interactive numeric-input warmup. |
+| `repair_pick(labels, index)` | Fix it; kitchen data, lifecycle, or bracket validation; no interactive numeric-input warmup. |
+| `require_label(text)` | Fix it; kitchen data, lifecycle, or bracket validation; no interactive numeric-input warmup. |
+| `read_optional(path)` | Build; kitchen data, lifecycle, or bracket validation; no interactive numeric-input warmup. |
+| `parse_service_date(text)` | Build; kitchen data, lifecycle, or bracket validation; no interactive numeric-input warmup. |
+| `run_with_cleanup(operation, cleanup)` | Build; kitchen data, lifecycle, or bracket validation; no interactive numeric-input warmup. |
+| `logged_lookup(notes, station, logger)` | Build; kitchen data, lifecycle, or bracket validation; no interactive numeric-input warmup. |
+| `collect_dates(texts)` | Build; kitchen data, lifecycle, or bracket validation; no interactive numeric-input warmup. |
+| `balanced_brackets(text)` | Extend; kitchen data, lifecycle, or bracket validation; no interactive numeric-input warmup. |
+
+The public packet is supplemental practice, not a claim that the complete Week 8 assignment has been read. The numeric division demonstration uses supplied arguments to distinguish ZeroDivisionError from TypeError, not an input retry loop.
+
+## Weeks 8 to 9, known titles only
 
 - Week 8 warmup: validating numeric input (the other warmups were not fully read).
 - Week 9 warmups: a first API request, picking specific JSON fields, looping a JSON list, handling request errors. Mini-project: a country explorer command line tool.

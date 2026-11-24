@@ -786,6 +786,145 @@ for exercise, mutants in lp07a_mutants.items():
         if status == 'CAUGHT': caught += 1
         else: escaped.append(('lp07a-text-data-and-modules', exercise, label, result.stdout, result.stderr))
         print(f'lp07a-text-data-and-modules {exercise}: {label:30} {status}')
+
+lp08a_mutants = {'describe_error': [('mistake 1', 'def describe_error(error):\n    return str(error)'),
+                    ('mistake 2', 'def describe_error(error):\n    return "ValueError"')],
+ 'station_note': [('mistake 1',
+                   'def station_note(notes, station):\n    return notes.get(station) or "No note"'),
+                  ('mistake 2',
+                   'def station_note(notes, station):\n'
+                   '    try:\n'
+                   '        return notes[station]\n'
+                   '    except Exception:\n'
+                   '        return "No note"')],
+ 'portion_size': [('mistake 1',
+                   'def portion_size(total, trays):\n'
+                   '    try:\n'
+                   '        return total // trays\n'
+                   '    except ZeroDivisionError:\n'
+                   '        return None'),
+                  ('mistake 2',
+                   'def portion_size(total, trays):\n'
+                   '    try:\n'
+                   '        return total / trays\n'
+                   '    except Exception:\n'
+                   '        return None')],
+ 'repair_pick': [('mistake 1',
+                  'def repair_pick(labels, index):\n'
+                  '    if 0 <= index <= len(labels):\n'
+                  '        return labels[index]\n'
+                  '    return None'),
+                 ('mistake 2',
+                  'def repair_pick(labels, index):\n'
+                  '    if index < len(labels):\n'
+                  '        return labels[index]\n'
+                  '    return None')],
+ 'require_label': [('mistake 1',
+                    'def require_label(text):\n'
+                    '    if not text:\n'
+                    '        raise ValueError("label required")\n'
+                    '    return text.strip()'),
+                   ('mistake 2',
+                    'def require_label(text):\n'
+                    '    label = text.strip()\n'
+                    '    if not label:\n'
+                    '        return "unknown"\n'
+                    '    return label')],
+ 'read_optional': [('mistake 1',
+                    'def read_optional(path):\n'
+                    '    try:\n'
+                    '        with open(path, encoding="utf-8") as handle:\n'
+                    '            return handle.read().strip()\n'
+                    '    except FileNotFoundError:\n'
+                    '        return ""'),
+                   ('mistake 2',
+                    'def read_optional(path):\n'
+                    '    try:\n'
+                    '        with open(path, encoding="utf-8") as handle:\n'
+                    '            return handle.read()\n'
+                    '    except Exception:\n'
+                    '        return ""')],
+ 'parse_service_date': [('mistake 1',
+                         'def parse_service_date(text):\n'
+                         '    return datetime.strptime(text, "%Y-%m-%d").date()'),
+                        ('mistake 2',
+                         'def parse_service_date(text):\n'
+                         '    try:\n'
+                         '        return datetime.strptime(text, "%Y-%m-%d").date()\n'
+                         '    except ValueError:\n'
+                         '        raise ValueError("invalid service date")')],
+ 'run_with_cleanup': [('mistake 1',
+                       'def run_with_cleanup(operation, cleanup):\n'
+                       '    result = operation()\n'
+                       '    cleanup()\n'
+                       '    return result'),
+                      ('mistake 2',
+                       'def run_with_cleanup(operation, cleanup):\n'
+                       '    try:\n'
+                       '        return operation()\n'
+                       '    finally:\n'
+                       '        cleanup()\n'
+                       '        return None')],
+ 'logged_lookup': [('mistake 1',
+                    'def logged_lookup(notes, station, logger):\n    return notes.get(station)'),
+                   ('mistake 2',
+                    'def logged_lookup(notes, station, logger):\n'
+                    '    try:\n'
+                    '        return notes[station]\n'
+                    '    except Exception:\n'
+                    '        logger.warning("Missing station: %s", station)\n'
+                    '        return None')],
+ 'collect_dates': [('mistake 1',
+                    'def collect_dates(texts):\n'
+                    '    valid, rejected = [], []\n'
+                    '    for position, text in enumerate(texts):\n'
+                    '        try:\n'
+                    '            valid.append(datetime.strptime(text, "%Y-%m-%d").date())\n'
+                    '        except ValueError:\n'
+                    '            rejected.append(position)\n'
+                    '    return valid, rejected'),
+                   ('mistake 2',
+                    'def collect_dates(texts):\n'
+                    '    valid, rejected = [], []\n'
+                    '    for position, text in enumerate(texts, start=1):\n'
+                    '        try:\n'
+                    '            valid.append(datetime.strptime(text, "%Y-%m-%d").date())\n'
+                    '        except Exception:\n'
+                    '            rejected.append(position)\n'
+                    '    return valid, rejected')],
+ 'balanced_brackets': [('mistake 1',
+                        'def balanced_brackets(text):\n'
+                        '    pairs = {"(": ")", "[": "]", "{": "}"}\n'
+                        '    stack = []\n'
+                        '    for char in text:\n'
+                        '        if char in pairs:\n'
+                        '            stack.append(pairs[char])\n'
+                        '        elif stack.pop() != char:\n'
+                        '            return False\n'
+                        '    return not stack'),
+                       ('mistake 2',
+                        'def balanced_brackets(text):\n'
+                        '    pairs = {"(": ")", "[": "]", "{": "}"}\n'
+                        '    stack = []\n'
+                        '    for char in text:\n'
+                        '        if char in pairs:\n'
+                        '            stack.append(pairs[char])\n'
+                        '        elif not stack or stack.pop() != char:\n'
+                        '            return False\n'
+                        '    return True')]}
+lp08a_source = pathlib.Path('lp08a-errors-and-debugging/solutions.py').read_text(encoding='utf-8')
+for exercise, mutants in lp08a_mutants.items():
+    for label, replacement in mutants:
+        with tempfile.TemporaryDirectory() as folder:
+            path = pathlib.Path(folder) / 'wrong.py'
+            path.write_text(replace_function(lp08a_source, exercise, replacement), encoding='utf-8')
+            result = subprocess.run([sys.executable, 'lp08a-errors-and-debugging/check.py', '--module', str(path)], capture_output=True, text=True)
+        total += 1
+        status = 'CAUGHT' if result.returncode == 1 and f'FAIL {exercise}:' in result.stdout else 'ESCAPED'
+        if status == 'CAUGHT': caught += 1
+        else: escaped.append(('lp08a-errors-and-debugging', exercise, label, result.stdout, result.stderr))
+        print(f'lp08a-errors-and-debugging {exercise}: {label:30} {status}')
+
 print(f'\nmutants caught by lesson checks: {caught}/{total}')
 for e in escaped: print('  NOT RELIABLY CAUGHT:',e)
 raise SystemExit(1 if escaped else 0)
