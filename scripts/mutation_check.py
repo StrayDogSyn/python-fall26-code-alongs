@@ -1019,6 +1019,35 @@ lp08a_mutants = {
                 raise RuntimeError("gave up")"""),
  ],
 }
+lp08a_mutants['collect_tickets'].append(('drops parsed fields', """def collect_tickets(lines):
+    good, errors = [], []
+    for number, line in enumerate(lines, start=1):
+        if not line.strip():
+            continue
+        try:
+            ticket = parse_ticket_strict(line)
+            good.append({"ticket": ticket["ticket"]})
+        except ValueError as error:
+            errors.append(f"line {number}: {error}")
+    return good, errors"""))
+lp08a_mutants['log_reading'].append(('returns ints instead of bools', """def log_reading(logger, reading, limit=41.0):
+    if reading is None:
+        logger.error("cooler reading missing")
+        return 0
+    if reading > limit:
+        logger.warning("cooler warm: %.1f F (limit %.1f)", reading, limit)
+        return 0
+    logger.info("cooler ok: %.1f F", reading)
+    return 1"""))
+lp08a_mutants['call_with_retries'].append(('replaces exception with same message', """def call_with_retries(action, attempts):
+    if attempts < 1:
+        raise ValueError("attempts must be at least 1")
+    for attempt in range(1, attempts + 1):
+        try:
+            return action()
+        except ConnectionError as error:
+            if attempt == attempts:
+                raise ConnectionError(str(error))"""))
 lp08a_source = pathlib.Path('lp08a-errors-and-debugging/solutions.py').read_text(encoding='utf-8')
 for exercise, mutants in lp08a_mutants.items():
     for label, replacement in mutants:

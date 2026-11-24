@@ -1,6 +1,6 @@
 # Topic map for the two courses
 
-This read-only map is inside the Week 8 packet. No Bridge the Dream repository, practice site, or lesson file was opened or changed for T-22. The only verified coverage note comes from the appendix in [CODEX_WEEK5.md](../resources/agents/CODEX_WEEK5.md), read from commit `9b66bec` on November 2, 2026: Bridge the Dream lesson 2 covers modules (section 2.3). Nothing in that appendix covers error handling, logging, pip, or virtual environments, so every row stays `TBD (Hunter)` until someone reads the lesson text.
+This read-only map is inside the Week 8 packet. No Bridge the Dream repository, practice site, or lesson file was opened or changed for T-22. The only verified coverage note comes from the appendix in [CODEX_WEEK5.md](https://github.com/StrayDogSyn/python-fall26-code-alongs/blob/main/resources/agents/CODEX_WEEK5.md), read from commit `9b66bec` on November 2, 2026: Bridge the Dream lesson 2 covers modules (section 2.3). Nothing in that appendix covers error handling, logging, pip, or virtual environments, so every row stays `TBD (Hunter)` until someone reads the lesson text.
 
 | Week 8 topic | Closest verified Bridge the Dream lesson | Fit |
 | --- | --- | --- |

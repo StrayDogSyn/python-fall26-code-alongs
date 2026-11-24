@@ -12,7 +12,7 @@ A syntax error stops Python before anything runs. A runtime error happens on one
 
 ## 2. try, except, else, finally
 
-`try` holds the line that can fail, `except` handles a named failure, `else` runs only when nothing failed, and `finally` runs every time. **Predict:** For the text `n/a`, which of the four run, in what order?
+`try` holds the line that can fail, `except` handles a named failure, `else` runs only when nothing failed, and `finally` runs as control leaves the try, including on return or an unhandled exception; do not return from finally because that can hide an error. **Predict:** For the text `n/a`, which of the four run, in what order?
 
 ## 3. Specific versus broad
 
@@ -24,7 +24,7 @@ A syntax error stops Python before anything runs. A runtime error happens on one
 
 ## 5. Defensive programming
 
-Validate input before use. A guard clause is an early return for a bad case, which keeps the good path from nesting. A negative index does not raise on a non-empty list, and `float("nan")` converts without error, so some bad input needs an explicit check. **Predict:** Does `["Corn", "Ramen"][-1]` raise?
+Validate input before use. A guard clause is an early return for a bad case, which keeps the good path from nesting. An in-range negative index counts from the end without raising, and `float("nan")` converts without error, so some bad input needs an explicit check. **Predict:** Does `["Corn", "Ramen"][-1]` raise?
 
 ## 6. Ragged CSV rows
 

@@ -91,6 +91,7 @@ class LessonChecks(unittest.TestCase):
         self.expect("parse_temp", ("",), None, "Empty text is not a number.")
         self.expect("parse_temp", ("nan",), None, "float('nan') does not raise. Check for it after converting.")
         self.expect("parse_temp", ("inf",), None, "float('inf') does not raise either. math.isfinite helps.")
+        self.expect_raises("parse_temp", (None,), TypeError, "Only malformed text is recoverable here.")
         self.expect("parse_temp", ("-4",), -4.0, "A freezer reading below zero is still a number.")
 
     def test_02_average_temp(self):
@@ -175,17 +176,17 @@ class LessonChecks(unittest.TestCase):
             return result, [(r.levelname, r.getMessage()) for r in handler.records]
 
         result, records = run(38.0)
-        self.assertEqual(result, True, f"input 38.0; expected True, got {result!r}. Hint: A fine reading returns True.")
+        self.assertIs(result, True, f"input 38.0; expected True, got {result!r}. Hint: A fine reading returns True.")
         self.assertEqual([level for level, _ in records], ["INFO"], f"input 38.0; expected one INFO record, got {records!r}. Hint: logger.info for a normal reading.")
         self.assertIn("38.0", records[0][1], f"input 38.0; expected the reading in the message, got {records[0][1]!r}. Hint: Put the number in the text.")
         result, records = run(45.0)
-        self.assertEqual(result, False, f"input 45.0; expected False, got {result!r}. Hint: A warm reading returns False.")
+        self.assertIs(result, False, f"input 45.0; expected False, got {result!r}. Hint: A warm reading returns False.")
         self.assertEqual([level for level, _ in records], ["WARNING"], f"input 45.0; expected one WARNING record, got {records!r}. Hint: logger.warning when above the limit.")
         self.assertIn("45.0", records[0][1], f"input 45.0; expected the reading in the message, got {records[0][1]!r}. Hint: Put the number in the text.")
         result, records = run(41.0)
         self.assertEqual((result, [level for level, _ in records]), (True, ["INFO"]), f"input 41.0; expected True with an INFO record, got {(result, records)!r}. Hint: The limit itself is still fine.")
         result, records = run(None)
-        self.assertEqual(result, False, f"input None; expected False, got {result!r}. Hint: A missing reading is not fine.")
+        self.assertIs(result, False, f"input None; expected False, got {result!r}. Hint: A missing reading is not fine.")
         self.assertEqual([level for level, _ in records], ["ERROR"], f"input None; expected one ERROR record, got {records!r}. Hint: logger.error for a missing reading.")
         result, records = run(40.0, 39.0)
         self.assertEqual((result, [level for level, _ in records]), (False, ["WARNING"]), f"input 40.0 with limit 39.0; expected False with a WARNING, got {(result, records)!r}. Hint: Use the limit you were given.")
@@ -219,6 +220,11 @@ class LessonChecks(unittest.TestCase):
             [ticket["ticket"] for ticket in good], [101, 104],
             f"input five lines; expected tickets [101, 104], got {good!r}. Hint: Keep only lines that parse.",
         )
+        self.assertEqual(good, [
+            {"ticket": 101, "table": 4, "dish": "Ramen", "qty": 2, "price": 14.5},
+            {"ticket": 104, "table": 2, "dish": "Corn", "qty": 3, "price": 3.5},
+        ], "Keep every parsed ticket field, not only the ticket number.")
+        self.assertEqual(lines, ["101|4|Ramen|2|14.50", "102|7|Fries|x|4.25", "", "104|2|Corn|3|3.50", "oops"], "Do not change the supplied lines.")
         self.assertEqual(len(errors), 2, f"input five lines; expected 2 errors, got {errors!r}. Hint: Blank lines are skipped, not errors.")
         self.assertTrue(errors[0].startswith("line 2: ") and "qty" in errors[0], f"input five lines; expected the first error to start 'line 2: ' and name qty, got {errors[0]!r}. Hint: Number lines from 1 and add the ValueError text.")
         self.assertTrue(errors[1].startswith("line 5: "), f"input five lines; expected the second error to start 'line 5: ', got {errors[1]!r}. Hint: Count the blank line too.")
@@ -260,6 +266,14 @@ class LessonChecks(unittest.TestCase):
         error = self.expect_raises("call_with_retries", (action, 2), ConnectionError, "After the last try, let the error out.")
         self.assertEqual(state["calls"], 2, f"input an action that always fails with attempts=2; expected 2 calls, got {state['calls']}. Hint: attempts is the total number of tries.")
         self.assertEqual(str(error), "attempt 2", f"input an action that always fails; expected the last error 'attempt 2', got {str(error)!r}. Hint: Re-raise the error you caught with a bare raise.")
+        last_error = ConnectionError("still offline")
+        def always_offline():
+            raise last_error
+        actual_error = self.expect_raises("call_with_retries", (always_offline, 2), ConnectionError, "Re-raise the same exception object.")
+        self.assertIs(actual_error, last_error, "Re-raise the original error, not a new one with the same text.")
+        successful, state = flaky(0, 0)
+        self.expect("call_with_retries", (successful, 3), 0, "A falsey value is still a successful result.")
+        self.assertEqual(state["calls"], 1)
         calls = []
 
         def broken():

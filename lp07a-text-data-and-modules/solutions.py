@@ -29,7 +29,7 @@ def longest_line(path):
 
 def append_note(path, text):
     """[Warm-up] Add text as a new last line, creating the file if needed."""
-    with open(path, "a", encoding="utf-8") as handle:
+    with open(path, "a", encoding="utf-8", newline="\n") as handle:
         handle.write(text + "\n")
 
 
@@ -44,7 +44,7 @@ def repair_total_qty(path):
 
 def repair_save_lines(path, lines):
     """[Fix it] Write every line once, replacing old content; return count."""
-    with open(path, "w", encoding="utf-8") as handle:
+    with open(path, "w", encoding="utf-8", newline="\n") as handle:
         for line in lines:
             handle.write(line + "\n")
     return len(lines)

@@ -31,7 +31,7 @@ New to coding? You are in the right place. No experience is needed, and every qu
 - [Who Can Use This](#who-can-use-this)
 - [The Roadmap](#the-roadmap)
 - [Getting Started](#getting-started)
-- [Weeks 1 to 5](#weeks-1-to-5)
+- [Weeks 1 to 8](#weeks-1-to-8)
 - [How a Code-Along Works](#how-a-code-along-works)
 - [Repository Layout](#repository-layout)
 - [The Dad Joke Vault](#the-dad-joke-vault)
@@ -216,9 +216,9 @@ Still stuck? Bring it to Monday night, or see [Getting Unstuck](#getting-unstuck
 
 > 🧓 **Dad joke drop #3:** There are 10 kinds of people in this world: those who understand binary and those who do not. *(Come back after we cover how computers count. Yes, it is a joke about counting.)*
 
-## Weeks 1 to 6
+## Weeks 1 to 8
 
-The [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) is the central map for the weekly sessions and the full LP roadmap. Weeks 3 and 4 have catch-up routes, Week 5 has the live session packet, and Week 6 has a preview packet for the November 9 class:
+The [learning hub](https://ehunter-straydogsyn.me/python-fall26-code-alongs/) is the central map for the weekly sessions and the full LP roadmap. Weeks 3 and 4 have catch-up routes, and Weeks 5 through 8 have session packets. Week 8 covers Errors and Debugging for the November 23 mentor session:
 
 | Lesson | Primary material | Gemini Notebook source | Practice |
 | --- | --- | --- | --- |

@@ -4,17 +4,18 @@
 
 | Time | Phase | Plan | Failure to plan for |
 | --- | --- | --- | --- |
-| 0 to 10 min | Check-in | Ask what a program has done so far when something went wrong (a red traceback and a stopped program). Ask who is blocked. Mention registration (see below) in one sentence. Name the graded work only as "your assignment", without solving it. | Students paste their own assignment code into chat; steer them to this packet's kitchen files instead. |
-| 10 to 25 min | I Do | Sections 1 to 4 of the code-along. Show a syntax error caught before anything runs, then six runtime errors, then the `try`, `except`, `else`, `finally` trail. Predict which rooms each input visits. | Students think `finally` only runs after an error; the trail shows it runs every time. |
-| 25 to 40 min | We Do | Section 3, then repair `repair_parse_qty` together. Watch `sloppy_qty` return 0 for `'12'` because a typo was swallowed. Rule out loud: catch the failure you expect and nothing else. | A bare `except:` also swallows `KeyboardInterrupt`, so Ctrl+C stops working in that loop; demonstrate it on a throwaway loop. |
-| 40 to 55 min | We Do | Sections 5 and 6: `raise`, guard clauses, and the negative-index quiet wrong answer. Rewrite the nested `label_nested` as `label_guarded` and show both give the same list. Then repair `repair_total_weight` (the `try` belongs inside the loop). | Students conclude "always use try/except"; the rule is to check cheaply when you can, and catch when checking costs as much as doing. |
-| 55 to 70 min | I Do, then pair | Section 7 (what `DictReader` does with a ragged row), then logging at four levels, then the venv screen. Pairs compare `sys.prefix` inside and outside an environment if time allows. | `pip install` into the global Python works today and breaks another project next week; say why before showing the environment. |
-| 70 to 83 min | You Do | Pick a Warm-up or Fix it, run `python lp08a-errors-and-debugging/check.py`, then try a Build exercise. Students who are blocked on the graded work get the checklist below instead. | A TODO traceback is mistaken for a broken check; `NOT STARTED` names the next function to edit. |
-| 83 to 90 min | Exit check | Explain the difference between a syntax error and a runtime error, and why `except Exception` is risky. Close with the LeetCode warm-up as optional practice. | If a learner answers from memory, ask them to predict what a new bad input would do before revealing it. |
+| 0 to 9 min | Check-in, I Do | Ask who is blocked, then trace a syntax error, runtime error, and traceback. | Keep graded submissions out of the shared scratch file. |
+| 9 to 24 min | I Do, We Do | Trace try/except/else/finally. Repair the broad catch in repair_parse_qty; use None as the counterexample. | A catch-all can hide a typo or prevent Ctrl+C. |
+| 24 to 40 min | We Do | Raise a useful error, compare guard clauses with nesting, and move the weight parser's try inside the loop. | One bad entry must not discard later good entries. |
+| 40 to 55 min | I Do, pairs | Inspect ragged DictReader rows, logging levels, and the environment screen. Match vocabulary. | Distinguish None values from a None key; use explicit PowerShell activation. |
+| 55 to 65 min | You Do | Choose one Warm-up or Fix it and run the local check. Explain an edge case. | Eleven NOT STARTED lines are expected before editing. |
+| 65 to 77 min | Class LeetCode solve | Use the twelve-minute route in the companion: trace a stack, reproduce the empty-pop crash, guard it, then check leftovers. | Use "))" to reach the empty-stack bug even when an odd-length guard is present. |
+| 77 to 84 min | Exit quiz | Explain a specific handler and a cleanup guarantee, then answer the deck quiz. | Ask for a reason, not only a selected option. |
+| 84 to 90 min | Mentor support | Return to blockers with the checklist below; save one repair and its failing input. | Do not turn support into a public graded reference solution. |
 
-## Optional second half: LeetCode 20 (20 to 25 minutes)
+## LeetCode 20: included tonight
 
-Use [leetcode-valid-parentheses.md](leetcode-valid-parentheses.md). It fits after the exit check or as the first block of the next session. The first working draft crashes with `IndexError` on `")"`, which turns the lesson into a live debugging exercise, and the fix can be written as a guard clause or as a `try/except`.
+Use [leetcode-valid-parentheses.md](leetcode-valid-parentheses.md). Its twelve-minute route fits the clock above. The longer 25-minute route and the comparison with try/except are available for follow-up. If the class needs more assignment support, give the completed companion as take-home practice and use those twelve minutes for questions.
 
 ## Mentor heads-up for the graded Week 8 work
 
@@ -22,7 +23,7 @@ These are common stumbling blocks. None of them gives away an answer. They were 
 
 **Warmup 1, validating numeric input**
 - The sample prints `42.0`, which means the number was converted with `float()`, not `int()`.
-- `float()` accepts text that is not a sensible reading: `nan`, `inf`, `1e3`, and `" 5 "`. If a student's loop accepts `nan`, that is Python working as designed, not a bug in the loop.
+- `float()` accepts text that is not a sensible reading: `nan` and `inf`. Scientific notation (`1e3`) and surrounding spaces (`" 5 "`) are valid numeric text, not broken input. If a student's loop accepts `nan`, that is Python working as designed, not a bug in the loop.
 - A bare `except:` also catches Ctrl+C, so the program cannot be stopped. Catch `ValueError` only.
 
 **Warmup 2, safe division**
@@ -38,14 +39,14 @@ These are common stumbling blocks. None of them gives away an answer. They were 
 - Activation differs by shell. Windows PowerShell: `.venv\Scripts\Activate.ps1`. Windows `cmd`: `.venv\Scripts\activate.bat`. macOS and Linux: `source .venv/bin/activate`. The prompt shows `(.venv)` when it worked.
 - PowerShell may refuse to run the activation script with "running scripts is disabled on this system". The documented fix is to allow locally written scripts for the current user (`Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`).
 - The most common failure: `pip install requests` succeeded inside the environment, but the editor runs a different Python, so `import requests` raises `ModuleNotFoundError`. Select the `.venv` interpreter in the editor. Spyder also needs `spyder-kernels` installed in that environment before it can use it.
-- If `pip freeze` prints a very long list, the environment was not active and it listed the global pile.
+- A long `pip freeze` list can mean the wrong environment is active, but is not proof. Check `sys.prefix != sys.base_prefix` and the interpreter selected in the editor.
 - `pip freeze` lists packages that `requests` pulled in, not only `requests`. That is normal, and the assignment says the versions will differ.
 - Do not commit the `.venv` folder. Commit `requirements.txt` and add `.venv/` to `.gitignore`.
 - On some systems (recent Debian, Ubuntu, and Homebrew Python), installing into the system Python is blocked with an "externally managed environment" error. That error is a good reason to use an environment.
 
 **Mini-project, Defensive CSV Reader**
 - A row with too few columns does not raise. `DictReader` fills the missing value with `None`, so `float(None)` raises `TypeError`, which `except ValueError` does not catch. If any data row has fewer than three fields, the program crashes unless the student also handles `TypeError`. Open the data file and look.
-- A row with too many columns stores the extras as a list under the key `None`. The assignment's hint says to test `if None in row` before the `try`. That test only works if it runs before the code that reads `row["amount"]`.
+- A row with too many columns stores the extras as a list under the key `None`. The assignment's hint says to test `if None in row` before the `try`. That test must be used to reject the row before conversion; simply reading `row["amount"]` does not remove the extra fields.
 - `KeyError` normally never fires with `DictReader`; it would only appear if a header were misspelled. The assignment asks for the clause anyway, so a student who sees it never run has not made a mistake.
 - The sample line `could not convert '' to float` is not what Python's own message says (`could not convert string to float: ''`). Students build their own text from the bad value, for example with `!r`. Check the rubric before telling anyone their wording is wrong.
 - Row numbers count records, not file lines. `DictReader` skips blank lines, so a blank line in the file does not get a row number. `enumerate(reader, start=1)` is the numbering the assignment asks for.

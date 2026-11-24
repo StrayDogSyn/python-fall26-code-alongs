@@ -43,15 +43,23 @@ class Solution:
         ...
 ```
 
-## Walkthrough for class (about 25 minutes)
+## Tonight's twelve-minute route
+
+1. **I Do (3 min):** hand-trace `"([])"` and `"([)]"`; explain a stack as last in, first out.
+2. **We Do (5 min):** fill the starter loop with an unguarded pop, then run `"))"`. The even length also reaches the pop if an odd-length guard is present. Read the IndexError and add an empty-stack guard.
+3. **You Do (4 min):** let learners supply the final stack check, then test `"(("`, `"()[]{}"`, `"(]"`, and crossed nesting. Use `"(("` so an odd-length guard cannot hide a missing final check.
+
+Compare the try/except alternative after class if time is tight. The starter is for live editing, not a complete solution.
+
+## Extended walkthrough (about 25 minutes)
 
 Think of a stack of plates at the dish station. The last plate set down is the first one picked up. Brackets nest the same way: the last one opened is the first one that has to close. In a game, it is the undo button: the most recent move is the first to come back.
 
 1. **Predict (3 min).** Run `[].pop()` and ask for the error name before pressing Enter. Answer: `IndexError: pop from empty list`. Then ask: what string would make our program call `pop()` on an empty stack? Answer: any string that starts with a closer, such as `")"`.
 2. **I Do (7 min).** Build the loop live with a `print(char, stack)` inside. Trace `"([)]"`: the stack grows to `['(', '[']`, then `)` arrives and the top is `[`, so it fails. Students see why order matters.
 3. **We Do (7 min).** Run the first working draft on `")"` and watch it crash. Fix it two ways on the board, side by side. Guard clause: `if not stack` before popping. Try/except: catch `IndexError` around the pop. Ask which one a stranger would understand faster, and why catching only `IndexError` matters.
-4. **You Do (5 min).** Students finish step 4 on their own. Hint: run `"((("` and see what your loop says. The loop ends without an error, yet the answer must be `False`. Leftover openers are an unmatched-brackets bug that no exception will ever announce.
-5. **The Week 8 reveal (3 min).** Name the three kinds of failure in this one problem: a crash (`IndexError`), a wrong answer that raises nothing (`"((("` slipping through), and an input you can reject up front (an odd length can never pair up). Ask which of the three is the dangerous one. The silent one.
+4. **You Do (5 min).** Students finish step 4 on their own. Hint: run `"(("` and see what your loop says. The loop ends without an error, yet the answer must be `False`. Leftover openers are an unmatched-brackets bug that no exception will ever announce.
+5. **The Week 8 reveal (3 min).** Name the three kinds of failure in this one problem: a crash (`IndexError`), a wrong answer that raises nothing (`"(("` slipping through), and an input you can reject up front (an odd length can never pair up). Ask which of the three is the dangerous one. The silent one.
 
 ## Reference solutions (open after your own attempt)
 
@@ -118,7 +126,7 @@ Warm-up: [9 Palindrome Number](https://leetcode.com/problems/palindrome-number/)
 ## Edge cases that break first attempts
 
 - A closer arrives while the stack is empty (`")"`), so `pop()` raises `IndexError`.
-- Openers are left on the stack at the end (`"((("`), and the loop finishes without complaint.
+- Openers are left on the stack at the end (`"(("`), and the loop finishes without complaint.
 - The closer is the right shape for a different opener (`"(]"`), so only comparing counts misses it.
 - Brackets close in the wrong order (`"([)]"`), so counting each type separately misses it.
 - A string of length 1, which can never be valid.

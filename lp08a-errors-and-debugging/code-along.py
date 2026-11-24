@@ -150,11 +150,16 @@ print("Guarded labels:", [label_guarded(r) for r in readings])
 print("Same answers:", [label_nested(r) for r in readings] == [label_guarded(r) for r in readings])
 
 items = ["Corn", "Ramen", "Fries"]
-print("items[-1] is", items[-1], "(a negative index never raises, so guard it yourself)")
+print("items[-1] is", items[-1], "(-1 counts from the end; guard negatives when your contract forbids them)")
 
 menu = {"Ramen": 14.5}
 print("Look before you leap:", menu["Ramen"] if "Ramen" in menu else None)
-print("Ask forgiveness:", menu.get("Pizza", "not on the menu"))
+try:
+    dish_price = menu["Pizza"]
+except KeyError:
+    dish_price = "not on the menu"
+print("Ask forgiveness:", dish_price)
+print("Safe lookup with a default:", menu.get("Pizza", "not on the menu"))
 
 
 # === 7. What csv.DictReader does with a ragged row ===
@@ -182,7 +187,7 @@ logger.error("sensor 3 did not answer")
 
 
 def average_log_temp(path):
-    """Read the cooler log and average it. A missing or unreadable log gives None."""
+    """Read the cooler log and average it. A missing log gives None; other file errors propagate."""
     try:
         with open(path, encoding="utf-8") as handle:
             lines = handle.readlines()
@@ -230,7 +235,7 @@ print("python -O removes assert lines, so never rely on one to check user input.
 # A virtual environment is a private folder with its own Python and its own pile.
 #
 #   python -m venv .venv                  create it (once per project)
-#   .venv\Scripts\activate                activate on Windows
+#   .venv\Scripts\Activate.ps1           activate in Windows PowerShell
 #   source .venv/bin/activate             activate on macOS or Linux
 #   pip install requests                  install into the active environment
 #   pip freeze > requirements.txt         write down exactly what is installed

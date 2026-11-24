@@ -9,6 +9,7 @@ def parse_temp(text):
     Example: '38.5' gives 38.5 and 'n/a' gives None.
     Edge: float('nan') and float('inf') do not raise an error, but a thermometer
     cannot read them, so both give None too. Spaces around a number are fine.
+    Input should be text; None must still raise TypeError.
     """
     raise NotImplementedError("TODO")
 
@@ -25,8 +26,8 @@ def ticket_field(fields, index, default=""):
     """[Warm-up] Return fields[index], or default when there is no such field.
 
     Example: (['104', '2', 'Corn'], 1) gives '2'; index 3 gives the default.
-    Edge: a negative index also gives the default. Python would quietly count
-    from the end, and a quiet wrong answer is worse than an error.
+    Edge: a negative index also gives the default. Python accepts in-range
+    negative indices, which would violate this function's contract.
     """
     raise NotImplementedError("TODO")
 
@@ -126,7 +127,7 @@ def collect_tickets(lines):
     lines without an error. Each error string is 'line N: ' plus the ValueError
     text, where N counts every line from 1, blanks included.
     Example: ['101|4|Ramen|2|14.50', '102|7|Fries|x|4.25'] gives one ticket and
-    one error that starts 'line 2: '. Edge: [] gives ([], []).
+    one error that starts 'line 2: '. Edge: [] gives ([], []). Leave lines unchanged.
     """
     raise NotImplementedError("TODO")
 

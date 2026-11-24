@@ -24,7 +24,7 @@ def average_temp(readings):
 def ticket_field(fields, index, default=""):
     """[Warm-up] Return fields[index], or default when there is no such field."""
     if index < 0:
-        # A negative index would silently count from the end. That is a wrong
+        # An in-range negative index would silently count from the end. That is a wrong
         # answer, not an error, so a guard clause has to stop it.
         return default
     try:

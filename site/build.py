@@ -29,6 +29,9 @@ def main():
         target.mkdir(exist_ok=True)
         for source in (*folder.glob("*.md"), *folder.glob("*.py")):
             shutil.copy2(source, target / source.name)
+        data = folder / "data"
+        if data.is_dir():
+            shutil.copytree(data, target / "data")
     (OUT / ".nojekyll").touch()
     print(f"Built {OUT}: hub, assets, and {len(decks)} slide deck(s)")
 

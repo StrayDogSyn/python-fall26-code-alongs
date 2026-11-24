@@ -11,11 +11,13 @@ A syntax error means Python cannot read your program, so nothing runs at all. A 
 | Block | Runs when |
 | --- | --- |
 | `try` | Always first. Put only the line that can fail in here. |
-| `except ValueError` | Only when the `try` raised that exact error. |
+| `except ValueError` | When the `try` raised ValueError or one of its subclasses. |
 | `else` | Only when the `try` raised nothing. |
 | `finally` | Every time, error or not. Use it for cleanup. |
 
 The code-along records a trail so you can see the order. **Predict:** For the text `"n/a"`, which of the four names appear in the trail, and in what order?
+
+Do not return from `finally`: it can replace a result or suppress an exception that should reach the caller. Prefer `with` for file cleanup.
 
 ## 3. Catch the failure you expect, not every failure
 
@@ -33,7 +35,7 @@ When you find the problem yourself, raise the error yourself, with a message tha
 
 Validate input before you use it. Use guard clauses, which are early returns for the bad cases, so the good path reads straight down instead of nesting three levels deep. The code-along has `label_nested` and `label_guarded` giving identical answers. Check for `None` before you compare or call a method on a value.
 
-Not every problem raises an error. `items[-1]` never raises on a non-empty list, so if a negative index is a mistake in your program, only a guard clause will catch it. And `float("nan")` converts without complaint, so an unreadable thermometer can slip a bad number into your average. Failing loudly (an error you can see) beats failing silently (a wrong number nobody notices). **Predict:** Does `["Corn", "Ramen"][-1]` raise an error?
+Not every problem raises an error. `items[-1]` returns the last item of a non-empty list, while an index farther back than the list length does raise IndexError. So if any negative index is a mistake in your program, only a guard clause will catch it. And `float("nan")` converts without complaint, so an unreadable thermometer can slip a bad number into your average. Failing loudly (an error you can see) beats failing silently (a wrong number nobody notices). **Predict:** Does `["Corn", "Ramen"][-1]` raise an error?
 
 Check cheaply when you can (`if key in menu`). Catch when the check costs as much as the work, or when the situation can change between the check and the use (a file someone deletes a moment after you looked). Keep the `try` as small as the one line that can fail.
 
@@ -51,7 +53,7 @@ Graceful means the program keeps going with a safe default and leaves a record o
 
 ## 10. pip and virtual environments
 
-pip installs packages from PyPI, the public package index. If everything installs into one global Python, every project shares one pile, and two projects that need different versions of the same package cannot both be happy. A virtual environment is a private folder with its own Python and its own pile. The steps, in order: create it (`python -m venv .venv`), activate it (`.venv\Scripts\activate` on Windows, `source .venv/bin/activate` on macOS and Linux), install into it (`pip install requests`), write down exactly what is installed (`pip freeze > requirements.txt`), and rebuild the same pile somewhere else (`pip install -r requirements.txt`). Do not commit the `.venv` folder itself; commit `requirements.txt` and list `.venv/` in `.gitignore`. **Predict:** What does `sys.prefix != sys.base_prefix` tell you?
+pip installs packages from PyPI, the public package index. If everything installs into one global Python, every project shares one pile, and two projects that need different versions of the same package cannot both be happy. A virtual environment is a private folder with its own Python and its own pile. The steps, in order: create it (`python -m venv .venv`), activate it (`.venv\Scripts\Activate.ps1` in Windows PowerShell, `source .venv/bin/activate` on macOS and Linux), install into it (`pip install requests`), write down exactly what is installed (`pip freeze > requirements.txt`), and rebuild the same pile somewhere else (`pip install -r requirements.txt`). Do not commit the `.venv` folder itself; commit `requirements.txt` and list `.venv/` in `.gitignore`. **Predict:** What does `sys.prefix != sys.base_prefix` tell you?
 
 ## Run the local check
 
