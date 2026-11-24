@@ -153,3 +153,9 @@ Hunter explicitly requested review and fixes to PR #26. This is a technical chec
 - Not verified: actual graded sample JSON, authenticated REST Countries payload/quota, macOS/Linux, other browsers, screen readers, Notebook upload, private Bridge coverage, or deployment. Week 9 stays preview; no merge or live release authorized by this preparation request.
 - Upload status: Automatic approval review rejected the proposed commit-and-push because preparation of Week 9 did not explicitly authorize publishing the new branch. No remote Week 9 branch or PR was created. Saving a local commit only; ask Hunter to authorize upload to the course repository.
 - NEXT: After Hunter authorizes the Week 9 upload, push this branch and open the review PR. Reviewer inspect the packet against the supplied assignment and rerun checks; Hunter approves merge and release.
+
+## 2026-11-23 20:29 ET | codex | T-28 | in review
+- Did: With Hunter's explicit authorization, pushed codex/T-28-week09-libraries-apis and opened [PR #27](https://github.com/StrayDogSyn/python-fall26-code-alongs/pull/27) against main. The PR includes the lesson validation and comparison with the supplied full Week 9 assignment. Updated T-28 to in review; this supersedes the earlier upload block.
+- Evidence: Git push succeeded and GitHub confirmed PR #27 open at implementation commit c22e03b. Complete validation is in the preceding T-28 entry; only queue/log metadata changed afterward.
+- Not verified: independent approval, actual graded sample JSON, authenticated country responses/quota, Notebook upload, or deployment. No merge performed.
+- NEXT: Reviewer inspect PR #27, especially the assignment comparison and optional transport paths. Hunter approves merge and release.
